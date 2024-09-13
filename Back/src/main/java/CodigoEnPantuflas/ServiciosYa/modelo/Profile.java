@@ -1,5 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
 
+import CodigoEnPantuflas.ServiciosYa.modelo.user.User;
 import jakarta.persistence.*;
 
 @Entity
