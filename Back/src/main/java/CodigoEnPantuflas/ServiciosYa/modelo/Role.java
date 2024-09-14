@@ -1,5 +1,6 @@
-package CodigoEnPantuflas.ServiciosYa.modelo.user;
+package CodigoEnPantuflas.ServiciosYa.modelo;
 
+import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
 import jakarta.persistence.*;
 
 
@@ -20,4 +21,5 @@ public abstract class Role {
         this.user = user;
     }
 
+    public abstract Roles getRole();
 }

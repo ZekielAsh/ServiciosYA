@@ -1,6 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
-import CodigoEnPantuflas.ServiciosYa.modelo.user.User;
+import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

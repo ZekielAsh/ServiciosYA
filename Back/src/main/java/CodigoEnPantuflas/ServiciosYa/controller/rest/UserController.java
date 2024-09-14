@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.function.ToDoubleBiFunction;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
 
+    @PostMapping("/changeRole")
+    public String ChangeRole(){
+        return "Estamos trabajando en este endpoint";
+    }
 }

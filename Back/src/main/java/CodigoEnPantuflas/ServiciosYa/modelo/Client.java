@@ -1,4 +1,5 @@
-package CodigoEnPantuflas.ServiciosYa.modelo.user;
+package CodigoEnPantuflas.ServiciosYa.modelo;
+import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
 import jakarta.persistence.Entity;;
 
 @Entity
@@ -11,4 +12,8 @@ public class Client extends Role {
         this.setUser(user);
     }
 
+    @Override
+    public Roles getRole() {
+        return Roles.CLIENT;
+    }
 }

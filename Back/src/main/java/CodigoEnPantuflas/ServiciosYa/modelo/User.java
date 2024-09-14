@@ -1,14 +1,21 @@
-package CodigoEnPantuflas.ServiciosYa.modelo.user;
+package CodigoEnPantuflas.ServiciosYa.modelo;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "mail"),
         indexes = @Index(name = "userMail", columnList = "mail"))
-public abstract class User {
+public class User implements UserDetails {
     private String userNickname;
     @Id
+    @GeneratedValue
     private Long id = null;
     private String mail;
     private String password;
@@ -41,9 +48,28 @@ public abstract class User {
         this.mail = mail;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        var roles = this.userRoles.stream()
+                .map(Role::getRole)
+                .collect(Collectors.toList());
+
+        var authList = roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toList());
+
+        return authList;
+    }
+
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String getUsername() {
+        return this.mail;
+    }
+
 
     public void setPassword(String password) {
         this.password = password;
