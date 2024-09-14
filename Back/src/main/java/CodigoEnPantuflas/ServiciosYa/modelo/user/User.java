@@ -12,6 +12,7 @@ public abstract class User {
     private Long id = null;
     private String mail;
     private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<Role>();
     @Transient
     private Role currentRole;
@@ -60,9 +61,11 @@ public abstract class User {
         this.setUserNickname(userNickname);
         this.setMail(mail);
         this.setPassword(password);
-        var role  = new Client();
+        var role  = new Client(this);
         this.getUserRoles().add(role);
         this.setCurrentRole(role);
     }
+
+    public User(){}
 }
 
