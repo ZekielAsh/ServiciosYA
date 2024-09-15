@@ -1,44 +1,52 @@
 package CodigoEnPantuflas.ServiciosYa.controller.dto;
-
-import CodigoEnPantuflas.ServiciosYa.modelo.Profile;
+import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.modelo.Role;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class UserDto {
-    private Integer id;
-    private String firstName;
+    private String nickName;
 
-    // Constructor
-    public UserDto(Integer id, String firstName) {
-        this.id = id;
-        this.firstName = firstName;
+    public String getNickName() {
+        return nickName;
     }
 
-    // Método para convertir UserDto a User
-    public User toModel() {
-        var someProfile = new Profile(2, "aaa");
-        User user = new User(this.id, this.firstName, someProfile);
-        return user;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    // Método para crear UserDto desde User
-    public static UserDto fromModel(User user) {
-        return new UserDto(user.getUserId(), user.getFirst_name());
+    public String getEmail() {
+        return email;
     }
 
-    // Getters y Setters
-    public Integer getId() {
-        return id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Set<String> getUserRoles() {
+        return userRoles;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setUserRoles(Set<String> userRoles) {
+        this.userRoles = userRoles;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    private String email;
+    private Set<String> userRoles = new HashSet<String>();
+
+    public UserDto(String nickName, String email, Set<Role> userRoles) {
+        this.nickName = nickName;
+        this.userRoles = userRolesListFromModel(userRoles);
+        this.email = email;
     }
+
+    public Set<String> userRolesListFromModel(Set<Role> userRoles){
+        return userRoles.stream().map(role -> role.getRole().name())
+                .collect(Collectors.toSet());
+    }
+
+
 }

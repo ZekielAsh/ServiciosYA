@@ -1,51 +1,97 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
-
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "mail"),
+        indexes = @Index(name = "userMail", columnList = "mail"))
+public class User implements UserDetails {
+    private String userNickname;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
-    private String firstName;
+    @GeneratedValue
+    private Long id = null;
+    private String mail;
+    private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Profile> profiles = new HashSet<>();
+    private Set<Role> userRoles = new HashSet<Role>();
+    @Transient
+    private Role currentRole;
 
-    public User(){
-
+    public Set<Role> getUserRoles() {
+        return userRoles;
     }
 
-    public User(Integer userId, String firstName, Profile profile) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.profiles = new HashSet<>();
-        this.profiles.add(profile);
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
-    public String getFirst_name() {
-        return firstName;
+    public String getMail() {
+        return mail;
     }
 
-    public void setFirst_name(String firstName) {
-        this.firstName = firstName;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public Set<Profile> getProfiles(){
-        return this.profiles;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        var roles = this.userRoles.stream()
+                .map(Role::getRole)
+                .collect(Collectors.toList());
+
+        var authList = roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toList());
+
+        return authList;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.mail;
     }
 
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getCurrentRole() {
+        return currentRole;
+    }
+
+    public void setCurrentRole(Role currentRole) {
+        this.currentRole = currentRole;
+    }
+
+    public User(String userNickname, String mail, String password){
+        this.setUserNickname(userNickname);
+        this.setMail(mail);
+        this.setPassword(password);
+        var role  = new Client(this);
+        this.getUserRoles().add(role);
+        this.setCurrentRole(role);
+    }
+
+    public User(){}
 }
 
