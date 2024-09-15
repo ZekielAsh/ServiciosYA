@@ -63,7 +63,7 @@ const RegisterCard = ({ handleSubmitRegister, error }) => {
         {!image && isEmpty ? <p>This field is required</p> : null}
       </div>
       <button className="card-button" onClick={handleSubmit}>
-        Log In
+        Register
       </button>
     </form>
   );
