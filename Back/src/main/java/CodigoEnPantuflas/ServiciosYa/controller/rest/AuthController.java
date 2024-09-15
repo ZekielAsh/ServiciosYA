@@ -1,4 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
+import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
@@ -23,6 +23,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
+    @CrossOrigin
     public ResponseEntity<UserDto> register(@RequestBody RegisterBody registerBody){
         Validator.getInstance().validateRegisterBody(registerBody);
         User user = new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
@@ -35,8 +36,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody RegisterBody loginBody){
-        Validator.getInstance().validateLoginBody(loginBody);
-        return ResponseEntity.ok(new AuthResponse("a"));
+    @CrossOrigin
+    public ResponseEntity<UserDto> login(@RequestBody LoginBody loginBody){
+        Validator validator = Validator.getInstance();
+        validator.validateLoginBody(loginBody);
+        User loginUser = userService.getByMail(loginBody.getEmail());
+        validator.validatePassword(loginUser.getPassword(), loginBody.getPassword());
+        AuthResponse token = authService.register(loginUser);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token.getToken());
+        UserDto userDto = new UserDto(loginUser.getUserNickname(), loginUser.getMail(), loginUser.getUserRoles());
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
 }

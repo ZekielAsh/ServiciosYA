@@ -1,5 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
+import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
 
 import java.util.regex.Pattern;
@@ -58,9 +59,15 @@ public class Validator {
         return email == null || email.isBlank();
     }
 
-    public void validateLoginBody(RegisterBody body) {
+    public void validateLoginBody(LoginBody body) {
         if (is_mail_empty(body.getEmail()) || isPasswordEmpty(body.getPassword()) || isInvidalidEmail(body.getEmail())) {
             throw new IllegalArgumentException(EMAIL_EMPTY_MESSAGE);
+        }
+    }
+
+    public void validatePassword(String actualPassword, String incomingPassword) {
+        if (!actualPassword.equals(incomingPassword)){
+            throw new IllegalArgumentException(WRONG_EMAIL_OR_PASSWORD);
         }
     }
 }

@@ -93,5 +93,9 @@ public class User implements UserDetails {
     }
 
     public User(){}
+
+    public void addRole(Professional professionalRole) {
+        this.getUserRoles().add(professionalRole);
+    }
 }
 

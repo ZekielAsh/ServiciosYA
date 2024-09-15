@@ -1,7 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.controller.dto;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
 import CodigoEnPantuflas.ServiciosYa.modelo.Role;
-import CodigoEnPantuflas.ServiciosYa.modelo.User;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,7 +42,8 @@ public class UserDto {
         this.email = email;
     }
 
-    public Set<String> userRolesListFromModel(Set<Role> userRoles){
+
+    private Set<String> userRolesListFromModel(Set<Role> userRoles){
         return userRoles.stream().map(role -> role.getRole().name())
                 .collect(Collectors.toSet());
     }
