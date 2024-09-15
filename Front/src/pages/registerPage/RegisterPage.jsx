@@ -9,15 +9,16 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const handleSubmitRegister = (username, password, email, image) => {
+  const handleSubmitRegister = (username, password, email) => {
     api
-      .register({ username, password, email, image })
+      .register({ userName: username, email: email, password: password })
       .then(response => {
         setTokenToLocalStorage(response.headers["authorization"]);
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.title);
+        console.log(error.response);
+        setError(error.response);
       });
   };
 

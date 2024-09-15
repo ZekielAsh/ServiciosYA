@@ -27,7 +27,7 @@ const RegisterCard = ({ handleSubmitRegister, error }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleSubmitRegister(username, password, email, image);
+    handleSubmitRegister(username, password, email);
     setIsEmpty(!username || !password || !email || !image);
   };
 
@@ -54,7 +54,7 @@ const RegisterCard = ({ handleSubmitRegister, error }) => {
       </div>
       <div className="card-content">
         <label>Email</label>
-        <Input type="email" placeholder="email" onChange={handleEmailChange} />
+        <Input type="email" placeholder="Email" onChange={handleEmailChange} />
         {!email && isEmpty ? <p>This field is required</p> : null}
       </div>
       <div className="card-content">

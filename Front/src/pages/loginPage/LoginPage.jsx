@@ -9,10 +9,12 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const handleSubmitLogin = (username, password) => {
+  const handleSubmitLogin = (username, email, password) => {
     api
-      .login({ username, password })
+      .login({ userName: username, password: password, email: email })
       .then(response => {
+        console.log(response);
+        console.log(response.headers["Authorization"]);
         setTokenToLocalStorage(response.headers["authorization"]);
         navigate("/", { replace: true });
       })
