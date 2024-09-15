@@ -61,7 +61,7 @@ public class Validator {
 
     public void validateLoginBody(LoginBody body) {
         if (is_mail_empty(body.getEmail()) || isPasswordEmpty(body.getPassword()) || isInvidalidEmail(body.getEmail())) {
-            throw new IllegalArgumentException(EMAIL_EMPTY_MESSAGE);
+            throw new IllegalArgumentException(WRONG_EMAIL_OR_PASSWORD);
         }
     }
 
