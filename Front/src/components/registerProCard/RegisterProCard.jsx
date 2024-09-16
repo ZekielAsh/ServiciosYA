@@ -29,12 +29,12 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error }) => {
   return (
     <form className="card">
       <div className="card-content">
+        {!isEmpty && error ? <p>{error}</p> : null}
         <label>Email</label>
         <Input type="email" placeholder="Email" onChange={handleEmailChange} />
         {!email && isEmpty ? <p>This field is required</p> : null}
       </div>
       <div className="card-content">
-        {!isEmpty && error ? <p>{error}</p> : null}
         <label>District</label>
         <Input
           type="text"
@@ -45,11 +45,7 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error }) => {
       </div>
       <div className="card-content">
         <label>Trade</label>
-        <Input
-          type="password"
-          placeholder="trade"
-          onChange={handleTradeChange}
-        />
+        <Input type="text" placeholder="trade" onChange={handleTradeChange} />
         {!trade && isEmpty ? <p>This field is required</p> : null}
       </div>
       <button className="card-button" onClick={handleSubmit}>

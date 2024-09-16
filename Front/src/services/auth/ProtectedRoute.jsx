@@ -11,7 +11,7 @@ const ProtectedRoute = ({ element }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (role == "CLIENT") {
+  if (role == "PROFESSIONAL") {
     return <Navigate to="/" replace />;
   }
 
