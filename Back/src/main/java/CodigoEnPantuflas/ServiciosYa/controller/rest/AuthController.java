@@ -30,8 +30,13 @@ public class AuthController {
         User user = new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
         User registeredUser = userService.saveOrUpdate(user);
         AuthResponse token = authService.register(registeredUser);
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
+
+        // Se expone el encabezado de authorization del header para acceder desde el front.
+        headers.setAccessControlExposeHeaders(Arrays.asList("Authorization"));
+
         ClientDto clientDto = new ClientDto("soy de prueba");
         UserDto userDto = new UserDto(user.getUserNickname(), user.getMail(), user.getUserRoles(), clientDto);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
