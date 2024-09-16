@@ -1,4 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
+import CodigoEnPantuflas.ServiciosYa.controller.dto.ProfessionalDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.ProfessionalRegisterDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
@@ -7,10 +8,7 @@ import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -21,11 +19,10 @@ public class UserController {
 
     @PostMapping("/addProfessionalRole")
     @CrossOrigin
-    public ResponseEntity<UserDto> addProfessionalRole(UserDto userDto, ProfessionalRegisterDto profRegDto){
-        User userWithProffesionalRole =
-                userService.addProfessionalRole(userDto.getEmail(), profRegDto.getDistrict(), profRegDto.getTrade());
-        UserDto userWithProffesionalDto =
-                new UserDto(userWithProffesionalRole.getUserNickname(), userWithProffesionalRole.getMail(), userWithProffesionalRole.getUserRoles());
+    public ResponseEntity<UserDto> addProfessionalRole(@RequestBody ProfessionalRegisterDto profRegDto){
+        User user = userService.addProfessionalRole(profRegDto.getEmail(), profRegDto.getDistrict(), profRegDto.getTrade());
+        ProfessionalDto profDto = ProfessionalDto.fromModel(user.getCurrentRole());
+        UserDto userDto = UserDto.fromModel(user, profDto);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 }

@@ -97,5 +97,22 @@ public class User implements UserDetails {
     public void addRole(Professional professionalRole) {
         this.getUserRoles().add(professionalRole);
     }
+
+    public boolean isAlreadyProfessional() {
+        return getUserRoles().stream()
+                .anyMatch(Role::isProfessional);
+    }
+
+    public <T extends Role> void setRoleAsCurrent(Class<T> roleClass) {
+        Role clientRole = getUserRoles().stream()
+                .filter(roleClass::isInstance)
+                .map(roleClass::cast)
+                .findFirst().get();
+        this.setCurrentRole(clientRole);
+    }
+
+    public void addProfessionalRole(String distric, Trades trade) {
+        this.getUserRoles().add(new Professional(this, distric, trade));
+    }
 }
 

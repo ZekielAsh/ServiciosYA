@@ -1,5 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
+import CodigoEnPantuflas.ServiciosYa.modelo.Client;
 import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
 import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
@@ -12,20 +13,32 @@ public class UserService {
     IUserDao userDao;
 
     public User saveOrUpdate(User user){
-        return userDao.save(user);
+        User savedUser = userDao.save(user);
+        savedUser.setRoleAsCurrent(Client.class);
+        return savedUser;
     }
 
     public User getByMail(String mail){
-        return userDao.getByMail(mail)
+        User user = userDao.getByMail(mail)
                 .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
+        user.setRoleAsCurrent(Client.class);
+        return user;
     }
 
     public User addProfessionalRole(String email, String distric, String incomingTrade){
         User user = getByMail(email);
         Trades trade = parseTrade(incomingTrade);
-        Professional professionalRole = new Professional(user, distric, trade);
-        user.addRole(professionalRole);
-        return userDao.save(user);
+        checkIfTheUserIsProfessional(user);
+        user.addProfessionalRole(distric, trade);
+        User userWithRole = userDao.save(user);
+        userWithRole.setRoleAsCurrent(Professional.class);
+        return userWithRole;
+    }
+
+    private static void checkIfTheUserIsProfessional(User user) {
+        if (user.isAlreadyProfessional()){
+            throw new RuntimeException(Errors.USER_IS_PROFESSIONAL.getMessage());
+        }
     }
 
     public Trades parseTrade(String trade) {

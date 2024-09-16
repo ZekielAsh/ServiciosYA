@@ -16,4 +16,9 @@ public class Client extends Role {
     public Roles getRole() {
         return Roles.CLIENT;
     }
+
+    @Override
+    public Boolean isProfessional() {
+        return false;
+    }
 }

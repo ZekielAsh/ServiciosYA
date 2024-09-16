@@ -22,4 +22,6 @@ public abstract class Role {
     }
 
     public abstract Roles getRole();
+
+    public abstract Boolean isProfessional();
 }

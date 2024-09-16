@@ -1,10 +1,9 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
+import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthResponse;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthService;
+import CodigoEnPantuflas.ServiciosYa.modelo.Role;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,8 @@ public class AuthController {
         AuthResponse token = authService.register(registeredUser);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
-        UserDto userDto = new UserDto(user.getUserNickname(), user.getMail(), user.getUserRoles());
+        ClientDto clientDto = new ClientDto("soy de prueba");
+        UserDto userDto = new UserDto(user.getUserNickname(), user.getMail(), user.getUserRoles(), clientDto);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
 
@@ -45,7 +45,8 @@ public class AuthController {
         AuthResponse token = authService.register(loginUser);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
-        UserDto userDto = new UserDto(loginUser.getUserNickname(), loginUser.getMail(), loginUser.getUserRoles());
+        ClientDto clientDto = new ClientDto("soy de prueba");
+        UserDto userDto = new UserDto(loginUser.getUserNickname(), loginUser.getMail(), loginUser.getUserRoles(), clientDto);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
 }
