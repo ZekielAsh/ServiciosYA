@@ -7,6 +7,7 @@ const HomePage = () => {
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
       <Link to="/registerPro">RegisterPro</Link>
+      <button onClick={() => localStorage.clear()}>Logout</button>
     </div>
   );
 };
