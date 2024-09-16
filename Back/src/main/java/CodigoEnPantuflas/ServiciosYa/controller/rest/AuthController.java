@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -43,8 +45,13 @@ public class AuthController {
         User loginUser = userService.getByMail(loginBody.getEmail());
         validator.validatePassword(loginUser.getPassword(), loginBody.getPassword());
         AuthResponse token = authService.register(loginUser);
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
+
+        // Se expone el encabezado de authorization del header para acceder desde el front.
+        headers.setAccessControlExposeHeaders(Arrays.asList("Authorization"));
+
         ClientDto clientDto = new ClientDto("soy de prueba");
         UserDto userDto = new UserDto(loginUser.getUserNickname(), loginUser.getMail(), loginUser.getUserRoles(), clientDto);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
