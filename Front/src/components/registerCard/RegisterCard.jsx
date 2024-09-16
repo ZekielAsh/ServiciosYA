@@ -4,8 +4,8 @@ import "../../styles/Cards.css";
 
 const RegisterCard = ({ handleSubmitRegister, error }) => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [image, setImage] = useState(""); // Averiguar como hacer para que sea un archivo
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -13,12 +13,12 @@ const RegisterCard = ({ handleSubmitRegister, error }) => {
     setUsername(event.target.value);
   };
 
-  const handlePasswordChange = event => {
-    setPassword(event.target.value);
-  };
-
   const handleEmailChange = event => {
     setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value);
   };
 
   const handleImageChange = event => {
@@ -44,6 +44,11 @@ const RegisterCard = ({ handleSubmitRegister, error }) => {
         {!username && isEmpty ? <p>This field is required</p> : null}
       </div>
       <div className="card-content">
+        <label>Email</label>
+        <Input type="email" placeholder="Email" onChange={handleEmailChange} />
+        {!email && isEmpty ? <p>This field is required</p> : null}
+      </div>
+      <div className="card-content">
         <label>Password</label>
         <Input
           type="password"
@@ -51,11 +56,6 @@ const RegisterCard = ({ handleSubmitRegister, error }) => {
           onChange={handlePasswordChange}
         />
         {!password && isEmpty ? <p>This field is required</p> : null}
-      </div>
-      <div className="card-content">
-        <label>Email</label>
-        <Input type="email" placeholder="Email" onChange={handleEmailChange} />
-        {!email && isEmpty ? <p>This field is required</p> : null}
       </div>
       <div className="card-content">
         <label>DNI Image</label>

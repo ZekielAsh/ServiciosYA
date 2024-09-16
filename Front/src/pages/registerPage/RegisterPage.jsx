@@ -2,7 +2,7 @@ import { setTokenToLocalStorage } from "../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Register from "../../components/registerCard/RegisterCard.jsx";
-import api from "../../utils/api.js";
+import api from "../../services/api.js";
 import "./RegisterPage.css";
 
 const RegisterPage = () => {
