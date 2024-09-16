@@ -1,3 +1,4 @@
+import { setUserRoleToLocalStorage } from "../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import RegisterPro from "../../components/registerProCard/RegisterProCard.jsx";
@@ -12,12 +13,11 @@ const RegisterPage = () => {
     api
       .registerPro({ district: ditrict, trade: trade, email: email })
       .then(response => {
-        console.log(response);
+        setUserRoleToLocalStorage(response.data.userRoles[0]);
         navigate("/", { replace: true });
       })
       .catch(error => {
-        console.log(error.response);
-        setError(error.response);
+        setError(error.response.data.status);
       });
   };
 

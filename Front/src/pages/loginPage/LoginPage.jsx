@@ -1,4 +1,7 @@
-import { setTokenToLocalStorage } from "../../utils/localStorage.js";
+import {
+  setTokenToLocalStorage,
+  setUserRoleToLocalStorage,
+} from "../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoginCard from "../../components/loginCard/LoginCard.jsx";
@@ -14,10 +17,11 @@ const LoginPage = () => {
       .login({ password: password, email: email })
       .then(response => {
         setTokenToLocalStorage(response.headers["authorization"]);
+        setUserRoleToLocalStorage(response.data.userRoles[0]);
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.title);
+        setError(error.response.data.status);
       });
   };
 
