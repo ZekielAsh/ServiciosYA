@@ -14,7 +14,6 @@ const RegisterPage = () => {
     api
       .getAllTrades()
       .then(response => {
-        console.log(response.data);
         setOptions(response.data);
       })
       .catch(error => {

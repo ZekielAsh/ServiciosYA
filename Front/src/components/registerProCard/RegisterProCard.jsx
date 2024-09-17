@@ -24,11 +24,12 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
   };
 
   const handleTradeChange = selectedOption => {
-    setTrade(selectedOption);
+    setTrade(selectedOption.value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
+    console.log(district, trade, email);
     handleSubmitRegisterPro(district, trade, email);
     setIsEmpty(!district || !trade || !email);
   };
