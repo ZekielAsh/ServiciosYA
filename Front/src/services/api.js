@@ -26,8 +26,10 @@ const searchProUsers = searchText =>
     .get(`${API_URL}/user/getByKeyword`, { params: { keyword: searchText } })
     .then(response => response);
 
-const getUserByEmail = email =>
-  axios.get(`${API_URL}/user/getByEmail/${email}`).then(response => response);
+const getUserByEmail = userEmail =>
+  axios
+    .get(`${API_URL}/user/getByEmail`, { params: { email: userEmail } })
+    .then(response => response);
 
 export default {
   login,
