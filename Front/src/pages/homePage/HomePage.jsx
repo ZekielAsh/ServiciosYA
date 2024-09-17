@@ -21,7 +21,6 @@ const HomePage = () => {
       api
         .getUserByEmail(email)
         .then(response => {
-          console.log(response);
           setUser({
             username: response.data.nickName,
             token: token,

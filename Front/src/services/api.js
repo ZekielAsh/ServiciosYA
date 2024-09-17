@@ -31,10 +31,14 @@ const getUserByEmail = userEmail =>
     .get(`${API_URL}/user/getByEmail`, { params: { email: userEmail } })
     .then(response => response);
 
+const getAllTrades = () =>
+  axios.get(`${API_URL}/trades/getAllTrades`).then(response => response);
+
 export default {
   login,
   register,
   registerPro,
   searchProUsers,
   getUserByEmail,
+  getAllTrades,
 };

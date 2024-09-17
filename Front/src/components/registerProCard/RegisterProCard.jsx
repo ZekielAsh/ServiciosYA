@@ -1,13 +1,19 @@
 import { useState } from "react";
+import Select from "react-select";
 import Button from "../button/Button";
 import Input from "../input/Input";
 import "../../styles/Cards.css";
 
-const RegisterProCard = ({ handleSubmitRegisterPro, error }) => {
+const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
   const [email, setEmail] = useState("");
   const [district, setDistrict] = useState("");
-  const [trade, setTrade] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
+
+  const [trade, setTrade] = useState(null);
+  const tradesOptions = options.map(option => ({
+    value: option,
+    label: option,
+  }));
 
   const handleDistrictChange = event => {
     setDistrict(event.target.value);
@@ -17,8 +23,8 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error }) => {
     setEmail(event.target.value);
   };
 
-  const handleTradeChange = event => {
-    setTrade(event.target.value);
+  const handleTradeChange = selectedOption => {
+    setTrade(selectedOption);
   };
 
   const handleSubmit = event => {
@@ -46,8 +52,7 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error }) => {
       </div>
       <div className="card-content">
         <label>Trade</label>
-        <Input type="text" placeholder="trade" onChange={handleTradeChange} />
-        {!trade && isEmpty ? <p>This field is required</p> : null}
+        <Select onChange={handleTradeChange} options={tradesOptions}></Select>
       </div>
       <Button type="primary" onClick={handleSubmit}>
         Register Pro
