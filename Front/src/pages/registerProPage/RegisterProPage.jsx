@@ -21,7 +21,8 @@ const RegisterPage = () => {
       });
   }, []);
 
-  const handleSubmitRegisterPro = (ditrict, trade, email) => {
+  const handleSubmitRegisterPro = (ditrict, trade) => {
+    let email = localStorage.getItem("email");
     api
       .registerPro({ district: ditrict, trade: trade, email: email })
       .then(response => {
