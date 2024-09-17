@@ -14,13 +14,10 @@ public class Validator {
     private static final String NAME_EMPTY_MESSAGE = "Name cannot be blank";
     private static final String WRONG_EMAIL_OR_PASSWORD = "Wrong email or password";
 
-    // La instancia única de Validator
     private static volatile Validator instance;
 
-    // Constructor privado para evitar instanciación externa
     private Validator() {}
 
-    // Método estático para obtener la instancia única
     public static Validator getInstance() {
         if (instance == null) {
             synchronized (Validator.class) {
