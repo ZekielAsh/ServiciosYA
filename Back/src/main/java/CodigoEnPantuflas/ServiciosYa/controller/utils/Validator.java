@@ -6,7 +6,8 @@ import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
 import java.util.regex.Pattern;
 
 public class Validator {
-
+    /**Esta clase deberia de usarse para hacer validaciones en los dtos entrantes
+     * para que la capa de service tenga menos trabajo*/
     private static final String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final String EMAIL_EMPTY_MESSAGE = "Email cannot be blank";
     private static final String INVALID_EMAIL_MESSAGE = "Invalid email format";
