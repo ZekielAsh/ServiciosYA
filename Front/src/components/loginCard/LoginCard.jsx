@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../button/Button";
 import Input from "../input/Input";
 import "../../styles/Cards.css";
 
@@ -38,9 +39,9 @@ const LoginCard = ({ handleSubmitLogin, error }) => {
         />
         {!password && isEmpty ? <p>This field is required</p> : null}
       </div>
-      <button className="card-button" onClick={handleSubmit}>
+      <Button type="primary" onClick={handleSubmit}>
         Log In
-      </button>
+      </Button>
     </form>
   );
 };

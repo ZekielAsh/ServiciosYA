@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../button/Button";
 import Input from "../input/Input";
 import "../../styles/Cards.css";
 
@@ -48,9 +49,9 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error }) => {
         <Input type="text" placeholder="trade" onChange={handleTradeChange} />
         {!trade && isEmpty ? <p>This field is required</p> : null}
       </div>
-      <button className="card-button" onClick={handleSubmit}>
-        RegisterPro
-      </button>
+      <Button type="primary" onClick={handleSubmit}>
+        Register Pro
+      </Button>
     </form>
   );
 };
