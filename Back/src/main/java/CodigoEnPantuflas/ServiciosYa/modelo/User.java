@@ -51,6 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
         var roles = this.userRoles.stream()
                 .map(Role::getRole)
                 .collect(Collectors.toList());
@@ -67,6 +68,9 @@ public class User implements UserDetails {
     }
 
     @Override
+    /** esto se hereda de UserDetails, deberia de ser el
+     userName pero como por modelo de negocio no es unique queda como email
+     El objetivo es generar un token con el identificador unico del usuario*/
     public String getUsername() {
         return this.mail;
     }
@@ -103,15 +107,7 @@ public class User implements UserDetails {
         return getUserRoles().stream()
                 .anyMatch(Role::isProfessional);
     }
-    /**
-    public <T extends Role> void setRoleAsCurrent(Class<T> roleClass) {
-        Role clientRole = getUserRoles().stream()
-                .filter(roleClass::isInstance)
-                .map(roleClass::cast)
-                .findFirst().get();
-        this.setCurrentRole(clientRole);
-    }
-     */
+
     public  void setRoleAsCurrent(Roles role) {
         Role clientRole = getUserRoles().stream().filter(rol -> rol.getRole().name() == role.name()).findFirst().get();
         this.setCurrentRole(clientRole);

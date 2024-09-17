@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class ObjectMapper {
     private static volatile ObjectMapper instance;
-
+    /**Esta clase se encarga de hacer todos los mapeos de objeto modelo a objeto dto*/
     private ObjectMapper() {}
 
     public static ObjectMapper getInstance() {
