@@ -4,6 +4,7 @@ import UnprotectedRoute from "./services/auth/UnprotectedRoute";
 import RegisterProPage from "./pages/registerProPage/RegisterProPage";
 import ProtectedRoute from "./services/auth/ProtectedRoute";
 import RegisterPage from "./pages/registerPage/RegisterPage";
+import SearchPage from "./pages/searchPage/SearchPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
 import React from "react";
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/registerPro",
     element: <ProtectedRoute element={<RegisterProPage />} />,
+  },
+  {
+    path: "/search/:text",
+    element: <SearchPage />,
   },
 ]);
 

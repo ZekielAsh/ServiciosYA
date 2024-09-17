@@ -21,8 +21,18 @@ const registerPro = userRegisted =>
     .post(`${API_URL}/user/addProfessionalRole`, userRegisted)
     .then(response => response);
 
+const searchProUsers = searchText =>
+  axios
+    .get(`${API_URL}/user/getByKeyword/${searchText}`)
+    .then(response => response);
+
+const getUserByEmail = email =>
+  axios.get(`${API_URL}/user/getByEmail/${email}`).then(response => response);
+
 export default {
   login,
   register,
   registerPro,
+  searchProUsers,
+  getUserByEmail,
 };
