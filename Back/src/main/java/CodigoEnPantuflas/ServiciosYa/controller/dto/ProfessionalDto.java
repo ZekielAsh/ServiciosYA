@@ -9,16 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfessionalDto extends RolDto {
+public class ProfessionalDto implements RoleDto {
     String district;
     String trade;
-
-    public static ProfessionalDto fromModel(Role role) {
-        if (role instanceof Professional) {
-            Professional professional = (Professional) role;
-            return new ProfessionalDto(professional.getDistrict(), professional.getTrade());
-        }
-        throw new IllegalArgumentException("El rol proporcionado no es una instancia de Professional");
-    }
 }
 
