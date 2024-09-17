@@ -1,22 +1,18 @@
-import {
-  setTokenToLocalStorage,
-  setUserRoleToLocalStorage,
-} from "../../utils/localStorage.js";
+import { setUserRoleToLocalStorage } from "../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import LoginCard from "../../components/loginCard/LoginCard.jsx";
+import RegisterPro from "../../components/registerProCard/RegisterProCard.jsx";
 import api from "../../services/api.js";
-import "./LoginPage.css";
+import "./RegisterProPage.css";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const handleSubmitLogin = (email, password) => {
+  const handleSubmitRegisterPro = (ditrict, trade, email) => {
     api
-      .login({ password: password, email: email })
+      .registerPro({ district: ditrict, trade: trade, email: email })
       .then(response => {
-        setTokenToLocalStorage(response.headers["authorization"]);
         setUserRoleToLocalStorage(response.data.userRoles[0]);
         navigate("/", { replace: true });
       })
@@ -29,11 +25,14 @@ const LoginPage = () => {
     <>
       <div className="login-container">
         <div className="login-container-card">
-          <LoginCard handleSubmitLogin={handleSubmitLogin} error={error} />
+          <RegisterPro
+            handleSubmitRegisterPro={handleSubmitRegisterPro}
+            error={error}
+          />
         </div>
       </div>
     </>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

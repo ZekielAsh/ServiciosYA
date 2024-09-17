@@ -3,14 +3,9 @@ import Input from "../input/Input";
 import "../../styles/Cards.css";
 
 const LoginCard = ({ handleSubmitLogin, error }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
-
-  const handleUsernameChange = event => {
-    setUsername(event.target.value);
-  };
 
   const handleEmailChange = event => {
     setEmail(event.target.value);
@@ -22,23 +17,14 @@ const LoginCard = ({ handleSubmitLogin, error }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleSubmitLogin(username, email, password);
-    setIsEmpty(!username || !password);
+    handleSubmitLogin(email, password);
+    setIsEmpty(!email || !password);
   };
 
   return (
     <form className="card">
       <div className="card-content">
         {!isEmpty && error ? <p>{error}</p> : null}
-        <label>Username</label>
-        <Input
-          type="text"
-          placeholder="Username"
-          onChange={handleUsernameChange}
-        />
-        {!username && isEmpty ? <p>This field is required</p> : null}
-      </div>
-      <div className="card-content">
         <label>Email</label>
         <Input type="email" placeholder="Email" onChange={handleEmailChange} />
         {!email && isEmpty ? <p>This field is required</p> : null}

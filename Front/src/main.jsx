@@ -1,5 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
+import UnprotectedRoute from "./services/auth/UnprotectedRoute";
+import RegisterProPage from "./pages/registerProPage/RegisterProPage";
+import ProtectedRoute from "./services/auth/ProtectedRoute";
 import RegisterPage from "./pages/registerPage/RegisterPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
@@ -14,11 +17,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: <UnprotectedRoute element={<LoginPage />} />,
   },
   {
     path: "/register",
-    element: <RegisterPage />,
+    element: <UnprotectedRoute element={<RegisterPage />} />,
+  },
+  {
+    path: "/registerPro",
+    element: <ProtectedRoute element={<RegisterProPage />} />,
   },
 ]);
 

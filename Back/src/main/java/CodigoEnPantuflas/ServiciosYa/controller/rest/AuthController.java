@@ -4,7 +4,6 @@ import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthResponse;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthService;
-import CodigoEnPantuflas.ServiciosYa.modelo.Role;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 
 @RestController
@@ -46,6 +47,10 @@ public class AuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(loginUser);
+
+        // Se expone el encabezado de authorization del header para acceder desde el front.
+        headers.setAccessControlExposeHeaders(Arrays.asList("Authorization"));
+
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
 }
