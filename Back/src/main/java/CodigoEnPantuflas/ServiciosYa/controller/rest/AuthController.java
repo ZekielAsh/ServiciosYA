@@ -1,5 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
+import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthResponse;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthService;
@@ -25,13 +26,12 @@ public class AuthController {
     @CrossOrigin
     public ResponseEntity<UserDto> register(@RequestBody RegisterBody registerBody){
         Validator.getInstance().validateRegisterBody(registerBody);
-        User user = new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
+        User user = ObjectMapper.getInstance().convertRegisterBodyToUser(registerBody);
         User registeredUser = userService.saveOrUpdate(user);
         AuthResponse token = authService.register(registeredUser);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
-        ClientDto clientDto = new ClientDto("soy de prueba");
-        UserDto userDto = new UserDto(user.getUserNickname(), user.getMail(), user.getUserRoles(), clientDto);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(registeredUser);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
 
@@ -45,8 +45,7 @@ public class AuthController {
         AuthResponse token = authService.register(loginUser);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token.getToken());
-        ClientDto clientDto = new ClientDto("soy de prueba");
-        UserDto userDto = new UserDto(loginUser.getUserNickname(), loginUser.getMail(), loginUser.getUserRoles(), clientDto);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(loginUser);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
 }

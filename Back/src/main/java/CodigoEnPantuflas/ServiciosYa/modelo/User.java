@@ -1,4 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
+import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -102,12 +103,17 @@ public class User implements UserDetails {
         return getUserRoles().stream()
                 .anyMatch(Role::isProfessional);
     }
-
+    /**
     public <T extends Role> void setRoleAsCurrent(Class<T> roleClass) {
         Role clientRole = getUserRoles().stream()
                 .filter(roleClass::isInstance)
                 .map(roleClass::cast)
                 .findFirst().get();
+        this.setCurrentRole(clientRole);
+    }
+     */
+    public  void setRoleAsCurrent(Roles role) {
+        Role clientRole = getUserRoles().stream().filter(rol -> rol.getRole().name() == role.name()).findFirst().get();
         this.setCurrentRole(clientRole);
     }
 

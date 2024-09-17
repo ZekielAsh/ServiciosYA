@@ -11,6 +11,7 @@ public abstract class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public User getUser() {
