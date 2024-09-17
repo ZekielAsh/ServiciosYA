@@ -34,4 +34,12 @@ public class UserController {
         Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
         return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
     }
+
+    @GetMapping("/getByEmail")
+    @CrossOrigin
+    public ResponseEntity<UserDto> getByEmail(@RequestParam String email){
+        User user = userService.getByMail(email);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
 }
