@@ -35,3 +35,13 @@ button {
   color: var(--color-white);
   background-color: var(--color-blue-dark);
 }
+
+.button-client {
+  color: var(--color-white);
+  background-color: var(--color-client);
+}
+
+.button-pro {
+  color: var(--color-white);
+  background-color: var(--color-pro);
+}

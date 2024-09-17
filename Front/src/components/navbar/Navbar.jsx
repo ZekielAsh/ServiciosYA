@@ -4,13 +4,17 @@ import Button from "../button/Button";
 import "./Navbar.css";
 
 const Navbar = ({ user, handleSearch }) => {
+  const role = localStorage.getItem("role");
+
   return (
     <nav className="nav-container">
       <SearchInput onSearch={handleSearch} />
       {user ? (
         <div className="actions-container">
           <Link to={`/user/${user.id}`}>
-            <Button type="user">{user.username[0].toUpperCase()}</Button>
+            <Button type={role === "CLIENT" ? "client" : "pro"}>
+              {user.username[0].toUpperCase()}
+            </Button>
           </Link>
         </div>
       ) : (
