@@ -32,24 +32,3 @@
   flex-direction: column;
   gap: 16px;
 }
-
-.card-button {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 21.78px;
-  font-weight: 700;
-  min-height: 46px;
-  min-width: 100px;
-  border: solid 1px;
-  border-radius: 4px;
-  padding: 0px 8px;
-  gap: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--color-white);
-  background-color: var(--color-blue-black);
-}
