@@ -7,15 +7,7 @@ const Navbar = ({ user, handleSearch }) => {
   return (
     <nav className="nav-container">
       <SearchInput onSearch={handleSearch} />
-      <div className="actions-container">
-        <Link to="/register">
-          <Button type="primary">Register</Button>
-        </Link>
-        <Link to="/login">
-          <Button type="primary">Login</Button>
-        </Link>
-      </div>
-      {/* {user ? (
+      {user ? (
         <div className="actions-container">
           <Link to={`/user/${user.id}`}>
             <Button type="user">{user.username[0].toUpperCase()}</Button>
@@ -30,7 +22,7 @@ const Navbar = ({ user, handleSearch }) => {
             <Button type="primary">Login</Button>
           </Link>
         </div>
-      )} */}
+      )}
     </nav>
   );
 };

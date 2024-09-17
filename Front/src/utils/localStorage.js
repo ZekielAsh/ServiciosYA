@@ -14,4 +14,12 @@ export const getUserRoleFromLocalStorage = () => {
   return localStorage.getItem("role");
 };
 
+export const setUserEmailToLocalStorage = email => {
+  localStorage.setItem("email", email);
+};
+
+export const getUserEmailFromLocalStorage = () => {
+  return localStorage.getItem("email");
+};
+
 // con usar localStorage.clear() se limpia todo el localStorage

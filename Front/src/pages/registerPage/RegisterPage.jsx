@@ -1,6 +1,7 @@
 import {
   setTokenToLocalStorage,
   setUserRoleToLocalStorage,
+  setUserEmailToLocalStorage,
 } from "../../utils/localStorage.js";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -18,6 +19,7 @@ const RegisterPage = () => {
       .then(response => {
         setTokenToLocalStorage(response.headers["authorization"]);
         setUserRoleToLocalStorage(response.data.currentRolDto);
+        setUserEmailToLocalStorage(response.data.email);
         navigate("/", { replace: true });
       })
       .catch(error => {
