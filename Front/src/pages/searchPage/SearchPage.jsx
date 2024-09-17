@@ -1,18 +1,16 @@
-import api from "../../services/api.js";
-// import { getTokenFromLocalStorage } from "../../utils/localStorage.js";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProInfoCard from "../../components/proInfoCard/ProInfoCard";
 import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
 import Modal from "../../components/modal/Modal";
+import api from "../../services/api.js";
 import "./SearchPage.css";
 
 const SearchPage = () => {
   const text = useParams().text;
   const [searchText, setSearchText] = useState(text);
   const [users, setUsers] = useState([]);
-  // const [auth, setAuth] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
 
@@ -21,28 +19,15 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    // const token = getTokenFromLocalStorage();
-
     api
       .searchProUsers(searchText)
-      .then(data => {
-        setUsers(data.users);
-        // if (token) {
-        //   getUserByEmail(token)
-        //     .then(response => {
-        //       setAuth({
-        //         userName: response.userName,
-        //         role: response.role,
-        //         token,
-        //       });
-        //     })
-        //     .catch(e => {
-        //       setModalMessage(e.message);
-        //     });
-        // }
+      .then(response => {
+        console.log(response.data);
+        setUsers(response.data);
       })
-      .catch(e => {
-        setModalMessage(e.message);
+      .catch(error => {
+        console.log(error);
+        setModalMessage(error.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -63,11 +48,17 @@ const SearchPage = () => {
               Search: <b>{searchText}</b>
             </div>
             <span className="search-container-content-body-text">Results</span>
-            <div className="search-container-content-body-users">
-              {users.map(user => (
-                <ProInfoCard key={user.email} user={user} />
-              ))}
-            </div>
+            {!users ? (
+              <div className="search-container-content-body-users">
+                No results
+              </div>
+            ) : (
+              <div className="search-container-content-body-users">
+                {users.map(user => (
+                  <ProInfoCard key={user.email} userPro={user} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
         {modalMessage && (

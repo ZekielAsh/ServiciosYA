@@ -13,7 +13,7 @@ const RegisterPage = () => {
     api
       .registerPro({ district: ditrict, trade: trade, email: email })
       .then(response => {
-        setUserRoleToLocalStorage(response.data.userRoles[0]);
+        setUserRoleToLocalStorage(response.data.currentRolDto);
         navigate("/", { replace: true });
       })
       .catch(error => {

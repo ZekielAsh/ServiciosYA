@@ -17,7 +17,7 @@ const LoginPage = () => {
       .login({ password: password, email: email })
       .then(response => {
         setTokenToLocalStorage(response.headers["authorization"]);
-        setUserRoleToLocalStorage(response.data.userRoles[0]);
+        setUserRoleToLocalStorage(response.data.currentRolDto);
         navigate("/", { replace: true });
       })
       .catch(error => {

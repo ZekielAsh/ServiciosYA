@@ -23,7 +23,7 @@ const registerPro = userRegisted =>
 
 const searchProUsers = searchText =>
   axios
-    .get(`${API_URL}/user/getByKeyword/${searchText}`)
+    .get(`${API_URL}/user/getByKeyword`, { params: { keyword: searchText } })
     .then(response => response);
 
 const getUserByEmail = email =>
