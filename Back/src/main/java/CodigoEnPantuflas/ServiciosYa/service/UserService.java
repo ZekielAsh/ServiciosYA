@@ -1,8 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
-import CodigoEnPantuflas.ServiciosYa.modelo.Client;
-import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
 import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import org.springframework.beans.factory.annotation.Autowired;
