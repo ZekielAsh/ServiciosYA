@@ -26,9 +26,14 @@ const LoginCard = ({ handleSubmitLogin, error }) => {
     <form className="card">
       <div className="card-content">
         {!isEmpty && error ? <p>{error}</p> : null}
+        {(!email || !password) && isEmpty ? (
+          <p>
+            La dirección de mail o contraseña son erroneas. Verifique su
+            información e intente otra vez
+          </p>
+        ) : null}
         <label>Email</label>
         <Input type="email" placeholder="Email" onChange={handleEmailChange} />
-        {!email && isEmpty ? <p>This field is required</p> : null}
       </div>
       <div className="card-content">
         <label>Password</label>
@@ -37,7 +42,6 @@ const LoginCard = ({ handleSubmitLogin, error }) => {
           placeholder="Password"
           onChange={handlePasswordChange}
         />
-        {!password && isEmpty ? <p>This field is required</p> : null}
       </div>
       <Button type="primary" onClick={handleSubmit}>
         Log In

@@ -22,11 +22,9 @@ const SearchPage = () => {
     api
       .searchProUsers(searchText)
       .then(response => {
-        console.log(response.data);
         setUsers(response.data);
       })
       .catch(error => {
-        console.log(error);
         setModalMessage(error.message);
       })
       .finally(() => {
@@ -47,10 +45,10 @@ const SearchPage = () => {
             <div className="search-container-content-body-searchText">
               Search: <b>{searchText}</b>
             </div>
-            <span className="search-container-content-body-text">Results</span>
-            {!users ? (
+            <span className="search-container-content-body-text">Results:</span>
+            {users.length == 0 ? (
               <div className="search-container-content-body-users">
-                No results
+                No se encontraron resultados
               </div>
             ) : (
               <div className="search-container-content-body-users">

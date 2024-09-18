@@ -1,6 +1,6 @@
 import { setUserRoleToLocalStorage } from "../../utils/localStorage.js";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import RegisterPro from "../../components/registerProCard/RegisterProCard.jsx";
 import api from "../../services/api.js";
 import "./RegisterProPage.css";

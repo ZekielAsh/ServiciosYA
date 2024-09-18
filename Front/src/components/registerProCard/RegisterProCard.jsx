@@ -32,13 +32,13 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
     <form className="card">
       <div className="card-content">
         {!isEmpty && error ? <p>{error}</p> : null}
+        {!district && isEmpty ? <p>Faltan completar campos</p> : null}
         <label>District</label>
         <Input
           type="text"
           placeholder="district"
           onChange={handleDistrictChange}
         />
-        {!district && isEmpty ? <p>This field is required</p> : null}
       </div>
       <div className="card-content">
         <label>Trade</label>
