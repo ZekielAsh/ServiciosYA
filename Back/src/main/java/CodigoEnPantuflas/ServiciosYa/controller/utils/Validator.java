@@ -9,11 +9,11 @@ public class Validator {
     /**Esta clase deberia de usarse para hacer validaciones en los dtos entrantes
      * para que la capa de service tenga menos trabajo*/
     private static final String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-    private static final String EMAIL_EMPTY_MESSAGE = "Email cannot be blank";
-    private static final String INVALID_EMAIL_MESSAGE = "Invalid email format";
-    private static final String PASSWORD_EMPTY_MESSAGE = "Password cannot be blank";
-    private static final String NAME_EMPTY_MESSAGE = "Name cannot be blank";
-    private static final String WRONG_EMAIL_OR_PASSWORD = "Wrong email or password";
+    private static final String EMAIL_EMPTY_MESSAGE = "El correo no puede ser vacio";
+    private static final String INVALID_EMAIL_MESSAGE = "El formato del mail es invalido";
+    private static final String PASSWORD_EMPTY_MESSAGE = "La contraseña no puede estar en blanco";
+    private static final String NAME_EMPTY_MESSAGE = "El nombre no puede estar en blanco";
+    private static final String WRONG_EMAIL_OR_PASSWORD = "email o contraseña erronea";
 
     private static volatile Validator instance;
 
