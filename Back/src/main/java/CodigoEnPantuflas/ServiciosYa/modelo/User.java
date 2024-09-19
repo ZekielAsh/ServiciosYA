@@ -1,52 +1,48 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
 import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter @Setter @NoArgsConstructor
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "mail"),
         indexes = @Index(name = "userMail", columnList = "mail"))
 public class User implements UserDetails {
-    private String userNickname;
+
     @Id
     @GeneratedValue
     private Long id = null;
-    private String mail;
-    private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> userRoles = new HashSet<Role>();
+
     @Transient
     private Role currentRole;
 
-    public Set<Role> getUserRoles() {
-        return userRoles;
-    }
+    private String userNickname;
+    private String mail;
+    private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment>  comments;
 
-    public void setUserRoles(Set<Role> userRoles) {
-        this.userRoles = userRoles;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Role> userRoles = new HashSet<Role>();
 
-    public String getUserNickname() {
-        return userNickname;
-    }
-
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
+    public User(String userNickname, String mail, String password){
+        this.setUserNickname(userNickname);
+        this.setMail(mail);
+        this.setPassword(password);
+        var role  = new Client(this);
+        this.getUserRoles().add(role);
+        this.setCurrentRole(role);
     }
 
     @Override
@@ -63,10 +59,6 @@ public class User implements UserDetails {
         return authList;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     @Override
     /** esto se hereda de UserDetails, deberia de ser el
      userName pero como por modelo de negocio no es unique queda como email
@@ -75,29 +67,6 @@ public class User implements UserDetails {
         return this.mail;
     }
 
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getCurrentRole() {
-        return currentRole;
-    }
-
-    public void setCurrentRole(Role currentRole) {
-        this.currentRole = currentRole;
-    }
-
-    public User(String userNickname, String mail, String password){
-        this.setUserNickname(userNickname);
-        this.setMail(mail);
-        this.setPassword(password);
-        var role  = new Client(this);
-        this.getUserRoles().add(role);
-        this.setCurrentRole(role);
-    }
-
-    public User(){}
 
     public void addRole(Professional professionalRole) {
         this.getUserRoles().add(professionalRole);
@@ -115,6 +84,10 @@ public class User implements UserDetails {
 
     public void addProfessionalRole(String distric, Trades trade) {
         this.getUserRoles().add(new Professional(this, distric, trade));
+    }
+
+    public void addNewComment(Comment comment) {
+        this.comments.add(comment);
     }
 }
 
