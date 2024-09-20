@@ -1,5 +1,8 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
 
+import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
+import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
+import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
 import CodigoEnPantuflas.ServiciosYa.dao.ICommentDao;
 import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comments")
@@ -19,15 +23,17 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("comments/addComment")
-    public ResponseEntity<Comment> addComment(@RequestBody @Valid Comment comment) {
+    public ResponseEntity<CommentDto> addComment(@RequestBody @Valid Comment comment) {
         Comment savedComment = commentService.save(comment);
-        return ResponseEntity.ok(savedComment);
+        CommentDto commentDto = ObjectMapper.getInstance().convertCommentToCommentDto(savedComment);
+        return ResponseEntity.ok(commentDto);
     }
 
     @GetMapping("comments/profile/{userId}/comments")
-    public ResponseEntity<List<Comment>> getCommentsByProfile(@PathVariable Long userId) {
+    public ResponseEntity<List<CommentDto>> getCommentsByProfile(@PathVariable Long userId) {
         List<Comment> comments = commentService.findCommentsById(userId);
-        return ResponseEntity.ok(comments);
+        List<CommentDto> commentsDto = comments.stream().map(c -> ObjectMapper.getInstance().convertCommentToCommentDto(c)).toList();
+        return ResponseEntity.ok(commentsDto);
     }
 
     @GetMapping("/comments/test")

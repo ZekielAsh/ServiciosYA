@@ -1,6 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
 
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -17,8 +17,8 @@ public class Professional extends Role {
     private String phoneNumber;
 
     @Override
-    public Roles getRole() {
-        return Roles.PROFESSIONAL;
+    public Mode getRole() {
+        return Mode.PROFESSIONAL;
     }
 
     @Override

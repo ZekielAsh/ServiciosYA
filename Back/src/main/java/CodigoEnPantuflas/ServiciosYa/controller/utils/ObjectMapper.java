@@ -1,7 +1,8 @@
 package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
+import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
 import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
 import CodigoEnPantuflas.ServiciosYa.modelo.Role;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
@@ -30,8 +31,13 @@ public class ObjectMapper {
         return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getCurrentRole().getRole().name());
     }
 
+    public CommentDto convertCommentToCommentDto(Comment comment){
+        UserDto userDto = this.convertUserToUserDto(comment.getUser());
+        return new CommentDto(comment.getText(), userDto);
+    }
+
     public RoleDto converRoleToRoleDto(Role role) {
-       if(role.getRole() == Roles.CLIENT){
+       if(role.getRole() == Mode.CLIENT){
            return new ClientDto("a");
        } else{
            Professional professional = (Professional) role;

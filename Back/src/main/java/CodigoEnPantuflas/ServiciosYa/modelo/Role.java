@@ -1,9 +1,12 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
 
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Role {
@@ -14,15 +17,8 @@ public abstract class Role {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public abstract Roles getRole();
+    public abstract Mode getRole();
 
     public abstract Boolean isProfessional();
 }

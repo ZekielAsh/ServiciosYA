@@ -1,6 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +15,14 @@ public class UserService {
 
     public User saveOrUpdate(User user){
         User savedUser = userDao.save(user);
-        savedUser.setRoleAsCurrent(Roles.CLIENT);
+        savedUser.setRoleAsCurrent(Mode.CLIENT);
         return savedUser;
     }
 
     public User getByMail(String mail){
         User user = userDao.getByMail(mail)
                 .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
-        user.setRoleAsCurrent(Roles.CLIENT);
+        user.setRoleAsCurrent(Mode.CLIENT);
         return user;
     }
 
@@ -32,7 +32,7 @@ public class UserService {
         checkIfTheUserIsProfessional(user);
         user.addProfessionalRole(distric, trade);
         User userWithRole = userDao.save(user);
-        userWithRole.setRoleAsCurrent(Roles.PROFESSIONAL);
+        userWithRole.setRoleAsCurrent(Mode.PROFESSIONAL);
         return userWithRole;
     }
 
@@ -52,7 +52,7 @@ public class UserService {
 
     public Set<User> getProfessionalsByKeyword(String keyword) {
         Set<User> users =  userDao.getProfessionalByKeyword(keyword);
-        users.forEach(user -> {user.setRoleAsCurrent(Roles.PROFESSIONAL);});
+        users.forEach(user -> {user.setRoleAsCurrent(Mode.PROFESSIONAL);});
         return users;
     }
 }

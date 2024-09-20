@@ -1,5 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -77,8 +77,8 @@ public class User implements UserDetails {
                 .anyMatch(Role::isProfessional);
     }
 
-    public  void setRoleAsCurrent(Roles role) {
-        Role clientRole = getUserRoles().stream().filter(rol -> rol.getRole().name() == role.name()).findFirst().get();
+    public  void setRoleAsCurrent(Mode mode) {
+        Role clientRole = getUserRoles().stream().filter(rol -> rol.getRole().name() == mode.name()).findFirst().get();
         this.setCurrentRole(clientRole);
     }
 

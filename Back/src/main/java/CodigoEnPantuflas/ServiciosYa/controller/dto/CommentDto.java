@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class CommentDto {
     private String text;
+    private UserDto user;
 }

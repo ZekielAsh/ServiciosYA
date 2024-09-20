@@ -1,5 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.jwt;
 
-public enum Roles {
+public enum Mode {
     CLIENT, PROFESSIONAL
 }

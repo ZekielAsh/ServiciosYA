@@ -1,5 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.Entity;;
 
 @Entity
@@ -13,8 +13,8 @@ public class Client extends Role {
     }
 
     @Override
-    public Roles getRole() {
-        return Roles.CLIENT;
+    public Mode getRole() {
+        return Mode.CLIENT;
     }
 
     @Override
