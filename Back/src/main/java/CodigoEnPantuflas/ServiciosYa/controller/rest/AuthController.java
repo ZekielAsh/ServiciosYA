@@ -6,11 +6,13 @@ import CodigoEnPantuflas.ServiciosYa.jwt.AuthResponse;
 import CodigoEnPantuflas.ServiciosYa.jwt.AuthService;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 
@@ -25,7 +27,12 @@ public class AuthController {
 
     @PostMapping("/register")
     @CrossOrigin
-    public ResponseEntity<UserDto> register(@RequestBody RegisterBody registerBody){
+    public ResponseEntity<UserDto> register(@RequestBody @Valid RegisterBody registerBody,
+                                            @RequestParam MultipartFile dniImage){
+        if (dniImage.isEmpty()) {
+            throw new RuntimeException("Tenes que cargar una foto");
+        }
+
         Validator.getInstance().validateRegisterBody(registerBody);
         User user = ObjectMapper.getInstance().convertRegisterBodyToUser(registerBody);
         User registeredUser = userService.saveOrUpdate(user);
@@ -39,6 +46,8 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);
     }
+
+
 
     @PostMapping("/login")
     @CrossOrigin

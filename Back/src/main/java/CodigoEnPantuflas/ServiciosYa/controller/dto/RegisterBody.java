@@ -11,6 +11,4 @@ public class RegisterBody {
     String userName;
     String email;
     String password;
-    @NotEmpty(message = "Tenes que cargar una foto flaco")
-    MultipartFile dniImage;
 }

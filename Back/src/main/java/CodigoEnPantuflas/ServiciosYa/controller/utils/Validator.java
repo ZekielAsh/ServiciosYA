@@ -44,9 +44,6 @@ public class Validator {
         if (body.getUserName() == null) {
             throw new IllegalArgumentException(NAME_EMPTY_MESSAGE);
         }
-        if(body.getDniImage().isEmpty()){
-            throw new IllegalArgumentException(EMPTY_DNI_IMAGE);
-        }
     }
 
     private static boolean isInvidalidEmail(String email){
