@@ -17,7 +17,7 @@ public class Professional extends Role {
     private String phoneNumber;
 
     @Override
-    public Mode getRole() {
+    public Mode getMode() {
         return Mode.PROFESSIONAL;
     }
 

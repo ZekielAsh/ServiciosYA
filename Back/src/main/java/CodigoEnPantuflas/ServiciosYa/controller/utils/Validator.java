@@ -11,7 +11,7 @@ public class Validator {
     private static final String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final String EMAIL_EMPTY_MESSAGE = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
     private static final String INVALID_EMAIL_MESSAGE = "El registro ha fallado  por información invalida";
-    private static final String PASSWORD_EMPTY_MESSAGE = "“La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
+    private static final String PASSWORD_EMPTY_MESSAGE = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
     private static final String NAME_EMPTY_MESSAGE = "El nombre no puede estar en blanco";
     private static final String WRONG_EMAIL_OR_PASSWORD = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
 

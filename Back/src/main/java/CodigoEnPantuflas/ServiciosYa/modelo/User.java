@@ -49,7 +49,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
         var roles = this.userRoles.stream()
-                .map(Role::getRole)
+                .map(Role::getMode)
                 .collect(Collectors.toList());
 
         var authList = roles.stream()
@@ -67,7 +67,6 @@ public class User implements UserDetails {
         return this.mail;
     }
 
-
     public void addRole(Professional professionalRole) {
         this.getUserRoles().add(professionalRole);
     }
@@ -78,7 +77,7 @@ public class User implements UserDetails {
     }
 
     public  void setRoleAsCurrent(Mode mode) {
-        Role clientRole = getUserRoles().stream().filter(rol -> rol.getRole().name() == mode.name()).findFirst().get();
+        Role clientRole = getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
         this.setCurrentRole(clientRole);
     }
 

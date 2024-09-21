@@ -22,21 +22,21 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("comments/addComment")
+    @PostMapping("/addComment")
     public ResponseEntity<CommentDto> addComment(@RequestBody @Valid Comment comment) {
         Comment savedComment = commentService.save(comment);
         CommentDto commentDto = ObjectMapper.getInstance().convertCommentToCommentDto(savedComment);
         return ResponseEntity.ok(commentDto);
     }
 
-    @GetMapping("comments/profile/{userId}/comments")
+    @GetMapping("profile/{userId}")
     public ResponseEntity<List<CommentDto>> getCommentsByProfile(@PathVariable Long userId) {
         List<Comment> comments = commentService.findCommentsById(userId);
         List<CommentDto> commentsDto = comments.stream().map(c -> ObjectMapper.getInstance().convertCommentToCommentDto(c)).toList();
         return ResponseEntity.ok(commentsDto);
     }
 
-    @GetMapping("/comments/test")
+    @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Test endpoint");
     }

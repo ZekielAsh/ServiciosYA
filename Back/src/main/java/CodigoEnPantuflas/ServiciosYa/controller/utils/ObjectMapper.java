@@ -28,7 +28,7 @@ public class ObjectMapper {
 
     public UserDto convertUserToUserDto(User user){
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getCurrentRole().getRole().name());
+        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getCurrentRole().getMode().name());
     }
 
     public CommentDto convertCommentToCommentDto(Comment comment){
@@ -37,7 +37,7 @@ public class ObjectMapper {
     }
 
     public RoleDto converRoleToRoleDto(Role role) {
-       if(role.getRole() == Mode.CLIENT){
+       if(role.getMode() == Mode.CLIENT){
            return new ClientDto("a");
        } else{
            Professional professional = (Professional) role;
@@ -48,6 +48,5 @@ public class ObjectMapper {
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
-
 
 }
