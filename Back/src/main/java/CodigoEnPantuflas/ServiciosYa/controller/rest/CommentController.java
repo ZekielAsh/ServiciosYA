@@ -7,6 +7,7 @@ import CodigoEnPantuflas.ServiciosYa.dao.ICommentDao;
 import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.CommentService;
+import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/addComment")
     public ResponseEntity<CommentDto> addComment(@RequestBody @Valid Comment comment) {
