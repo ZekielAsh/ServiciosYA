@@ -1,20 +1,18 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
-import jakarta.persistence.Entity;;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
+import jakarta.persistence.Entity;
+import lombok.NoArgsConstructor;;
 
-@Entity
+@Entity @NoArgsConstructor
 public class Client extends Role {
-
-    public Client() {
-    }
 
     public Client(User user) {
         this.setUser(user);
     }
 
     @Override
-    public Roles getRole() {
-        return Roles.CLIENT;
+    public Mode getMode() {
+        return Mode.CLIENT;
     }
 
     @Override

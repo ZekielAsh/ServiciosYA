@@ -1,14 +1,24 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
 
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
+
+@Getter @Setter @NoArgsConstructor
 @Entity
 public class Professional extends Role {
     String district;
     String trade;
+    @Email(message = "El formato del correo electrónico no es válido.")
+    private String contactMail;
+    @Pattern(regexp = "^\\d{8}$", message = "El número de teléfono debe tener exactamente 8 dígitos sin guiones.")
+    private String phoneNumber;
+
     @Override
-    public Roles getRole() {
-        return Roles.PROFESSIONAL;
+    public Mode getMode() {
+        return Mode.PROFESSIONAL;
     }
 
     @Override
@@ -21,13 +31,5 @@ public class Professional extends Role {
         this.trade = trade.name();
         this.setUser(user);
     }
-    public Professional(){};
 
-    public String getDistrict() {
-        return this.district;
-    }
-
-    public String getTrade() {
-        return this.trade;
-    }
 }

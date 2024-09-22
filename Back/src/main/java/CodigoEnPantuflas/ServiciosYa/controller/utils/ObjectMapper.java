@@ -1,7 +1,8 @@
 package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
+import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
 import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
 import CodigoEnPantuflas.ServiciosYa.modelo.Role;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
@@ -27,11 +28,16 @@ public class ObjectMapper {
 
     public UserDto convertUserToUserDto(User user){
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getCurrentRole().getRole().name());
+        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getCurrentRole().getMode().name());
+    }
+
+    public CommentDto convertCommentToCommentDto(Comment comment){
+        UserDto userDto = this.convertUserToUserDto(comment.getUser());
+        return new CommentDto(comment.getText(), userDto);
     }
 
     public RoleDto converRoleToRoleDto(Role role) {
-       if(role.getRole() == Roles.CLIENT){
+       if(role.getMode() == Mode.CLIENT){
            return new ClientDto("a");
        } else{
            Professional professional = (Professional) role;
@@ -42,6 +48,5 @@ public class ObjectMapper {
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
-
 
 }

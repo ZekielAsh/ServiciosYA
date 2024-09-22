@@ -1,92 +1,40 @@
 package CodigoEnPantuflas.ServiciosYa.modelo;
-import CodigoEnPantuflas.ServiciosYa.jwt.Roles;
+import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter @Setter @NoArgsConstructor
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "mail"),
         indexes = @Index(name = "userMail", columnList = "mail"))
 public class User implements UserDetails {
-    private String userNickname;
+
     @Id
     @GeneratedValue
     private Long id = null;
-    private String mail;
-    private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> userRoles = new HashSet<Role>();
+
     @Transient
     private Role currentRole;
 
-    public Set<Role> getUserRoles() {
-        return userRoles;
-    }
+    private String userNickname;
+    private String mail;
+    private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment>  comments;
 
-    public void setUserRoles(Set<Role> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    public String getUserNickname() {
-        return userNickname;
-    }
-
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
-        var roles = this.userRoles.stream()
-                .map(Role::getRole)
-                .collect(Collectors.toList());
-
-        var authList = roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .collect(Collectors.toList());
-
-        return authList;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    /** esto se hereda de UserDetails, deberia de ser el
-     userName pero como por modelo de negocio no es unique queda como email
-     El objetivo es generar un token con el identificador unico del usuario*/
-    public String getUsername() {
-        return this.mail;
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getCurrentRole() {
-        return currentRole;
-    }
-
-    public void setCurrentRole(Role currentRole) {
-        this.currentRole = currentRole;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Role> userRoles = new HashSet<Role>();
 
     public User(String userNickname, String mail, String password){
         this.setUserNickname(userNickname);
@@ -97,7 +45,27 @@ public class User implements UserDetails {
         this.setCurrentRole(role);
     }
 
-    public User(){}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
+        var roles = this.userRoles.stream()
+                .map(Role::getMode)
+                .collect(Collectors.toList());
+
+        var authList = roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toList());
+
+        return authList;
+    }
+
+    @Override
+    /** esto se hereda de UserDetails, deberia de ser el
+     userName pero como por modelo de negocio no es unique queda como email
+     El objetivo es generar un token con el identificador unico del usuario*/
+    public String getUsername() {
+        return this.mail;
+    }
 
     public void addRole(Professional professionalRole) {
         this.getUserRoles().add(professionalRole);
@@ -108,13 +76,17 @@ public class User implements UserDetails {
                 .anyMatch(Role::isProfessional);
     }
 
-    public  void setRoleAsCurrent(Roles role) {
-        Role clientRole = getUserRoles().stream().filter(rol -> rol.getRole().name() == role.name()).findFirst().get();
+    public  void setRoleAsCurrent(Mode mode) {
+        Role clientRole = getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
         this.setCurrentRole(clientRole);
     }
 
     public void addProfessionalRole(String distric, Trades trade) {
         this.getUserRoles().add(new Professional(this, distric, trade));
+    }
+
+    public void addNewComment(Comment comment) {
+        this.comments.add(comment);
     }
 }
 
