@@ -12,5 +12,10 @@ import lombok.NoArgsConstructor;
 public class ProfessionalDto implements RoleDto {
     String district;
     String trade;
+
+    @Override
+    public String getRole() {
+        return "Profesional";
+    }
 }
 

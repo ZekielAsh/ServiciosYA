@@ -8,4 +8,9 @@ import lombok.Data;
 public class ClientDto implements RoleDto{
     private String forTest;
 
+    @Override
+    public String getRole() {
+        return "Cliente";
+    }
+
 }
