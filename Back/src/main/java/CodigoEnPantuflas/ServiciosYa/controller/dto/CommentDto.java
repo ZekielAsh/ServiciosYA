@@ -12,5 +12,5 @@ public class CommentDto {
     @NotBlank(message = "El comentario no puede estar vacío.")
     @Size(max = 150, message = "El mensaje excedio el limite de 150 caracteres. Pruebe con un mensaje mas corto.")
     private String text;
-    private UserDto user;
+    private SimpleUserDto user;
 }

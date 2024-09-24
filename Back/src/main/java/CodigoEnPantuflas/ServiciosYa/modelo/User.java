@@ -8,10 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter @Setter @NoArgsConstructor
@@ -30,11 +27,14 @@ public class User implements UserDetails {
     private String userNickname;
     private String mail;
     private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment>  comments;
+    private String nameOfCurrentRole;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Comment>  comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<Role>();
+
 
     public User(String userNickname, String mail, String password){
         this.setUserNickname(userNickname);
@@ -43,6 +43,8 @@ public class User implements UserDetails {
         var role  = new Client(this);
         this.getUserRoles().add(role);
         this.setCurrentRole(role);
+        nameOfCurrentRole = currentRole.getMode().name();
+        comments = new HashSet<>();
     }
 
     @Override
@@ -67,6 +69,12 @@ public class User implements UserDetails {
         return this.mail;
     }
 
+    public Set<Role> getSortedRoles() {
+        return this.getUserRoles().stream()
+                .sorted(Comparator.comparing(Role::getMode)) // Ordena alfabéticamente por el nombre del rol
+                .collect(Collectors.toCollection(LinkedHashSet::new)); // Devuelve un Set ordenado
+    }
+
     public void addRole(Professional professionalRole) {
         this.getUserRoles().add(professionalRole);
     }
@@ -79,14 +87,23 @@ public class User implements UserDetails {
     public  void setRoleAsCurrent(Mode mode) {
         Role clientRole = getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
         this.setCurrentRole(clientRole);
+        nameOfCurrentRole = clientRole.getMode().name();
     }
 
     public void addProfessionalRole(String distric, Trades trade) {
-        this.getUserRoles().add(new Professional(this, distric, trade));
+        this.getUserRoles().add(new Professional(this, distric, trade.getClass().getName()));
     }
 
     public void addNewComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public void switchRole() {
+        if (this.getNameOfCurrentRole() == null || this.getNameOfCurrentRole().equals(Mode.PROFESSIONAL.name())) {
+            this.setRoleAsCurrent(Mode.CLIENT);
+        } else {
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+        }
     }
 }
 
