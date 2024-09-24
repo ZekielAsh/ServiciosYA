@@ -23,6 +23,7 @@ const Profile = () => {
     const fetchUser = async () => {
         try {
             if (email) {
+                console.log(email);
                 const response = await api.getUserByEmail(email);
                 setUser(response.data);
             } 

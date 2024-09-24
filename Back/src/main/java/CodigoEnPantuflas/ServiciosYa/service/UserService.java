@@ -52,9 +52,8 @@ public class UserService {
         Trades trade = parseTrade(incomingTrade);
         checkIfTheUserIsProfessional(user);
         user.addProfessionalRole(distric, trade);
-        User userWithRole = userDao.save(user);
-        userWithRole.setRoleAsCurrent(Mode.PROFESSIONAL);
-        return userWithRole;
+        user.setRoleAsCurrent(Mode.PROFESSIONAL);
+        return userDao.save(user);
     }
 
     private static void checkIfTheUserIsProfessional(User user) {
