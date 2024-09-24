@@ -11,11 +11,9 @@ const ProtectedRoute = ({ element }) => {
   if (token === null) {
     return <Navigate to="/login" replace />;
   }
-
-  if (role == "PROFESSIONAL") {
+  /*if (role == "PROFESSIONAL" || role == "CLIENT") {
     return <Navigate to="/" replace />;
-  }
-
+  }*/
   return element;
 };
 

@@ -1,38 +1,61 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { getTokenFromLocalStorage, getUserEmailFromLocalStorage } from "../../utils/localStorage";
 import { handleLogOut } from "../../services/auth/ProtectedRoute";
 import Navbar from "../../components/navbar/Navbar";
+import Spinner from "../../components/spinner/Spinner";
 
 
 const Profile = () => {
     const navigate = useNavigate();
     const { email } = useParams();
-
+    console.log(useParams());
+    console.log(email);
+    const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!email) {
-            navigate('/');
+        const token = getTokenFromLocalStorage();
+        const email = getUserEmailFromLocalStorage();
+        if (token) {
+          api
+            .getUserByEmail(email)
+            .then(response => {
+              const userResp = response.data.userRoles;
+              setUser({
+                username: response.data.nickName,
+                token: token,
+                district: userResp.district,
+                trade: userResp.trade,
+                role: response.data.currentRolDto
+              });
+            })
+            .catch(e => {
+              setModalMessage(e.message);
+            })
+            .finally(() => {
+              setIsLoading(false);
+            });
         } else {
-            fetchUser();
+          setIsLoading(false);
         }
-    }, []);
+      }, []);
 
-    const fetchUser = async () => {
+    /*const fetchUser = async () => {
         try {
             if (email) {
-                console.log(email);
                 const response = await api.getUserByEmail(email);
                 setUser(response.data);
+                setIsLoading(false);
             } 
             setError(null);
         } catch (error) {
             setError('Este usuario no existe. Por favor, intente nuevamente.');
         }
 
-    };
+    };*/
     const buttonLabel = () => {
         return "Log Out";
     }
@@ -45,6 +68,8 @@ const Profile = () => {
         handleLogOut();
         navigate('/');
     }
+
+    if (isLoading) return <Spinner />;
 
     return (
         <>

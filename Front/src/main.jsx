@@ -34,10 +34,6 @@ const router = createBrowserRouter([
     element: <SearchPage />,
   },
   {
-    path: "/profile",
-    element: <ProtectedRoute element={<Profile />} />,
-  },
-  {
     path: "/profile/:email",
     element: <ProtectedRoute element={<Profile />} />,
   }

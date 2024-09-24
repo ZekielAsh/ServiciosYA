@@ -9,6 +9,7 @@ import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
 import Modal from "../../components/modal/Modal";
 import api from "../../services/api.js";
+import { handleLogOut } from "../../services/auth/ProtectedRoute.jsx";
 
 const HomePage = () => {
   const [user, setUser] = useState(null);
@@ -50,13 +51,13 @@ const HomePage = () => {
         return (
           <>
             <Link to="/registerPro">RegisterPro</Link>
-            <button onClick={() => removeTokenFromLocalStorage()}>Logout</button>
+            <button onClick={() => handleLogOut()}>Logout</button>
           </>
         );
       case "PROFESSIONAL":
         return (
           <>
-            <button onClick={() => removeTokenFromLocalStorage()}>Logout</button>
+            <button onClick={() => handleLogOut()}>Logout</button>
           </>
         );
       default:
@@ -67,10 +68,6 @@ const HomePage = () => {
           </>
         );
     }
-  };
-
-  const description = {
-    
   };
 
   return (
