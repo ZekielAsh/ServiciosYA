@@ -7,7 +7,7 @@ import RegisterPage from "./pages/registerPage/RegisterPage";
 import SearchPage from "./pages/searchPage/SearchPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
-import Profile from "./pages/profile/Profile";
+import Profile from "./pages/profilePage/Profile";
 import React from "react";
 import "./styles/Colors.css";
 import "./index.css";

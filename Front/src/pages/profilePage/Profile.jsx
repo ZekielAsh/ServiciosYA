@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { handleLogOut } from "../../services/auth/ProtectedRoute";
 
 
-function Profile({profileUser, setProfileUser}){
+const Profile = () => {
     const navigate = useNavigate();
-    const [ id ] = useParams();
+    const { id } = useParams();
 
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!profileUser && !id) {
+        if (!id) {
             navigate('/login');
         } else {
             fetchUser();
@@ -41,7 +41,6 @@ function Profile({profileUser, setProfileUser}){
 
     const handleLogOutButton = () => {
         handleLogOut();
-        setProfileUser(null);
         navigate('/');
     }
 
@@ -52,27 +51,13 @@ function Profile({profileUser, setProfileUser}){
             {user && (
                 <div>
                     <div>
-                        <div>
-                            <div>
-                                <h2>{user.username}</h2>
-                            </div>
-                            <div>
-                                <h3>{user.email}</h3>
-                            </div>
-                        </div>
+                        <h2>{user.username}</h2>
                     </div>
                     <div>
-                        <div>
-                            <div>
-                                <h3>Role: {user.role}</h3>
-                            </div>
-                            <div>
-                                <h3>Trade: {user.trade}</h3>
-                            </div>
-                            <div>
-                                <h3>District: {user.district}</h3>
-                            </div>
-                        </div>
+                        <h3>{user.email}</h3>
+                    </div>
+                    <div>
+                        <h3>Role: {user.role}</h3>
                     </div>
                 </div>
             )}

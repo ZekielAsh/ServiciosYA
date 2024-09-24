@@ -22,13 +22,13 @@ const HomePage = () => {
       api
         .getUserByEmail(email)
         .then(response => {
-          const userResp = response.data.userRoles[0];
+          const userResp = response.data.userRoles;
           setUser({
             username: response.data.nickName,
             token: token,
             district: userResp.district,
             trade: userResp.trade,
-            role: userResp.getRole()
+            role: response.data.currentRolDto
           });
         })
         .catch(e => {
@@ -46,17 +46,17 @@ const HomePage = () => {
 
   const renderOptions = () => {
     switch (user?.role) {
-      case "Cliente":
+      case "CLIENT":
         return (
           <>
             <Link to="/registerPro">RegisterPro</Link>
-            <button onClick={() => removeTokenFromLocalStorage}>Logout</button>
+            <button onClick={() => removeTokenFromLocalStorage()}>Logout</button>
           </>
         );
-      case "Profesional":
+      case "PROFESSIONAL":
         return (
           <>
-            <button onClick={() => removeTokenFromLocalStorage}>Logout</button>
+            <button onClick={() => removeTokenFromLocalStorage()}>Logout</button>
           </>
         );
       default:
