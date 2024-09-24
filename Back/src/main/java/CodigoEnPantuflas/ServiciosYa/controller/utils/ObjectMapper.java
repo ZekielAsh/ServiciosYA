@@ -28,7 +28,7 @@ public class ObjectMapper {
 
     public UserDto convertUserToUserDto(User user){
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole());
+        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword());
     }
 
 
@@ -42,10 +42,18 @@ public class ObjectMapper {
     }
 
     public CommentDto convertCommentToCommentDto(Comment comment){
-        UserDto userDto = this.convertUserToUserDto(comment.getUser());
-        return new CommentDto(comment.getText(), userDto);
+        SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(comment.getUser());
+        return new CommentDto(comment.getText(), simpleUserDto);
     }
 
+    public SimpleUserDto convertUserToSimpleUserDto(User user) {
+        return new SimpleUserDto(user.getUserNickname());
+    }
+
+    public User convertUserDtoToUser(UserDto userDto){
+        User user = new User(userDto.getNickName(), userDto.getEmail(), userDto.getPassword());
+        return user;
+    }
 
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());

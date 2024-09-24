@@ -29,9 +29,8 @@ public class User implements UserDetails {
     private String password;
     private String nameOfCurrentRole;
 
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment>  comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Comment>  comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<Role>();
@@ -45,6 +44,7 @@ public class User implements UserDetails {
         this.getUserRoles().add(role);
         this.setCurrentRole(role);
         nameOfCurrentRole = currentRole.getMode().name();
+        comments = new HashSet<>();
     }
 
     @Override
@@ -99,13 +99,10 @@ public class User implements UserDetails {
     }
 
     public void switchRole() {
-        if (this.getNameOfCurrentRole() == null) {
-            throw new RuntimeException("El rol actual no ha sido inicializado.");
-        }
-        if (this.getNameOfCurrentRole().equals(Mode.CLIENT.name())) {
-            this.setRoleAsCurrent(Mode.PROFESSIONAL);
-        } else {
+        if (this.getNameOfCurrentRole() == null || this.getNameOfCurrentRole().equals(Mode.PROFESSIONAL.name())) {
             this.setRoleAsCurrent(Mode.CLIENT);
+        } else {
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
         }
     }
 }

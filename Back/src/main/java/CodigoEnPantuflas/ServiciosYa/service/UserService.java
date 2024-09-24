@@ -36,17 +36,6 @@ public class UserService {
         return userDao.save(user);
     }
 
-//    public User getByMail(String mail) {
-//        User user = userDao.getByMail(mail)
-//                .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
-//        user.setRoleAsCurrent(user.getCurrentRole().getMode() == null ? Mode.CLIENT : Mode.PROFESSIONAL);
-//        List<Role> roles = userDao.findRolesByEmail(mail);
-//        Role roleUser = roles.stream().filter(role -> role.getMode() == Mode.PROFESSIONAL).findFirst().orElse(null);
-//        user.setCurrentRole(roleUser == null ?  roles.get(0) :  roles.get(1));
-//        userDao.save(user);
-//        return user;
-//    }
-
     public User getByMail(String mail) {
         User user = userDao.getByMail(mail)
                 .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
@@ -59,7 +48,6 @@ public class UserService {
         }
         return user;
     }
-
 
     public User addProfessionalRole(String email, String distric, String incomingTrade){
         User user = getByMail(email);
@@ -93,9 +81,7 @@ public class UserService {
 
     public User changeUserRole(String userEmail) {
         User user = getByMail(userEmail);
-        System.out.println("ANTES " + user.getNameOfCurrentRole());
         user.switchRole();
-        System.out.println("DESPUES " + user.getNameOfCurrentRole());
         return userDao.save(user);
     }
 }
