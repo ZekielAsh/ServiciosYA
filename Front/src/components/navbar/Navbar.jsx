@@ -16,6 +16,9 @@ const Navbar = ({ user, handleSearch }) => {
               {user.username[0].toUpperCase()}
             </Button>
           </Link>
+          <Button type="primary" onClick={() => localStorage.clear()}>
+            Logout
+          </Button>
         </div>
       ) : (
         <div className="actions-container">

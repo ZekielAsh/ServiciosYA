@@ -2,12 +2,9 @@ package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -32,7 +29,6 @@ public class UserService {
         user.setNameOfCurrentRole("CLIENT");
         user.setCurrentRole(new Client());
 
-        // Guardar usuario (esto también guardará los roles por el CascadeType.ALL)
         return userDao.save(user);
     }
 
@@ -41,12 +37,14 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
         if (user.getNameOfCurrentRole() == "CLIENT"){
             user.setCurrentRole( new Client());
-        }else{
+        } else {
             String district = userDao.findProfessionalDistrictByEmail(mail);
             String trade = userDao.findProfessionalTradeByEmail(mail);
             user.setCurrentRole(new Professional(user, district, trade));
         }
-        return user;
+        user.setMail(mail);
+        System.out.println(user.getMail());
+        return userDao.save(user);
     }
 
     public User addProfessionalRole(String email, String distric, String incomingTrade){

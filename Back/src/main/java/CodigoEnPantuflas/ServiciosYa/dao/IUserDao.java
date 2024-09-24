@@ -16,8 +16,8 @@ public interface IUserDao extends JpaRepository<User, String> {
 
 
 //    @Query("SELECT u FROM User u LEFT JOIN FETCH u.userRoles r LEFT JOIN FETCH u.currentRole WHERE u.mail = ?1")
-    @Query("SELECT u FROM User u WHERE u.mail = ?1")
-    Optional<User> getByMail(String mail);
+    @Query("SELECT u FROM User u WHERE u.mail = :email")
+    Optional<User> getByMail(@Param("email") String email);
 
     @Query("SELECT r FROM User u JOIN u.userRoles r WHERE u.mail = ?1")
     List<Role> findRolesByEmail(String email);
