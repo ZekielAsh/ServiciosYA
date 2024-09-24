@@ -1,6 +1,7 @@
 import {
   getTokenFromLocalStorage,
   getUserEmailFromLocalStorage,
+  removeTokenFromLocalStorage,
 } from "../../utils/localStorage.js";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,7 +22,7 @@ const HomePage = () => {
       api
         .getUserByEmail(email)
         .then(response => {
-          const userResp = response.data.userRoles;
+          const userResp = response.data.userRoles[0];
           setUser({
             username: response.data.nickName,
             token: token,
@@ -49,13 +50,13 @@ const HomePage = () => {
         return (
           <>
             <Link to="/registerPro">RegisterPro</Link>
-            <button onClick={() => localStorage.clear()}>Logout</button>
+            <button onClick={() => removeTokenFromLocalStorage}>Logout</button>
           </>
         );
       case "Profesional":
         return (
           <>
-            <button onClick={() => localStorage.clear()}>Logout</button>
+            <button onClick={() => removeTokenFromLocalStorage}>Logout</button>
           </>
         );
       default:

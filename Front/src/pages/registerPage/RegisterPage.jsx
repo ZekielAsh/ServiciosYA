@@ -20,7 +20,7 @@ const RegisterPage = () => {
     formData.append("password", password);
     
     if (file) {
-      formData.append("image", file); // La clave "image" debe coincidir con lo que espera el backend
+      formData.append("dniImage", file); // La clave "dniImage" debe coincidir con lo que espera el backend
     }
 
     api

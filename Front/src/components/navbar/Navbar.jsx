@@ -11,7 +11,7 @@ const Navbar = ({ user, handleSearch }) => {
       <SearchInput onSearch={handleSearch} />
       {user ? (
         <div className="actions-container">
-          <Link to={`/user/${user.id}`}>
+          <Link to={`/profile/${user.id}`}>
             <Button type={role === "CLIENT" ? "client" : "pro"}>
               {user.username[0].toUpperCase()}
             </Button>

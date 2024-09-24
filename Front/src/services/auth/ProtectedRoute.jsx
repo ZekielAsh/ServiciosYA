@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import {
   getTokenFromLocalStorage,
   getUserRoleFromLocalStorage,
+  removeTokenFromLocalStorage,
 } from "../../utils/localStorage";
 
 const ProtectedRoute = ({ element }) => {
@@ -19,3 +20,8 @@ const ProtectedRoute = ({ element }) => {
 };
 
 export default ProtectedRoute;
+
+export const handleLogOut = () => {
+  removeTokenFromLocalStorage();
+  window.location.reload();
+}

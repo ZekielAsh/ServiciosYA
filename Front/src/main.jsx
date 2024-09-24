@@ -7,6 +7,7 @@ import RegisterPage from "./pages/registerPage/RegisterPage";
 import SearchPage from "./pages/searchPage/SearchPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
+import Profile from "./pages/profile/Profile";
 import React from "react";
 import "./styles/Colors.css";
 import "./index.css";
@@ -32,6 +33,14 @@ const router = createBrowserRouter([
     path: "/search/:text",
     element: <SearchPage />,
   },
+  {
+    path: "/profile",
+    element: <ProtectedRoute element={<Profile />} />,
+  },
+  {
+    path: "/profile/:id",
+    element: <ProtectedRoute element={<Profile />} />,
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(
