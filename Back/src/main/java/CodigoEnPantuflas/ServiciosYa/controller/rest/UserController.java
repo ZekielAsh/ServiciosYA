@@ -43,5 +43,21 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
+    @PostMapping("/create")
+    @CrossOrigin
+    public ResponseEntity<UserDto> createUser(@RequestParam String email, @RequestParam String nickname) {
+        User user = userService.createUserWithRoles();
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    }
+    
+    @PostMapping("/changeRole")
+    @CrossOrigin
+    public ResponseEntity<UserDto> changeUserRole(@RequestParam String email) {
+        User user = userService.changeUserRole(email);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
 
 }

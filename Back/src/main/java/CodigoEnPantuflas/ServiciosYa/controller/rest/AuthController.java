@@ -32,7 +32,6 @@ public class AuthController {
         if (dniImage.isEmpty()) {
             throw new RuntimeException("Tenes que cargar una foto");
         }
-
         Validator.getInstance().validateRegisterBody(registerBody);
         User user = ObjectMapper.getInstance().convertRegisterBodyToUser(registerBody);
         User registeredUser = userService.saveOrUpdate(user);

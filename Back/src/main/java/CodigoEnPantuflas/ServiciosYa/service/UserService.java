@@ -1,11 +1,13 @@
 package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
-import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
-import CodigoEnPantuflas.ServiciosYa.modelo.User;
+import CodigoEnPantuflas.ServiciosYa.modelo.*;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -19,10 +21,31 @@ public class UserService {
         return savedUser;
     }
 
-    public User getByMail(String mail){
+    public User createUserWithRoles() {
+        // Crear usuario
+        User user = new User();
+        user.setMail("mano@hotmail.com");
+        user.setUserNickname("nickname");
+        user.setPassword("abcde3");
+
+        // Crear roles
+        user.setNameOfCurrentRole("CLIENT");
+        user.setCurrentRole(new Client());
+
+        // Guardar usuario (esto también guardará los roles por el CascadeType.ALL)
+        return userDao.save(user);
+    }
+
+    public User getByMail(String mail) {
         User user = userDao.getByMail(mail)
                 .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
-        user.setRoleAsCurrent(Mode.CLIENT);
+        if (user.getNameOfCurrentRole() == "CLIENT"){
+            user.setCurrentRole( new Client());
+        }else{
+            String district = userDao.findProfessionalDistrictByEmail(mail);
+            String trade = userDao.findProfessionalTradeByEmail(mail);
+            user.setCurrentRole(new Professional(user, district, trade));
+        }
         return user;
     }
 
@@ -54,5 +77,11 @@ public class UserService {
         Set<User> users =  userDao.getProfessionalByKeyword(keyword);
         users.forEach(user -> {user.setRoleAsCurrent(Mode.PROFESSIONAL);});
         return users;
+    }
+
+    public User changeUserRole(String userEmail) {
+        User user = getByMail(userEmail);
+        user.switchRole();
+        return userDao.save(user);
     }
 }

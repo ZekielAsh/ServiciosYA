@@ -28,21 +28,31 @@ public class ObjectMapper {
 
     public UserDto convertUserToUserDto(User user){
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getCurrentRole().getMode().name());
+        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword());
+    }
+
+
+    public RoleDto converRoleToRoleDto(Role role) {
+        if(role.getMode() == Mode.CLIENT){
+            return new ClientDto("a");
+        } else{
+            Professional professional = (Professional) role;
+            return new ProfessionalDto(professional.getDistrict(), professional.getTrade());
+        }
     }
 
     public CommentDto convertCommentToCommentDto(Comment comment){
-        UserDto userDto = this.convertUserToUserDto(comment.getUser());
-        return new CommentDto(comment.getText(), userDto);
+        SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(comment.getUser());
+        return new CommentDto(comment.getText(), simpleUserDto);
     }
 
-    public RoleDto converRoleToRoleDto(Role role) {
-       if(role.getMode() == Mode.CLIENT){
-           return new ClientDto("a");
-       } else{
-           Professional professional = (Professional) role;
-           return new ProfessionalDto(professional.getDistrict(), professional.getTrade());
-       }
+    public SimpleUserDto convertUserToSimpleUserDto(User user) {
+        return new SimpleUserDto(user.getUserNickname());
+    }
+
+    public User convertUserDtoToUser(UserDto userDto){
+        User user = new User(userDto.getNickName(), userDto.getEmail(), userDto.getPassword());
+        return user;
     }
 
     public User convertRegisterBodyToUser(RegisterBody registerBody){
