@@ -5,7 +5,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ErrorDto {
-    String error;
-    Integer status;
+public class ContactMediaDto {
+    String contactMail;
+    String phoneNumber;
+    UserDto user;
+
+
 }

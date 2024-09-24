@@ -14,4 +14,6 @@ public class UserDto {
     private Set<RoleDto> userRoles = new HashSet<RoleDto>();
     private String currentRolDto;
     private String password;
+    ContactMediaDto contactMediaDto;
+
 }

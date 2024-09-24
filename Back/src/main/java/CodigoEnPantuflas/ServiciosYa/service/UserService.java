@@ -1,4 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.service;
+import CodigoEnPantuflas.ServiciosYa.dao.IContactMedia;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
@@ -14,11 +15,14 @@ import java.util.Set;
 public class UserService {
     @Autowired
     IUserDao userDao;
+    @Autowired
+    IContactMedia contactMediaDao;
 
     public User saveOrUpdate(User user){
         User savedUser = userDao.save(user);
         savedUser.setRoleAsCurrent(Mode.CLIENT);
-        return savedUser;
+        savedUser.setContactMedia(user.getContactMedia());
+        return userDao.save(savedUser);
     }
 
     public User createUserWithRoles() {
@@ -82,6 +86,19 @@ public class UserService {
     public User changeUserRole(String userEmail) {
         User user = getByMail(userEmail);
         user.switchRole();
+        return userDao.save(user);
+    }
+
+    public User addPhone(String email, String phone) {
+        User user = getByMail(email);
+        user.addPhone(phone);
+        contactMediaDao.save(user.getContactMedia());
+        return userDao.save(user);
+    }
+
+    public User addEmailContact(String email, String emailContact) {
+        User user = getByMail(email);
+        user.addMail(email);
         return userDao.save(user);
     }
 }

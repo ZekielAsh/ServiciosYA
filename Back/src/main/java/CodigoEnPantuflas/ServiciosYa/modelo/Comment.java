@@ -13,13 +13,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El comentario no puede estar vacío.")
+    @Size(max = 150, message = "El mensaje excedio el limite de 150 caracteres. Pruebe con un mensaje mas corto.")
     private String text;
 
-    @ManyToOne @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;  // Asociado al usuario que hizo el comentario
 
-    public Comment(@NotBlank(message = "El comentario no puede estar vacío.") @Size(max = 150, message = "El mensaje excedio el limite de 150 caracteres. Pruebe con un mensaje mas corto.") String text, User user) {
-
-    }
 }

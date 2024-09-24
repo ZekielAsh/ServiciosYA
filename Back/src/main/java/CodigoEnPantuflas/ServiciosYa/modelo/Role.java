@@ -18,9 +18,9 @@ public abstract class Role {
     private User user;
 
 
+
     public abstract Mode getMode();
 
     public abstract Boolean isProfessional();
-
 
 }

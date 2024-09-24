@@ -4,6 +4,7 @@ import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.SimpleUserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
+import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.dao.ICommentDao;
 import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
@@ -29,8 +30,10 @@ public class CommentController {
     private UserService userService;
 
     @PostMapping("/addComment")
-    public ResponseEntity<CommentDto> addComment(@RequestBody CommentDto commentDto, @RequestParam String userEmail) {
-        User user = userService.getByMail(userEmail);
+    @CrossOrigin
+    public ResponseEntity<CommentDto> addComment(@RequestBody CommentDto commentDto, @RequestParam String email) {
+        Validator.getInstance().validateComment(commentDto);
+        User user = userService.getByMail(email);
         Comment savedComment = commentService.addComment(commentDto.getText(), user);
         SimpleUserDto simpleUserDto = ObjectMapper.getInstance().convertUserToSimpleUserDto(user);
         commentDto.setUser(simpleUserDto);
@@ -38,6 +41,7 @@ public class CommentController {
     }
 
     @GetMapping("profile/{email}")
+    @CrossOrigin
     public ResponseEntity<List<CommentDto>> getCommentsByProfile(@PathVariable String email) {
         User user = userService.getByMail(email);
         List<CommentDto> commentsDto = user.getComments().stream().map(c -> ObjectMapper.getInstance().convertCommentToCommentDto(c)).toList();

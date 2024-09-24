@@ -1,3 +1,4 @@
+
 package CodigoEnPantuflas.ServiciosYa.modelo;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.*;
@@ -28,6 +29,8 @@ public class User implements UserDetails {
     private String mail;
     private String password;
     private String nameOfCurrentRole;
+    @OneToOne(mappedBy = "user")
+    private ContactMedia contactMedia;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Comment>  comments;
@@ -46,7 +49,6 @@ public class User implements UserDetails {
         nameOfCurrentRole = currentRole.getMode().name();
         comments = new HashSet<>();
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
@@ -84,6 +86,10 @@ public class User implements UserDetails {
                 .anyMatch(Role::isProfessional);
     }
 
+    public Role findRoleWithMode(Mode mode){
+        return  getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
+    }
+
     public  void setRoleAsCurrent(Mode mode) {
         Role clientRole = getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
         this.setCurrentRole(clientRole);
@@ -91,7 +97,9 @@ public class User implements UserDetails {
     }
 
     public void addProfessionalRole(String distric, Trades trade) {
-        this.getUserRoles().add(new Professional(this, distric, trade.getClass().getName()));
+        Role role = new Professional(this, distric, trade.getClass().getName());
+        this.getUserRoles().add(role);
+        this.setCurrentRole(role);
     }
 
     public void addNewComment(Comment comment) {
@@ -104,6 +112,20 @@ public class User implements UserDetails {
         } else {
             this.setRoleAsCurrent(Mode.PROFESSIONAL);
         }
+    }
+
+    public void addPhone(String phone) {
+        if(this.getContactMedia() == null){
+            this.setContactMedia(new ContactMedia());
+        }
+        this.contactMedia.setPhoneNumber(phone);
+    }
+
+    public void addMail(String email) {
+        if(this.getContactMedia() == null){
+            this.setContactMedia(new ContactMedia());
+        }
+        this.getContactMedia().setContactMail(email);
     }
 }
 

@@ -1,7 +1,9 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
+import CodigoEnPantuflas.ServiciosYa.controller.dto.ContactMediaDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.ProfessionalRegisterDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
+import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +61,33 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
+    @PostMapping("/addPhone")
+    @CrossOrigin
+    public ResponseEntity<UserDto> saveOrUpdatePhone(@RequestParam String email, @RequestParam String phone){
+        Validator.getInstance().validatePhoneNumber(phone);
+        User user = userService.addPhone(email, phone);
+        userService.saveOrUpdate(user);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
+    @PostMapping("/addMailContact")
+    @CrossOrigin
+    public ResponseEntity<UserDto> saveOrUpdateEmail(@RequestParam String email, @RequestParam String emailContact){
+        Validator.getInstance().validateMailNumber(emailContact);
+        User user = userService.addEmailContact(email, emailContact);
+        userService.saveOrUpdate(user);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
+    @GetMapping("/getContactMedia")
+    @CrossOrigin
+    public ResponseEntity<ContactMediaDto> getContactMedia(@RequestParam String email){
+        User user = userService.getByMail(email);
+        Validator.getInstance().validateContactMedia(user.getContactMedia());
+        ContactMediaDto contactMediaDto = ObjectMapper.getInstance().convertContactMediaToContactMediaDto(user.getContactMedia());
+        return ResponseEntity.status(HttpStatus.OK).body(contactMediaDto);
+    }
 
 }

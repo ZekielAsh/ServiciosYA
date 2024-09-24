@@ -2,10 +2,7 @@ package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
-import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
-import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
-import CodigoEnPantuflas.ServiciosYa.modelo.Role;
-import CodigoEnPantuflas.ServiciosYa.modelo.User;
+import CodigoEnPantuflas.ServiciosYa.modelo.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +25,8 @@ public class ObjectMapper {
 
     public UserDto convertUserToUserDto(User user){
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword());
+        ContactMediaDto contactMediaDto = convertContactMediaToContactMediaDto(user.getContactMedia());
+        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword(),contactMediaDto );
     }
 
 
@@ -51,12 +49,20 @@ public class ObjectMapper {
     }
 
     public User convertUserDtoToUser(UserDto userDto){
-        User user = new User(userDto.getNickName(), userDto.getEmail(), userDto.getPassword());
-        return user;
+        return new User(userDto.getNickName(), userDto.getEmail(), userDto.getPassword());
     }
 
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
 
+    public ContactMedia convertContactMediaDtoToContactMedia(ContactMediaDto contactMediaDto){
+        User user = convertUserDtoToUser(contactMediaDto.getUser());
+        return new ContactMedia(contactMediaDto.getContactMail(),contactMediaDto.getPhoneNumber(),user);
+    }
+
+    public ContactMediaDto convertContactMediaToContactMediaDto(ContactMedia contactMedia) {
+        UserDto userDto = convertUserToUserDto(contactMedia.getUser());
+        return new ContactMediaDto(contactMedia.getContactMail(), contactMedia.getPhoneNumber(), userDto);
+    }
 }
