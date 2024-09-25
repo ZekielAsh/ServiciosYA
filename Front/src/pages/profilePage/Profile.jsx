@@ -30,41 +30,47 @@ const Profile = () => {
           api
             .getUserByEmail(currentUserEmail )
                 .then(response => {
-                    //Esta constante deberia obtener el rol profesional de la lista de userRoles
                     const userResp = response.data.userRoles;
-                    console.log(userResp);
-                    //console.log(response.data);
+                    const professionalRole = userResp.find(role => role.role === "PROFESSIONAL");
+
                     setUser({
                         username: response.data.nickName,
                         token: token,
                         email: currentUserEmail,
-                        district: userResp.find(role => role.role == "PROFESSIONAL").district,
-                        //trade: response.data.getTrade(),
-                        trade: userResp.find(role => role.role == "PROFESSIONAL").trade,
+                        district: professionalRole ? professionalRole.district : "", // Verifica si el rol existe
+                        trade: professionalRole ? professionalRole.trade : "", // Verifica si el rol existe
                         roles: userResp.map(role => role.role),
                         role: response.data.currentRolDto
                     });
+
                     // Simular la obtención de la información de contacto del perfil visitado
-                    console.log(response.data)
                     setContactInfo({
-                        phone: response.data.contactInfo.phone || "",
-                        email: response.data.contactInfo.contactMail || ""
+                        phone: response.data.contactInfo ? response.data.contactInfo.phone : "",
+                        email: response.data.contactInfo ? response.data.contactInfo.contactMail : ""
                     });
+
                     // Simular la obtención de reseñas del backend
                     setReviews(response.data.reviews || []);
-                console.log(userResp);
                 })
                 .catch(e => {
-                setModalMessage(e.message);
+                    setModalMessage(e.message);
                 })
                 .finally(() => {
-                setIsLoading(false);
-                console.log(user);
+                    setIsLoading(false);
                 });
         } else {
           setIsLoading(false);
         }
-      }, []);
+    }, []);
+    
+    // Este useEffect se ejecuta cuando el valor de user cambie
+    useEffect(() => {
+        if (user) {
+            console.log(user);
+        }
+    }, [user]);
+
+
 
     /*const fetchUser = async () => {
         try {
@@ -150,20 +156,23 @@ const Profile = () => {
         api.addPhone(email, phone)
             .then(() => {
                 console.log('Número de teléfono actualizado.');
+                //setIsEditing(false);
             })
             .catch(error => {
-                setError('No se pudo actualizar el número de teléfono.');
+                // console.log(error);
+                // console.error('Error al actualizar el telefono:', error.response ? error.response.data : error.message);
+                //setError(error.response.error);
+                setError(error.response.data.error);
             });
     
         // Actualiza el correo de contacto
         api.addMailContact(email, emailContact)
             .then(() => {
                 console.log('Correo de contacto actualizado.');
-                setIsEditing(false);
+                // setIsEditing(false);
             })
             .catch(error => {
-                console.error('Error al actualizar el correo de contacto:', error.response ? error.response.data : error.message);
-                setError('No se pudo actualizar el correo de contacto.');
+                setError(error.response.data.error);
             });
     };
     
@@ -252,7 +261,7 @@ const Profile = () => {
             <Navbar user={user} />
             <div>
                 <h1>Profile</h1>
-                {error && <div>{error}</div>}
+                {error ? <div>{error}</div> : null}
                 {user && (
                     <div>
                         <div>

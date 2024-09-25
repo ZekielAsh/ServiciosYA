@@ -39,17 +39,16 @@ const changeRole = (userEmail) =>
     .post(`${API_URL}/user/changeRole?email=${userEmail}`)  // Enviar el email como parámetro en la URL
     .then(response => response);
 
-const addPhone = (userEmail, phone) =>
+const addPhone = (email, phone) =>
   axios
-    .post(`${API_URL}/user/addPhone?email=${userEmail}&phone=${phone}`)
+    .post(`${API_URL}/user/addPhone?email=${email}&phone=${phone}`)
     .then(response => response);
   
-    const addMailContact = (userEmail, contactMail) =>
-      axios
-        .post(`${API_URL}/user/addMailContact`, null, {
-          params: { email: userEmail, contactMail }
-        })
-        .then(response => response);
+const addMailContact = (userEmail, emailContact) =>
+  console.log(userEmail, emailContact); 
+  axios
+    .post(`${API_URL}/user/addMailContact?email=${userEmail}&emailContact=${emailContact}`)
+    .then(response => response);
 
 const addComment = (comment, userEmail) =>
   axios
