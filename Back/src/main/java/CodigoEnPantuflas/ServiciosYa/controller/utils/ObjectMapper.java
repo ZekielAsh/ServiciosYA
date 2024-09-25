@@ -24,14 +24,14 @@ public class ObjectMapper {
     }
 
     public UserDto convertUserToUserDto(User user){
-        Set<RoleDto> userRolesDto = user.getUserRoles2().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
+        Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
         return new UserDto(user.getUserNickname(), user.getMail(), user.getNameOfCurrentRole(), user.getPassword(), userRolesDto);
     }
 
 
     public RoleDto converRoleToRoleDto(Role role) {
         if(role.getMode() == Mode.CLIENT){
-            return new ClientDto();
+            return new ClientDto(role.getUser().getUserNickname());
         } else{
             Professional professional = (Professional) role;
             return new ProfessionalDto(professional.getDistrict(), professional.getTrade(), professional.getContactMail(), professional.getPhoneNumber());
