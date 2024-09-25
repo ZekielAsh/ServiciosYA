@@ -34,9 +34,9 @@ const getUserByEmail = userEmail =>
 const getAllTrades = () =>
   axios.get(`${API_URL}/trades/getAllTrades`).then(response => response);
 
-const changeRole = (userEmail, role) =>
+const changeRole = (userEmail) =>
   axios
-    .post(`${API_URL}/user/changeRole`, { email: userEmail, role })
+    .post(`${API_URL}/user/changeRole`, { params: { email: userEmail } })
     .then(response => response);
 
 const addPhone = (userEmail, phone) =>
@@ -61,4 +61,8 @@ export default {
   searchProUsers,
   getUserByEmail,
   getAllTrades,
+  changeRole,
+  addPhone,
+  addMailContact,
+  addComment
 };

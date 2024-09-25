@@ -125,13 +125,13 @@ const Profile = () => {
     const handleSwitchRole = () => {
         if (user.roles.length > 1) {
             const newRole = user.roles.find(role => role !== user.role);
-            api.changeRole(user.email, newRole)
-                .then(() => {
-                    setUser({...user, role: newRole});
-                })
-                .catch(error => {
-                    setError('No se pudo cambiar el rol. Por favor, intente nuevamente.');
-                });
+            api
+            .changeRole(user.email).then((response) => {
+                setUser({ ...user, role: newRole });
+            })
+            .catch(error => {
+                setError('No se pudo cambiar el rol. Por favor, intente nuevamente.');
+            });
         }
     };
 
