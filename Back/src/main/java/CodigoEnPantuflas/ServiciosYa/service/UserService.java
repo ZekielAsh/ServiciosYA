@@ -1,5 +1,4 @@
 package CodigoEnPantuflas.ServiciosYa.service;
-import CodigoEnPantuflas.ServiciosYa.dao.IContactMedia;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
@@ -15,13 +14,11 @@ import java.util.Set;
 public class UserService {
     @Autowired
     IUserDao userDao;
-    @Autowired
-    IContactMedia contactMediaDao;
 
     public User saveOrUpdate(User user){
+
         User savedUser = userDao.save(user);
         savedUser.setRoleAsCurrent(Mode.CLIENT);
-        savedUser.setContactMedia(user.getContactMedia());
         return userDao.save(savedUser);
     }
 
@@ -92,14 +89,12 @@ public class UserService {
     public User addPhone(String email, String phone) {
         User user = getByMail(email);
         user.addPhone(phone);
-        ContactMedia contact = contactMediaDao.save(user.getContactMedia());
         return saveOrUpdate(user);
     }
 
     public User addEmailContact(String email, String emailContact) {
         User user = getByMail(email);
         user.addMail(emailContact);
-        ContactMedia contact = contactMediaDao.save(user.getContactMedia());
         return saveOrUpdate(user);
     }
 }

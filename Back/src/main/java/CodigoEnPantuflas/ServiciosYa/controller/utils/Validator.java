@@ -1,12 +1,8 @@
 package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.ContactMediaDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
-import CodigoEnPantuflas.ServiciosYa.modelo.ContactMedia;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.util.regex.Pattern;
 
@@ -83,16 +79,6 @@ public class Validator {
         if ((commentDto.getText().length() > 150)){
             throw new IllegalArgumentException(COMMENT_LONG_MESSAGE);
         }
-    }
-
-    public void validateContactMedia(ContactMedia contactMedia){
-        String phone = contactMedia.getPhoneNumber();
-        String mail = contactMedia.getContactMail();
-        if (phone == null && mail == null){
-            throw new IllegalArgumentException("El Profesional no posee medios de contacto“");
-        }
-        this.validatePhoneNumber(contactMedia.getPhoneNumber());
-        this.validateMailNumber(contactMedia.getContactMail());
     }
 
     public void validatePassword(String actualPassword, String incomingPassword) {

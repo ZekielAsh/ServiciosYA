@@ -9,8 +9,9 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor
 @Entity
 public class Professional extends Role {
-    String district;
-    String trade;
+    private String district;
+    private String trade;
+
 
     @Override
     public Mode getMode() {

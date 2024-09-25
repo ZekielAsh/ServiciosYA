@@ -1,5 +1,4 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.ContactMediaDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.ProfessionalRegisterDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
@@ -77,13 +76,5 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
-    @GetMapping("/getContactMedia")
-    @CrossOrigin
-    public ResponseEntity<ContactMediaDto> getContactMedia(@RequestParam String email){
-        User user = userService.getByMail(email);
-        Validator.getInstance().validateContactMedia(user.getContactMediaOrCreate());
-        ContactMediaDto contactMediaDto = ObjectMapper.getInstance().convertContactMediaToContactMediaDto(user.getContactMediaOrCreate());
-        return ResponseEntity.status(HttpStatus.OK).body(contactMediaDto);
-    }
 
 }

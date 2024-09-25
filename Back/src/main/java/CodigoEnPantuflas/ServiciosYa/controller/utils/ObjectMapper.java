@@ -25,26 +25,16 @@ public class ObjectMapper {
 
     public UserDto convertUserToUserDto(User user){
         Set<RoleDto> userRolesDto = user.getUserRoles2().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-
-        ContactMediaDto contactMediaDto = convertContactMediaToContactMediaDto(user.getContactMediaOrCreate());
-
-        return new UserDto(user.getUserNickname(), user.getMail(), user.getNameOfCurrentRole(), user.getPassword(), userRolesDto, contactMediaDto);
+        return new UserDto(user.getUserNickname(), user.getMail(), user.getNameOfCurrentRole(), user.getPassword(), userRolesDto);
     }
 
-    public ContactMediaDto convertContactMediaToContactMediaDto(ContactMedia contactMedia) {
-        return new ContactMediaDto(contactMedia.getContactMail(), contactMedia.getPhoneNumber());
-    }
-
-    public ContactMedia convertContactMediaDtoToContactMedia(ContactMediaDto contactMediaDto){
-        return new ContactMedia(contactMediaDto.getContactMail(),contactMediaDto.getPhoneNumber());
-    }
 
     public RoleDto converRoleToRoleDto(Role role) {
         if(role.getMode() == Mode.CLIENT){
-            return new ClientDto("a");
+            return new ClientDto();
         } else{
             Professional professional = (Professional) role;
-            return new ProfessionalDto(professional.getDistrict(), professional.getTrade());
+            return new ProfessionalDto(professional.getDistrict(), professional.getTrade(), professional.getContactMail(), professional.getPhoneNumber());
         }
     }
 

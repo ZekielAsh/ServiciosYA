@@ -29,8 +29,6 @@ public class User implements UserDetails {
     private String mail;
     private String password;
     private String nameOfCurrentRole;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private ContactMedia contactMedia;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Comment>  comments;
@@ -93,10 +91,6 @@ public class User implements UserDetails {
                 .anyMatch(Role::isProfessional);
     }
 
-    public ContactMedia getContactMediaOrCreate(){
-        return this.getContactMedia() == null ? new ContactMedia() : this.getContactMedia();
-    }
-
     public Role findRoleWithMode(Mode mode){
         return  getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
     }
@@ -126,11 +120,21 @@ public class User implements UserDetails {
     }
 
     public void addPhone(String phone) {
-        this.getContactMediaOrCreate().setPhoneNumber(phone);
+        if(this.isAlreadyProfessional()){
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+            this.getCurrentRole().setPhoneNumber(phone);
+        }
     }
 
     public void addMail(String email) {
-        this.getContactMediaOrCreate().setContactMail(email);
+        if(this.isAlreadyProfessional()){
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+            this.getCurrentRole().setContactMail(email);
+        }
     }
+
+
+
+
 }
 

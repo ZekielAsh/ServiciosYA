@@ -14,14 +14,12 @@ public class UserDto {
     private Set<RoleDto> userRoles = new HashSet<RoleDto>();
     private String currentRolDto;
     private String password;
-    ContactMediaDto contactMediaDto;
 
-    public UserDto(String nickName, String email, String currentRolDto, String password, Set<RoleDto> userRoles,ContactMediaDto contactMediaDto) {
+    public UserDto(String nickName, String email, String currentRolDto, String password, Set<RoleDto> userRoles) {
         this.nickName = nickName;
         this.email = email;
         this.currentRolDto = currentRolDto;
         this.password = password;
-        this.contactMediaDto = contactMediaDto;
         this.userRoles = userRoles;
     }
 
