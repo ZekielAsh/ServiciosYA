@@ -37,7 +37,7 @@ public class AuthController {
         User registeredUser = userService.saveOrUpdate(user);
         AuthResponse token = authService.register(registeredUser);
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token.getToken());
+         headers.set("Authorization", token.getToken());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(registeredUser);
 
         // Se expone el encabezado de authorization del header para acceder desde el front.
