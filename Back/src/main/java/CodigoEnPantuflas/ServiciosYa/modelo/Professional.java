@@ -6,12 +6,21 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-@Getter @Setter @NoArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Professional extends Role {
     private String district;
     private String trade;
 
+    @Override
+    public String getTrade() {
+        return this.trade;
+    }
+
+    @Override
+    public String getDistrict(){
+        return this.district;
+    }
 
     @Override
     public Mode getMode() {

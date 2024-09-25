@@ -22,11 +22,13 @@ public class User implements UserDetails {
     @GeneratedValue
     private Long id = null;
 
+    @Column(unique = true, nullable = false) // 'mail' como campo único
+    private String mail;
+
     @Transient
     private Role currentRole;
 
     private String userNickname;
-    private String mail;
     private String password;
     private String nameOfCurrentRole;
 
@@ -34,7 +36,7 @@ public class User implements UserDetails {
     private Set<Comment>  comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> userRoles = new HashSet<Role>();
+    private Set<Role> userRoles = new HashSet<>();
 
 
     public User(String userNickname, String mail, String password){
@@ -69,8 +71,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    /** esto se hereda de UserDetails, deberia de ser el
-     userName pero como por modelo de negocio no es unique queda como email
+    /* esto se hereda de UserDetails, deberia de ser el
+     userName, pero como por modelo de negocio no es unique queda como email
      El objetivo es generar un token con el identificador unico del usuario*/
     public String getUsername() {
         return this.mail;

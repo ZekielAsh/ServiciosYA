@@ -13,9 +13,18 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const handleSubmitRegister = (username, password, email) => {
+  const handleSubmitRegister = (username, password, email, file) => {
+    const formData = new FormData();
+    formData.append("userName", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    
+    if (file) {
+      formData.append("dniImage", file); // La clave "dniImage" debe coincidir con lo que espera el backend
+    }
+
     api
-      .register({ userName: username, email: email, password: password })
+      .register(formData)
       .then(response => {
         setTokenToLocalStorage(response.headers["authorization"]);
         setUserRoleToLocalStorage(response.data.currentRolDto);

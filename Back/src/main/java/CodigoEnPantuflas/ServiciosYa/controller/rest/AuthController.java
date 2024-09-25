@@ -27,11 +27,17 @@ public class AuthController {
 
     @PostMapping("/register")
     @CrossOrigin
-    public ResponseEntity<UserDto> register(@RequestBody @Valid RegisterBody registerBody,
-                                            @RequestParam MultipartFile dniImage){
+    public ResponseEntity<UserDto> register(
+            @RequestParam("userName") String userName,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("dniImage") MultipartFile dniImage) {
+        // Validar que se ha subido una imagen
         if (dniImage.isEmpty()) {
             throw new RuntimeException("Tenes que cargar una foto");
         }
+        // Crear una instancia de RegisterBody con los campos recibidos
+        RegisterBody registerBody = new RegisterBody(userName, email, password);
         Validator.getInstance().validateRegisterBody(registerBody);
         User user = ObjectMapper.getInstance().convertRegisterBodyToUser(registerBody);
         User registeredUser = userService.saveOrUpdate(user);
@@ -40,7 +46,6 @@ public class AuthController {
         headers.set("Authorization", token.getToken());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(registeredUser);
 
-        // Se expone el encabezado de authorization del header para acceder desde el front.
         headers.setAccessControlExposeHeaders(Arrays.asList("Authorization"));
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userDto);

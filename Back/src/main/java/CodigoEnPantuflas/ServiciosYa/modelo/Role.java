@@ -19,7 +19,8 @@ public abstract class Role {
     private String contactMail;
     private String phoneNumber;
 
-
+    public abstract String getTrade();
+    public abstract String getDistrict();
     public abstract Mode getMode();
 
     public abstract Boolean isProfessional();

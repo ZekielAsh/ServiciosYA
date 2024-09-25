@@ -5,7 +5,7 @@ import RegisterPro from "../../components/registerProCard/RegisterProCard.jsx";
 import api from "../../services/api.js";
 import "./RegisterProPage.css";
 
-const RegisterPage = () => {
+const RegisterProPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [options, setOptions] = useState([]);
@@ -49,4 +49,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default RegisterProPage;
