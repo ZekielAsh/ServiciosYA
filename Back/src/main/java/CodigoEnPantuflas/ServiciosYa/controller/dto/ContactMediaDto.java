@@ -8,7 +8,4 @@ import lombok.Data;
 public class ContactMediaDto {
     String contactMail;
     String phoneNumber;
-    UserDto user;
-
-
 }

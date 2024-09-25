@@ -22,10 +22,9 @@ public class ContactMedia {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public ContactMedia(String contactMail,String phoneNumber,User user ){
+    public ContactMedia(String contactMail,String phoneNumber){
         this.contactMail = contactMail;
         this.phoneNumber = phoneNumber;
-        this.user = user;
     }
 
 }

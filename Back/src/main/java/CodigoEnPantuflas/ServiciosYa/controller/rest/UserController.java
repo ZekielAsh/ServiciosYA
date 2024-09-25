@@ -65,9 +65,7 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<UserDto> saveOrUpdatePhone(@RequestParam String email, @RequestParam String phone){
         Validator.getInstance().validatePhoneNumber(phone);
-        User user = userService.addPhone(email, phone);
-        userService.saveOrUpdate(user);
-        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(userService.addPhone(email, phone));
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
@@ -75,9 +73,7 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<UserDto> saveOrUpdateEmail(@RequestParam String email, @RequestParam String emailContact){
         Validator.getInstance().validateMailNumber(emailContact);
-        User user = userService.addEmailContact(email, emailContact);
-        userService.saveOrUpdate(user);
-        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(userService.addEmailContact(email, emailContact));
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
@@ -85,8 +81,8 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<ContactMediaDto> getContactMedia(@RequestParam String email){
         User user = userService.getByMail(email);
-        Validator.getInstance().validateContactMedia(user.getContactMedia());
-        ContactMediaDto contactMediaDto = ObjectMapper.getInstance().convertContactMediaToContactMediaDto(user.getContactMedia());
+        Validator.getInstance().validateContactMedia(user.getContactMediaOrCreate());
+        ContactMediaDto contactMediaDto = ObjectMapper.getInstance().convertContactMediaToContactMediaDto(user.getContactMediaOrCreate());
         return ResponseEntity.status(HttpStatus.OK).body(contactMediaDto);
     }
 

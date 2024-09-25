@@ -88,7 +88,7 @@ public class Validator {
     public void validateContactMedia(ContactMedia contactMedia){
         String phone = contactMedia.getPhoneNumber();
         String mail = contactMedia.getContactMail();
-        if (phone.isBlank() && mail.isBlank()){
+        if (phone == null && mail == null){
             throw new IllegalArgumentException("El Profesional no posee medios de contacto“");
         }
         this.validatePhoneNumber(contactMedia.getPhoneNumber());

@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.HashSet;
 import java.util.Set;
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class UserDto {
     private String nickName;
     private String email;
@@ -15,5 +15,14 @@ public class UserDto {
     private String currentRolDto;
     private String password;
     ContactMediaDto contactMediaDto;
+
+    public UserDto(String nickName, String email, String currentRolDto, String password, Set<RoleDto> userRoles,ContactMediaDto contactMediaDto) {
+        this.nickName = nickName;
+        this.email = email;
+        this.currentRolDto = currentRolDto;
+        this.password = password;
+        this.contactMediaDto = contactMediaDto;
+        this.userRoles = userRoles;
+    }
 
 }

@@ -92,13 +92,14 @@ public class UserService {
     public User addPhone(String email, String phone) {
         User user = getByMail(email);
         user.addPhone(phone);
-        contactMediaDao.save(user.getContactMedia());
-        return userDao.save(user);
+        ContactMedia contact = contactMediaDao.save(user.getContactMedia());
+        return saveOrUpdate(user);
     }
 
     public User addEmailContact(String email, String emailContact) {
         User user = getByMail(email);
-        user.addMail(email);
-        return userDao.save(user);
+        user.addMail(emailContact);
+        ContactMedia contact = contactMediaDao.save(user.getContactMedia());
+        return saveOrUpdate(user);
     }
 }

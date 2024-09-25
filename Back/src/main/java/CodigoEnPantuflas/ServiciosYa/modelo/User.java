@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String mail;
     private String password;
     private String nameOfCurrentRole;
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ContactMedia contactMedia;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -49,6 +49,13 @@ public class User implements UserDetails {
         nameOfCurrentRole = currentRole.getMode().name();
         comments = new HashSet<>();
     }
+
+
+    public Set<Role> getUserRoles2(){
+        return this.userRoles;
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
@@ -86,6 +93,10 @@ public class User implements UserDetails {
                 .anyMatch(Role::isProfessional);
     }
 
+    public ContactMedia getContactMediaOrCreate(){
+        return this.getContactMedia() == null ? new ContactMedia() : this.getContactMedia();
+    }
+
     public Role findRoleWithMode(Mode mode){
         return  getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
     }
@@ -115,17 +126,11 @@ public class User implements UserDetails {
     }
 
     public void addPhone(String phone) {
-        if(this.getContactMedia() == null){
-            this.setContactMedia(new ContactMedia());
-        }
-        this.contactMedia.setPhoneNumber(phone);
+        this.getContactMediaOrCreate().setPhoneNumber(phone);
     }
 
     public void addMail(String email) {
-        if(this.getContactMedia() == null){
-            this.setContactMedia(new ContactMedia());
-        }
-        this.getContactMedia().setContactMail(email);
+        this.getContactMediaOrCreate().setContactMail(email);
     }
 }
 
