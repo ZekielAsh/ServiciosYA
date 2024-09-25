@@ -11,6 +11,16 @@ public class Client extends Role {
     }
 
     @Override
+    public String getTrade() {
+        return "";
+    }
+
+    @Override
+    public String getDistrict(){
+        return "";
+    }
+
+    @Override
     public Mode getMode() {
         return Mode.CLIENT;
     }

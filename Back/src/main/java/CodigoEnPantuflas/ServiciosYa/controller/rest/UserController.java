@@ -76,5 +76,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
+    @GetMapping("/getContactMedia")
+    @CrossOrigin
+    public ResponseEntity<UserDto> getContactMedia(@RequestParam String email){
+        User user = userService.getByMail(email);
+        Validator.getInstance().validateContactMedia(user);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
 
 }

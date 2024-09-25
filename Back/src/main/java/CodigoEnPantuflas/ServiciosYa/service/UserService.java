@@ -15,7 +15,7 @@ public class UserService {
     public User saveOrUpdate(User user){
 
         User savedUser = userDao.save(user);
-        savedUser.setRoleAsCurrent(Mode.CLIENT);
+        savedUser.setRoleAsCurrent(user.getCurrentRole().getMode());
         return userDao.save(savedUser);
     }
 
@@ -44,7 +44,6 @@ public class UserService {
             user.setCurrentRole(new Professional(user, district, trade));
         }
         user.setMail(mail);
-        System.out.println(user.getMail());
         return userDao.save(user);
     }
 

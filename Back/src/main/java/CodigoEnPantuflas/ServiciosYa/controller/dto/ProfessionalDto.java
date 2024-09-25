@@ -14,10 +14,11 @@ public class ProfessionalDto implements RoleDto {
     private String trade;
     private String contactMail;
     private String phoneNumber;
-
+    private String role;
     public ProfessionalDto(String district, String trade) {
         this.trade = trade;
         this.district = district;
+        role = "PROFESSIONAL";
     }
 }
 

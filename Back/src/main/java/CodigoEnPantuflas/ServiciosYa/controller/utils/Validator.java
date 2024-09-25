@@ -3,6 +3,7 @@ package CodigoEnPantuflas.ServiciosYa.controller.utils;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
+import CodigoEnPantuflas.ServiciosYa.modelo.User;
 
 import java.util.regex.Pattern;
 
@@ -90,6 +91,12 @@ public class Validator {
     public void validateMailNumber(String email) {
         if(!email.contains("@")){
             throw new IllegalArgumentException("El correo electronico debe tener arroba");
+        }
+    }
+
+    public void validateContactMedia(User user) {
+        if (user.getCurrentRole().getContactMail() == null && user.getCurrentRole().getPhoneNumber() == null){
+            throw new IllegalArgumentException("El Profesional no posee medios de contacto");
         }
     }
 }
