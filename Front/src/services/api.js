@@ -34,20 +34,21 @@ const getUserByEmail = userEmail =>
 const getAllTrades = () =>
   axios.get(`${API_URL}/trades/getAllTrades`).then(response => response);
 
-const changeRole = (userEmail) =>
+const changeRole = userEmail =>
   axios
-    .post(`${API_URL}/user/changeRole?email=${userEmail}`)  // Enviar el email como parámetro en la URL
+    .post(`${API_URL}/user/changeRole?email=${userEmail}`) // Enviar el email como parámetro en la URL
     .then(response => response);
 
 const addPhone = (email, phone) =>
   axios
     .post(`${API_URL}/user/addPhone?email=${email}&phone=${phone}`)
     .then(response => response);
-  
+
 const addMailContact = (userEmail, emailContact) =>
-  console.log(userEmail, emailContact); 
   axios
-    .post(`${API_URL}/user/addMailContact?email=${userEmail}&emailContact=${emailContact}`)
+    .post(
+      `${API_URL}/user/addMailContact?email=${userEmail}&emailContact=${emailContact}`
+    )
     .then(response => response);
 
 const addComment = (comment, userEmail) =>
@@ -65,5 +66,5 @@ export default {
   changeRole,
   addPhone,
   addMailContact,
-  addComment
+  addComment,
 };
