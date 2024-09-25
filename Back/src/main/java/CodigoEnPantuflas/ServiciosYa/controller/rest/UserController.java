@@ -2,6 +2,7 @@ package CodigoEnPantuflas.ServiciosYa.controller.rest;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.ProfessionalRegisterDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
+import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,22 @@ public class UserController {
     public ResponseEntity<UserDto> changeUserRole(@RequestParam String email) {
         User user = userService.changeUserRole(email);
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
+    @PostMapping("/addPhone")
+    @CrossOrigin
+    public ResponseEntity<UserDto> saveOrUpdatePhone(@RequestParam String email, @RequestParam String phone){
+        Validator.getInstance().validatePhoneNumber(phone);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(userService.addPhone(email, phone));
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
+    @PostMapping("/addMailContact")
+    @CrossOrigin
+    public ResponseEntity<UserDto> saveOrUpdateEmail(@RequestParam String email, @RequestParam String emailContact){
+        Validator.getInstance().validateMailNumber(emailContact);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(userService.addEmailContact(email, emailContact));
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 

@@ -16,9 +16,10 @@ public class UserService {
     IUserDao userDao;
 
     public User saveOrUpdate(User user){
+
         User savedUser = userDao.save(user);
         savedUser.setRoleAsCurrent(Mode.CLIENT);
-        return savedUser;
+        return userDao.save(savedUser);
     }
 
     public User createUserWithRoles() {
@@ -83,5 +84,17 @@ public class UserService {
         User user = getByMail(userEmail);
         user.switchRole();
         return userDao.save(user);
+    }
+
+    public User addPhone(String email, String phone) {
+        User user = getByMail(email);
+        user.addPhone(phone);
+        return saveOrUpdate(user);
+    }
+
+    public User addEmailContact(String email, String emailContact) {
+        User user = getByMail(email);
+        user.addMail(emailContact);
+        return saveOrUpdate(user);
     }
 }

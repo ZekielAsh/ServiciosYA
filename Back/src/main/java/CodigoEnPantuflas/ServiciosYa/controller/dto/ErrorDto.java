@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ErrorDto {
-    String status;
-    Integer error;
-
+    String error;
+    Integer status;
 }
