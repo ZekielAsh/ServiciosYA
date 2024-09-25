@@ -8,7 +8,6 @@ import { handleLogOut } from "../../services/auth/ProtectedRoute";
 const Navbar = ({ user, handleSearch }) => {
   const role = localStorage.getItem("role");
   const email = localStorage.getItem("email"); 
-  console.log(email);
 
   return (
     <nav className="nav-container">
