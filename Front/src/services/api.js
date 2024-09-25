@@ -36,18 +36,20 @@ const getAllTrades = () =>
 
 const changeRole = (userEmail) =>
   axios
-    .post(`${API_URL}/user/changeRole`, { params: { email: userEmail } })
+    .post(`${API_URL}/user/changeRole?email=${userEmail}`)  // Enviar el email como parámetro en la URL
     .then(response => response);
 
 const addPhone = (userEmail, phone) =>
   axios
-    .post(`${API_URL}/user/addPhone`, { email: userEmail, phone })
+    .post(`${API_URL}/user/addPhone?email=${userEmail}&phone=${phone}`)
     .then(response => response);
-
-const addMailContact = (userEmail, ContactMail) =>
-  axios
-    .post(`${API_URL}/user/addMailContact`, { email: userEmail, ContactMail })
-    .then(response => response);
+  
+    const addMailContact = (userEmail, contactMail) =>
+      axios
+        .post(`${API_URL}/user/addMailContact`, null, {
+          params: { email: userEmail, contactMail }
+        })
+        .then(response => response);
 
 const addComment = (comment, userEmail) =>
   axios

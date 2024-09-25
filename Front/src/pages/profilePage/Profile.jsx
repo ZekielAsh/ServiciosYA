@@ -33,19 +33,22 @@ const Profile = () => {
                     //Esta constante deberia obtener el rol profesional de la lista de userRoles
                     const userResp = response.data.userRoles;
                     console.log(userResp);
+                    //console.log(response.data);
                     setUser({
                         username: response.data.nickName,
                         token: token,
                         email: currentUserEmail,
                         district: userResp.find(role => role.role == "PROFESSIONAL").district,
+                        //trade: response.data.getTrade(),
                         trade: userResp.find(role => role.role == "PROFESSIONAL").trade,
                         roles: userResp.map(role => role.role),
                         role: response.data.currentRolDto
                     });
                     // Simular la obtención de la información de contacto del perfil visitado
+                    console.log(response.data)
                     setContactInfo({
                         phone: response.data.contactInfo.phone || "",
-                        email: response.data.contactInfo.email || ""
+                        email: response.data.contactInfo.contactMail || ""
                     });
                     // Simular la obtención de reseñas del backend
                     setReviews(response.data.reviews || []);
@@ -141,14 +144,29 @@ const Profile = () => {
     };
 
     const saveContactInfo = () => {
-        api.updateContactInfo(contactInfo)
+        const { email, phone, emailContact } = contactInfo; // Asegúrate de que contactInfo tenga estas propiedades
+    
+        // Actualiza el número de teléfono
+        api.addPhone(email, phone)
             .then(() => {
+                console.log('Número de teléfono actualizado.');
+            })
+            .catch(error => {
+                setError('No se pudo actualizar el número de teléfono.');
+            });
+    
+        // Actualiza el correo de contacto
+        api.addMailContact(email, emailContact)
+            .then(() => {
+                console.log('Correo de contacto actualizado.');
                 setIsEditing(false);
             })
             .catch(error => {
-                setError('No se pudo actualizar la información de contacto.');
+                console.error('Error al actualizar el correo de contacto:', error.response ? error.response.data : error.message);
+                setError('No se pudo actualizar el correo de contacto.');
             });
     };
+    
 
     const renderContactInfo = () => {
         const currentUserEmail = getUserEmailFromLocalStorage();
