@@ -83,12 +83,14 @@ public class Validator {
     }
 
     public void validatePassword(String actualPassword, String incomingPassword) {
+        if (incomingPassword.isEmpty()) return;
         if (!actualPassword.equals(incomingPassword)){
             throw new IllegalArgumentException(WRONG_EMAIL_OR_PASSWORD);
         }
     }
 
     public void validateMailNumber(String email) {
+        if (email.isEmpty()) return;
         if(!email.contains("@")){
             throw new IllegalArgumentException("El correo electronico debe tener arroba");
         }
