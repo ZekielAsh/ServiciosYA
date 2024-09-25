@@ -16,11 +16,12 @@ public abstract class Role {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    private String contactMail;
+    private String phoneNumber;
 
 
     public abstract Mode getMode();
 
     public abstract Boolean isProfessional();
-
 
 }

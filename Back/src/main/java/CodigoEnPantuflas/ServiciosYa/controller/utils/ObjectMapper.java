@@ -2,10 +2,7 @@ package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
-import CodigoEnPantuflas.ServiciosYa.modelo.Comment;
-import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
-import CodigoEnPantuflas.ServiciosYa.modelo.Role;
-import CodigoEnPantuflas.ServiciosYa.modelo.User;
+import CodigoEnPantuflas.ServiciosYa.modelo.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,17 +24,17 @@ public class ObjectMapper {
     }
 
     public UserDto convertUserToUserDto(User user){
-        Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
-        return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword());
+        Set<RoleDto> userRolesDto = user.getUserRoles2().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
+        return new UserDto(user.getUserNickname(), user.getMail(), user.getNameOfCurrentRole(), user.getPassword(), userRolesDto);
     }
 
 
     public RoleDto converRoleToRoleDto(Role role) {
         if(role.getMode() == Mode.CLIENT){
-            return new ClientDto("a");
+            return new ClientDto();
         } else{
             Professional professional = (Professional) role;
-            return new ProfessionalDto(professional.getDistrict(), professional.getTrade());
+            return new ProfessionalDto(professional.getDistrict(), professional.getTrade(), professional.getContactMail(), professional.getPhoneNumber());
         }
     }
 
@@ -51,12 +48,14 @@ public class ObjectMapper {
     }
 
     public User convertUserDtoToUser(UserDto userDto){
-        User user = new User(userDto.getNickName(), userDto.getEmail(), userDto.getPassword());
-        return user;
+        return new User(userDto.getNickName(), userDto.getEmail(), userDto.getPassword());
     }
 
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
+
+
+
 
 }

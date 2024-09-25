@@ -9,12 +9,9 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor
 @Entity
 public class Professional extends Role {
-    String district;
-    String trade;
-    @Email(message = "El formato del correo electrónico no es válido.")
-    private String contactMail;
-    @Pattern(regexp = "^\\d{8}$", message = "El número de teléfono debe tener exactamente 8 dígitos sin guiones.")
-    private String phoneNumber;
+    private String district;
+    private String trade;
+
 
     @Override
     public Mode getMode() {

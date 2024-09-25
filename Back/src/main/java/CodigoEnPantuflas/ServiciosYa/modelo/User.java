@@ -1,3 +1,4 @@
+
 package CodigoEnPantuflas.ServiciosYa.modelo;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import jakarta.persistence.*;
@@ -49,6 +50,12 @@ public class User implements UserDetails {
         comments = new HashSet<>();
     }
 
+
+    public Set<Role> getUserRoles2(){
+        return this.userRoles;
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Este metodo tiene que ver con el jwtToken, deberia de devolver los roles en token para el front
@@ -86,6 +93,10 @@ public class User implements UserDetails {
                 .anyMatch(Role::isProfessional);
     }
 
+    public Role findRoleWithMode(Mode mode){
+        return  getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
+    }
+
     public  void setRoleAsCurrent(Mode mode) {
         Role clientRole = getUserRoles().stream().filter(rol -> rol.getMode().name() == mode.name()).findFirst().get();
         this.setCurrentRole(clientRole);
@@ -109,5 +120,23 @@ public class User implements UserDetails {
             this.setRoleAsCurrent(Mode.PROFESSIONAL);
         }
     }
+
+    public void addPhone(String phone) {
+        if(this.isAlreadyProfessional()){
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+            this.getCurrentRole().setPhoneNumber(phone);
+        }
+    }
+
+    public void addMail(String email) {
+        if(this.isAlreadyProfessional()){
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+            this.getCurrentRole().setContactMail(email);
+        }
+    }
+
+
+
+
 }
 

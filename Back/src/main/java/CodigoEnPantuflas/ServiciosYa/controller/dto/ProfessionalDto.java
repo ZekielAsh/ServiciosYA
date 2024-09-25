@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfessionalDto implements RoleDto {
-    String district;
-    String trade;
+    private String district;
+    private String trade;
+    private String contactMail;
+    private String phoneNumber;
 
-    @Override
-    public String getRole() {
-        return "Profesional";
+    public ProfessionalDto(String district, String trade) {
+        this.trade = trade;
+        this.district = district;
     }
 }
 

@@ -1,5 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
+import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
 
@@ -14,7 +15,8 @@ public class Validator {
     private static final String PASSWORD_EMPTY_MESSAGE = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
     private static final String NAME_EMPTY_MESSAGE = "El nombre no puede estar en blanco";
     private static final String WRONG_EMAIL_OR_PASSWORD = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
-    private static final String EMPTY_DNI_IMAGE = "carga la foto rey";
+    private static final String COMMENT_EMPTY_MESSAGE = "El comentario no puede estar vacío.";
+    private static final String COMMENT_LONG_MESSAGE =  "El mensaje excedio el limite de 150 caracteres. Pruebe con un mensaje mas corto.";
 
     private static volatile Validator instance;
 
@@ -64,9 +66,30 @@ public class Validator {
         }
     }
 
+    public void validatePhoneNumber(String phoneNumber) {
+        if (!phoneNumber.matches("\\d{8}")) {  // Verifica que tenga exactamente 8 dígitos
+            throw new IllegalArgumentException("El número de teléfono debe tener exactamente 8 dígitos sin guiones.");
+        }
+    }
+
+    public void validateComment(CommentDto commentDto) {
+        if (commentDto.getText().isBlank()) {
+            throw new IllegalArgumentException(COMMENT_EMPTY_MESSAGE);
+        }
+        if ((commentDto.getText().length() > 150)){
+            throw new IllegalArgumentException(COMMENT_LONG_MESSAGE);
+        }
+    }
+
     public void validatePassword(String actualPassword, String incomingPassword) {
         if (!actualPassword.equals(incomingPassword)){
             throw new IllegalArgumentException(WRONG_EMAIL_OR_PASSWORD);
+        }
+    }
+
+    public void validateMailNumber(String email) {
+        if(!email.contains("@")){
+            throw new IllegalArgumentException("El correo electronico debe tener arroba");
         }
     }
 }
