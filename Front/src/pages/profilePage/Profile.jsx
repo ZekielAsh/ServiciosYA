@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { getTokenFromLocalStorage, getUserEmailFromLocalStorage } from "../../utils/localStorage";
 import { handleLogOut } from "../../services/auth/ProtectedRoute";
@@ -11,6 +12,7 @@ const Profile = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [modalMessage, setModalMessage] = useState("");
     const [contactInfo, setContactInfo] = useState({
         phone: "",
         email: ""
@@ -28,13 +30,15 @@ const Profile = () => {
           api
             .getUserByEmail(currentUserEmail )
                 .then(response => {
+                    //Esta constante deberia obtener el rol profesional de la lista de userRoles
                     const userResp = response.data.userRoles;
+                    console.log(userResp);
                     setUser({
                         username: response.data.nickName,
                         token: token,
                         email: currentUserEmail,
-                        district: userResp[0].district,
-                        trade: userResp[0].trade,
+                        district: userResp.find(role => role.role == "PROFESSIONAL").district,
+                        trade: userResp.find(role => role.role == "PROFESSIONAL").trade,
                         roles: userResp.map(role => role.role),
                         role: response.data.currentRolDto
                     });
@@ -43,7 +47,6 @@ const Profile = () => {
                         phone: response.data.contactInfo.phone || "",
                         email: response.data.contactInfo.email || ""
                     });
-
                     // Simular la obtención de reseñas del backend
                     setReviews(response.data.reviews || []);
                 console.log(userResp);
@@ -122,7 +125,7 @@ const Profile = () => {
     const handleSwitchRole = () => {
         if (user.roles.length > 1) {
             const newRole = user.roles.find(role => role !== user.role);
-            api.switchRole(newRole)
+            api.changeRole(user.email, newRole)
                 .then(() => {
                     setUser({...user, role: newRole});
                 })
@@ -238,7 +241,7 @@ const Profile = () => {
                             <h2>{user.username}</h2>
                         </div>
                         <div>
-                            {renderOptions()};
+                            {renderOptions()}
                         </div>
                 
                     </div>

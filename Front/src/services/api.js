@@ -34,6 +34,26 @@ const getUserByEmail = userEmail =>
 const getAllTrades = () =>
   axios.get(`${API_URL}/trades/getAllTrades`).then(response => response);
 
+const changeRole = (userEmail, role) =>
+  axios
+    .post(`${API_URL}/user/changeRole`, { email: userEmail, role })
+    .then(response => response);
+
+const addPhone = (userEmail, phone) =>
+  axios
+    .post(`${API_URL}/user/addPhone`, { email: userEmail, phone })
+    .then(response => response);
+
+const addMailContact = (userEmail, ContactMail) =>
+  axios
+    .post(`${API_URL}/user/addMailContact`, { email: userEmail, ContactMail })
+    .then(response => response);
+
+const addComment = (comment, userEmail) =>
+  axios
+    .post(`${API_URL}/comments/addComment`, { comment, userEmail })
+    .then(response => response);
+
 export default {
   login,
   register,

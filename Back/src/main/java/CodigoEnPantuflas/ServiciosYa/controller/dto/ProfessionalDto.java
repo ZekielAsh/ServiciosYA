@@ -1,7 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.controller.dto;
 
-import CodigoEnPantuflas.ServiciosYa.modelo.Professional;
-import CodigoEnPantuflas.ServiciosYa.modelo.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +13,12 @@ public class ProfessionalDto implements RoleDto {
     private String contactMail;
     private String phoneNumber;
     private String role;
-    public ProfessionalDto(String district, String trade) {
-        this.trade = trade;
+
+    public ProfessionalDto(String district, String trade, String contactMail, String phoneNumber) {
         this.district = district;
+        this.trade = trade;
+        this.contactMail = contactMail;
+        this.phoneNumber = phoneNumber;
         role = "PROFESSIONAL";
     }
 }
