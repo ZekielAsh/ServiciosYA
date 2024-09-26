@@ -13,10 +13,7 @@ public class UserService {
     IUserDao userDao;
 
     public User saveOrUpdate(User user){
-
-        User savedUser = userDao.save(user);
-        savedUser.setRoleAsCurrent(user.getCurrentRole().getMode());
-        return userDao.save(savedUser);
+        return userDao.save(user);
     }
 
     public User createUserWithRoles() {
@@ -41,18 +38,16 @@ public class UserService {
         } else {
             String district = userDao.findProfessionalDistrictByEmail(mail);
             String trade = userDao.findProfessionalTradeByEmail(mail);
-            user.setCurrentRole(new Professional(user, district, trade));
+            user.setCurrentRole(new Professional(district, trade));
         }
         user.setMail(mail);
         return userDao.save(user);
     }
 
-    public User addProfessionalRole(String email, String distric, String incomingTrade){
+    public User addProfessionalRole(String email, String district, String incomingTrade){
         User user = getByMail(email);
-        Trades trade = parseTrade(incomingTrade);
         checkIfTheUserIsProfessional(user);
-        user.addProfessionalRole(distric, trade);
-        user.setRoleAsCurrent(Mode.PROFESSIONAL);
+        user.addProfessionalRole(district, incomingTrade);
         return userDao.save(user);
     }
 

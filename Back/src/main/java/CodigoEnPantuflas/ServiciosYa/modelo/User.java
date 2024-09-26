@@ -103,10 +103,10 @@ public class User implements UserDetails {
         nameOfCurrentRole = clientRole.getMode().name();
     }
 
-    public void addProfessionalRole(String distric, Trades trade) {
-        Role role = new Professional(this, distric, trade.getClass().getName());
-        this.getUserRoles().add(role);
-        this.setCurrentRole(role);
+    public void addProfessionalRole(String distric, String trade) {
+        Role role = new Professional(distric, trade);
+        this.userRoles.add(role);
+        this.setRoleAsCurrent(Mode.PROFESSIONAL);
     }
 
     public void addNewComment(Comment comment) {

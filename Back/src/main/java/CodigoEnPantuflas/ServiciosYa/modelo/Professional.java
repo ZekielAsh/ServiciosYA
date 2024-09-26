@@ -32,10 +32,9 @@ public class Professional extends Role {
         return true;
     }
 
-    public Professional(User user, String district, String trade) {
+    public Professional(String district, String trade) {
         this.district = district;
         this.trade = trade;
-        this.setUser(user);
     }
 
 }
