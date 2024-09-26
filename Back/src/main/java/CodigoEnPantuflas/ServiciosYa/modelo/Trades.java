@@ -1,0 +1,6 @@
+package CodigoEnPantuflas.ServiciosYa.modelo;
+
+
+public enum Trades {
+    PLOMERO, ELECTRICISTA, ALBANIL, CARPINTERO, CERRAJERO, GASISTA, TAPICERO, TECHISTA, JARDINERO, FUMIGADOR
+}

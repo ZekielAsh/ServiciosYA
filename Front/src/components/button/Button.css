@@ -1,0 +1,47 @@
+button {
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 21.78px;
+  font-weight: 700;
+}
+
+.button-rectangle {
+  min-height: 46px;
+  min-width: 100px;
+  border: solid 1px;
+  border-radius: 4px;
+  padding: 0px 8px;
+  gap: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-circle {
+  height: 46px;
+  width: 46px;
+  border: none;
+  border-radius: 50%;
+  padding: 0px 8px;
+  gap: 10px;
+  /* para que los iconos esten centrados */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-primary {
+  color: var(--color-white);
+  background-color: var(--color-blue-dark);
+}
+
+.button-client {
+  color: var(--color-white);
+  background-color: var(--color-client);
+}
+
+.button-pro {
+  color: var(--color-white);
+  background-color: var(--color-pro);
+}

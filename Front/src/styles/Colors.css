@@ -1,0 +1,16 @@
+:root {
+  --color-grey: #b0b0b4; /* borders */
+  --color-grey-light: #dcdcdc; /* borders */
+  --color-white: #f0f0f0; /* backgrounds */
+  --color-blue-dark: #2b2c7c; /* bottons */
+
+  --color-black-primary: #000000;
+  --color-black-secondary: #121212;
+  --color-black-tertiary: #222222;
+
+  --color-client: #196f3d;
+  --color-pro: #943126;
+}
+
+/* Pienso agregar mas colores, estos estan buenos */
+/* #040404  #343c4b  #2b2c7c  #c3c3c3  #5c5c5c  #7c7c7c  #212558  #131532  */
