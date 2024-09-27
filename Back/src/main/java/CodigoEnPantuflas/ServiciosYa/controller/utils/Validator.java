@@ -68,6 +68,7 @@ public class Validator {
     }
 
     public void validatePhoneNumber(String phoneNumber) {
+        if (phoneNumber.isEmpty()) return;
         if (!phoneNumber.matches("\\d{8}")) {  // Verifica que tenga exactamente 8 dígitos
             throw new IllegalArgumentException("El número de teléfono debe tener exactamente 8 dígitos sin guiones.");
         }
@@ -83,12 +84,14 @@ public class Validator {
     }
 
     public void validatePassword(String actualPassword, String incomingPassword) {
+
         if (!actualPassword.equals(incomingPassword)){
             throw new IllegalArgumentException(WRONG_EMAIL_OR_PASSWORD);
         }
     }
 
     public void validateMailNumber(String email) {
+        if (email.isEmpty()) return;
         if(!email.contains("@")){
             throw new IllegalArgumentException("El correo electronico debe tener arroba");
         }
