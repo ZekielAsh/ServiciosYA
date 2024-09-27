@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import CommentSection from "../../components/commentSection/CommentSection";
 import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
+import Modal from "../../components/modal/Modal";
 import api from "../../services/api";
 
 const Profile = () => {
@@ -119,6 +120,7 @@ const Profile = () => {
         .changeRole(user.email)
         .then(response => {
           setUser({ ...user, role: newRole });
+          setModalMessage("Rol cambiado con éxito.");
         })
         .catch(error => {
           setError("No se pudo cambiar el rol. Por favor, intente nuevamente.");
@@ -230,6 +232,9 @@ const Profile = () => {
       <div>
         <button onClick={handleButton}>{buttonLabel()} </button>
       </div>
+      {modalMessage && (
+        <Modal message={modalMessage} setModalMessage={setModalMessage} />
+      )}
     </>
   );
 };
