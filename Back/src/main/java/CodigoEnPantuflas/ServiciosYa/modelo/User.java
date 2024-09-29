@@ -104,7 +104,7 @@ public class User implements UserDetails {
     }
 
     public void addProfessionalRole(String distric, String trade) {
-        Role role = new Professional(distric, trade);
+        Role role = new Professional(this, distric, trade);
         this.userRoles.add(role);
         this.setRoleAsCurrent(Mode.PROFESSIONAL);
     }
