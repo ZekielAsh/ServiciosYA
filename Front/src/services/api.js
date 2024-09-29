@@ -2,20 +2,14 @@ import axios from "axios";
 
 export const API_URL = "http://localhost:8080";
 
-// ############################## USERS ##############################
+/* ############################## USERS ############################## */
 
-// el objeto user tiene que tener las siguientes claves y valor que quieras:
-// {userName, password, email}
 const login = user =>
   axios.post(`${API_URL}/auth/login`, user).then(response => response);
 
-// el objeto user tiene que tener las siguientes claves y valor que quieras:
-// {userName, password, email} falta ver como agregar la imagen con archivo
 const register = user =>
   axios.post(`${API_URL}/auth/register`, user).then(response => response);
 
-// el objeto userRegisted tiene que tener las siguientes claves y valor que quieras:
-// {email, district, trade}
 const registerPro = userRegisted =>
   axios
     .post(`${API_URL}/user/addProfessionalRole`, userRegisted)
@@ -31,13 +25,19 @@ const getUserByEmail = userEmail =>
     .get(`${API_URL}/user/getByEmail`, { params: { email: userEmail } })
     .then(response => response);
 
-const getAllTrades = () =>
-  axios.get(`${API_URL}/trades/getAllTrades`).then(response => response);
-
+// CAMBIAR NOMBRE A changeUserRole?
+// TA MAL
 const changeRole = userEmail =>
   axios
     .post(`${API_URL}/user/changeRole?email=${userEmail}`) // Enviar el email como parámetro en la URL
     .then(response => response);
+
+/* ############################## TRADES ############################## */
+
+const getAllTrades = () =>
+  axios.get(`${API_URL}/trades/getAllTrades`).then(response => response);
+
+/* ############################## CONTACT INFO ############################## */
 
 const addPhone = (email, phone) =>
   axios
@@ -51,20 +51,31 @@ const addMailContact = (userEmail, emailContact) =>
     )
     .then(response => response);
 
+/* ############################## COMMENTS ############################## */
+
+const getComments = userEmail =>
+  axios
+    .get(`${API_URL}/comments/profile`, { params: { email: userEmail } })
+    .then(response => response);
+
+// PEDIR AL BACK QUE SOLO SE PASE EL STRING DEL COMENTARIO
 const addComment = (comment, userEmail) =>
   axios
     .post(`${API_URL}/comments/addComment`, { comment, userEmail })
     .then(response => response);
 
+// FALTA AGREGAR EL ENDPOINT PARA OBTENER LAS REVIEWS DE UN USUARIO
+
 export default {
-  login,
-  register,
-  registerPro,
-  searchProUsers,
   getUserByEmail,
-  getAllTrades,
-  changeRole,
-  addPhone,
+  searchProUsers,
   addMailContact,
+  getAllTrades,
+  getComments,
+  registerPro,
+  changeRole,
   addComment,
+  addPhone,
+  register,
+  login,
 };
