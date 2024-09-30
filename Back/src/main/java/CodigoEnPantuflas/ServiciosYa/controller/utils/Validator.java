@@ -3,6 +3,7 @@ package CodigoEnPantuflas.ServiciosYa.controller.utils;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
+import CodigoEnPantuflas.ServiciosYa.modelo.User;
 
 import java.util.regex.Pattern;
 
@@ -67,29 +68,38 @@ public class Validator {
     }
 
     public void validatePhoneNumber(String phoneNumber) {
+        if (phoneNumber.isEmpty()) return;
         if (!phoneNumber.matches("\\d{8}")) {  // Verifica que tenga exactamente 8 dígitos
             throw new IllegalArgumentException("El número de teléfono debe tener exactamente 8 dígitos sin guiones.");
         }
     }
 
-    public void validateComment(CommentDto commentDto) {
-        if (commentDto.getText().isBlank()) {
+    public void validateComment(String comment) {
+        if (comment.isBlank()) {
             throw new IllegalArgumentException(COMMENT_EMPTY_MESSAGE);
         }
-        if ((commentDto.getText().length() > 150)){
+        if ((comment.length() > 150)){
             throw new IllegalArgumentException(COMMENT_LONG_MESSAGE);
         }
     }
 
     public void validatePassword(String actualPassword, String incomingPassword) {
+
         if (!actualPassword.equals(incomingPassword)){
             throw new IllegalArgumentException(WRONG_EMAIL_OR_PASSWORD);
         }
     }
 
     public void validateMailNumber(String email) {
+        if (email.isEmpty()) return;
         if(!email.contains("@")){
             throw new IllegalArgumentException("El correo electronico debe tener arroba");
+        }
+    }
+
+    public void validateContactMedia(User user) {
+        if (user.getCurrentRole().getContactMail() == null && user.getCurrentRole().getPhoneNumber() == null){
+            throw new IllegalArgumentException("El Profesional no posee medios de contacto");
         }
     }
 }

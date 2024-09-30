@@ -2,12 +2,9 @@ package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -16,10 +13,7 @@ public class UserService {
     IUserDao userDao;
 
     public User saveOrUpdate(User user){
-
-        User savedUser = userDao.save(user);
-        savedUser.setRoleAsCurrent(Mode.CLIENT);
-        return userDao.save(savedUser);
+        return userDao.save(user);
     }
 
     public User createUserWithRoles() {
@@ -33,7 +27,6 @@ public class UserService {
         user.setNameOfCurrentRole("CLIENT");
         user.setCurrentRole(new Client());
 
-        // Guardar usuario (esto también guardará los roles por el CascadeType.ALL)
         return userDao.save(user);
     }
 
@@ -42,22 +35,20 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
         if (user.getNameOfCurrentRole() == "CLIENT"){
             user.setCurrentRole( new Client());
-        }else{
+        } else {
             String district = userDao.findProfessionalDistrictByEmail(mail);
             String trade = userDao.findProfessionalTradeByEmail(mail);
-            user.setCurrentRole(new Professional(user, district, trade));
+            user.setCurrentRole(new Professional(district, trade));
         }
-        return user;
+        user.setMail(mail);
+        return userDao.save(user);
     }
 
-    public User addProfessionalRole(String email, String distric, String incomingTrade){
+    public User addProfessionalRole(String email, String district, String incomingTrade){
         User user = getByMail(email);
-        Trades trade = parseTrade(incomingTrade);
         checkIfTheUserIsProfessional(user);
-        user.addProfessionalRole(distric, trade);
-        User userWithRole = userDao.save(user);
-        userWithRole.setRoleAsCurrent(Mode.PROFESSIONAL);
-        return userWithRole;
+        user.addProfessionalRole(district, incomingTrade);
+        return userDao.save(user);
     }
 
     private static void checkIfTheUserIsProfessional(User user) {
@@ -89,12 +80,12 @@ public class UserService {
     public User addPhone(String email, String phone) {
         User user = getByMail(email);
         user.addPhone(phone);
-        return saveOrUpdate(user);
+        return userDao.save(user);
     }
 
     public User addEmailContact(String email, String emailContact) {
         User user = getByMail(email);
         user.addMail(emailContact);
-        return saveOrUpdate(user);
+        return userDao.save(user);
     }
 }

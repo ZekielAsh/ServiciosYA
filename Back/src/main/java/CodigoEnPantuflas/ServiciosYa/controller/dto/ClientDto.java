@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
+
 public class ClientDto implements RoleDto{
+    String nickname;
+    String role;
+
+    public ClientDto(String nickname) {
+        this.nickname = nickname;
+        role = "CLIENT";
+    }
 }
