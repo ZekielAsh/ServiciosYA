@@ -26,7 +26,7 @@ public class Professional extends Role {
     public Professional(User user, String district, String trade) {
         this.district = district;
         this.trade = trade;
-        this.setUser(user);
+        this.setUser(user); 
     }
 
 }
