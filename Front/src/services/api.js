@@ -55,13 +55,15 @@ const addMailContact = (userEmail, emailContact) =>
 
 const getComments = userEmail =>
   axios
-    .get(`${API_URL}/comments/profile`, { params: { email: userEmail } })
+    .get(`${API_URL}/comments/profile/${userEmail}`)
     .then(response => response);
 
 // PEDIR AL BACK QUE SOLO SE PASE EL STRING DEL COMENTARIO
-const addComment = (comment, userEmail) =>
+const addComment = (commentDto, userEmail) =>
   axios
-    .post(`${API_URL}/comments/addComment`, { comment, userEmail })
+    .post(`${API_URL}/comments/addComment`, commentDto, {
+      params: { email: userEmail },
+    })
     .then(response => response);
 
 // FALTA AGREGAR EL ENDPOINT PARA OBTENER LAS REVIEWS DE UN USUARIO
