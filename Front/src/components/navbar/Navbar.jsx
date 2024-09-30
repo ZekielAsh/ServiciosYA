@@ -1,27 +1,37 @@
+import { removeItemsFromLocalStorage } from "../../utils/localStorage";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import ServiciosYaLogo from "../../assets/ServiciosYA_Logo_-_Original_-_5000x5000_2.png";
 import SearchInput from "../searchInput/SearchInput";
 import Button from "../button/Button";
-import ServiciosYaLogo from "../../assets/ServiciosYA_Logo_-_Original_-_5000x5000_2.png";
 import "./Navbar.css";
-import { handleLogOut } from "../../services/auth/ProtectedRoute";
 
 const Navbar = ({ user, handleSearch }) => {
-  const role = localStorage.getItem("role");
-  const email = localStorage.getItem("email"); 
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    removeItemsFromLocalStorage();
+    navigate("/login");
+  };
 
   return (
     <nav className="nav-container">
       <div>
-          <Link to="/" className="navbar-brand" >
-              <img src={ServiciosYaLogo} width='90 px'
-              height='60 px' alt="ServiciosYaLogo" className='logo'/>
-          </Link>
+        <Link to="/" className="navbar-brand">
+          <img
+            src={ServiciosYaLogo}
+            width="90 px"
+            height="60 px"
+            alt="ServiciosYaLogo"
+            className="logo"
+          />
+        </Link>
       </div>
       <SearchInput onSearch={handleSearch} />
       {user ? (
         <div className="actions-container">
-          <Link to={`/profile/${email}`}>
-            <Button type={role === "CLIENT" ? "client" : "pro"}>
+          <Link to={`/profile/${user.email}`}>
+            <Button type={user.role === "CLIENT" ? "client" : "pro"}>
               {user.username[0].toUpperCase()}
             </Button>
           </Link>

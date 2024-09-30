@@ -38,7 +38,7 @@ public class UserService {
         } else {
             String district = userDao.findProfessionalDistrictByEmail(mail);
             String trade = userDao.findProfessionalTradeByEmail(mail);
-            user.setCurrentRole(new Professional(district, trade));
+            user.setCurrentRole(new Professional(user, district, trade));
         }
         user.setMail(mail);
         return userDao.save(user);

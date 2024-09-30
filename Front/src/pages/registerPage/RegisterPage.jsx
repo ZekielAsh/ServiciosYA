@@ -18,7 +18,7 @@ const RegisterPage = () => {
     formData.append("userName", username);
     formData.append("email", email);
     formData.append("password", password);
-    
+
     if (file) {
       formData.append("dniImage", file); // La clave "dniImage" debe coincidir con lo que espera el backend
     }
@@ -32,7 +32,7 @@ const RegisterPage = () => {
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   };
 

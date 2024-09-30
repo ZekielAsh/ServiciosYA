@@ -1,0 +1,36 @@
+.home-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  /* background-color: var(--color-blue-light); */
+  /* color: var(--color-white); */
+}
+
+.home-body-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  padding: 20px 20px;
+  /* background-color: var(--color-blue-dark);
+  color: var(--color-white); */
+}
+
+.home-footer {
+  height: 60px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 12px;
+  width: 100%;
+  /* quiero hacer que el footer este en la parte de abajo de la pagina */
+  position: absolute;
+  bottom: 0;
+
+  background-color: var(--color-blue-dark);
+  color: var(--color-white);
+  padding: 20px 20px;
+}
