@@ -31,7 +31,7 @@ const Navbar = ({ user, handleSearch }) => {
       {user ? (
         <div className="actions-container">
           <Link to={`/profile/${user.email}`}>
-            <Button type={user.currentRole === "CLIENT" ? "client" : "pro"}>
+            <Button type={user.role === "CLIENT" ? "client" : "pro"}>
               {user.username[0].toUpperCase()}
             </Button>
           </Link>

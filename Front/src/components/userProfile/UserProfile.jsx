@@ -1,35 +1,14 @@
 import { Link } from "react-router-dom";
 import UserInfo from "../../components/userInfo/UserInfo";
-import api from "../../services/api";
 
 const UserProfile = ({
   profileUser,
   setProfileUser,
   logedUser,
   setModalMessage,
+  handleSwitchRole,
 }) => {
   const isProfileOwner = logedUser.email === profileUser.email;
-
-  const handleSwitchRole = () => {
-    api
-      .changeRole(logedUser.email)
-      .then(response => {
-        setProfileUser(prevUser => ({
-          ...prevUser,
-          role: response.data.currentRolDto,
-          district: response.data.district,
-          trade: response.data.trade,
-          phoneNumber:
-            response.data.phoneNumber == null ? "" : response.data.phoneNumber,
-          contactEmail:
-            response.data.contactMail == null ? "" : response.data.contactMail,
-        }));
-        setModalMessage("Rol cambiado con éxito.");
-      })
-      .catch(error => {
-        setModalMessage(error.message);
-      });
-  };
 
   // CUANDO TENGA EL ENDPOINT DE TRAER REVIEWS TRAER EL COMPONENTE DE REVIEWS
   return (

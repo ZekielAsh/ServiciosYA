@@ -11,7 +11,6 @@ import api from "../../services/api";
 const Profile = () => {
   // MODIFICAR EL AUTHPATH YA QUE NECESITAS ESTAR LOGEADO
   const params = useParams();
-  // POR AHORA EL USER ES EL USUARIO DEL PERFIL QUE ESTAMOS VIENDO
   const [logedUser, setLogedUser] = useState(null);
   const [profileUser, setProfileUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +27,6 @@ const Profile = () => {
         const professionalRole = userResp.find(
           role => role.role === "PROFESSIONAL"
         );
-        console.log(response.data);
         setProfileUser({
           username: response.data.nickName,
           email: response.data.email,
@@ -77,6 +75,31 @@ const Profile = () => {
       });
   }, []);
 
+  const handleSwitchRole = () => {
+    api
+      .changeRole(logedUser.email)
+      .then(response => {
+        setProfileUser(prevUser => ({
+          ...prevUser,
+          role: response.data.currentRolDto,
+          district: response.data.district,
+          trade: response.data.trade,
+          phoneNumber:
+            response.data.phoneNumber == null ? "" : response.data.phoneNumber,
+          contactEmail:
+            response.data.contactMail == null ? "" : response.data.contactMail,
+        }));
+        setLogedUser(prevUser => ({
+          ...prevUser,
+          role: response.data.currentRolDto,
+        }));
+        setModalMessage("Rol cambiado con éxito.");
+      })
+      .catch(error => {
+        setModalMessage(error.message);
+      });
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
@@ -87,6 +110,7 @@ const Profile = () => {
         profileUser={profileUser}
         setProfileUser={setProfileUser}
         setModalMessage={setModalMessage}
+        handleSwitchRole={handleSwitchRole}
       />
       <CommentSection
         profileUserEmail={profileUser.email}
