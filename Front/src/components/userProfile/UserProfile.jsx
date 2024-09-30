@@ -1,132 +1,68 @@
-import { getUserEmailFromLocalStorage } from "../../utils/localStorage";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import UserInfo from "../../components/userInfo/UserInfo";
 import api from "../../services/api";
 
-const UserProfile = ({ user, setModalMessage, handleSwitchRole }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  console.log(user);
-  const [contactInfo, setContactInfo] = useState({
-    phone: "",
-    email: "",
-  });
+const UserProfile = ({
+  profileUser,
+  setProfileUser,
+  logedUser,
+  setModalMessage,
+}) => {
+  const isProfileOwner = logedUser.email === profileUser.email;
 
-  const handleContactInfoChange = event => {
-    const { name, value } = event.target;
-    setContactInfo({ ...contactInfo, [name]: value });
-  };
-
-  const saveContactInfo = () => {
-    const { email, phone, emailContact } = contactInfo; // Asegúrate de que contactInfo tenga estas propiedades
-
+  const handleSwitchRole = () => {
     api
-      .addPhone(email, phone)
-      .then(() => {
-        console.log("Número de teléfono actualizado.");
-        //setIsEditing(false);
+      .changeRole(logedUser.email)
+      .then(response => {
+        setProfileUser(prevUser => ({
+          ...prevUser,
+          role: response.data.currentRolDto,
+          district: response.data.district,
+          trade: response.data.trade,
+          phoneNumber:
+            response.data.phoneNumber == null ? "" : response.data.phoneNumber,
+          contactEmail:
+            response.data.contactMail == null ? "" : response.data.contactMail,
+        }));
+        setModalMessage("Rol cambiado con éxito.");
       })
       .catch(error => {
-        setModalMessage(error);
-      });
-    api
-      .addMailContact(email, emailContact)
-      .then(() => {
-        console.log("Correo de contacto actualizado.");
-        // setIsEditing(false);
-      })
-      .catch(error => {
-        setModalMessage(error);
+        setModalMessage(error.message);
       });
   };
 
-  // INFO DE CONTACTO
-  const renderContactInfo = () => {
-    const logedUserEmail = getUserEmailFromLocalStorage();
-
-    // Condición para verificar si el usuario es el dueño del perfil
-    const isProfileOwner = logedUserEmail === user.email;
-
-    console.log("isProfileOwner", isProfileOwner);
-    if (user.role === "PROFESSIONAL" && isProfileOwner && isEditing) {
-      return (
-        <>
-          <div>
-            <label>Teléfono:</label>
-            <input
-              type="text"
-              name="phone"
-              value={user.phoneNumber}
-              onChange={handleContactInfoChange}
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input
-              type="text"
-              name="email"
-              value={user.contactEmail}
-              onChange={handleContactInfoChange}
-            />
-          </div>
-          <button onClick={saveContactInfo}>Guardar</button>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div>
-            <h3>Teléfono: {user.phoneNumber}</h3>
-          </div>
-          <div>
-            <h3>Email: {user.contactEmail}</h3>
-          </div>
-          {user.role === "PROFESSIONAL" && isProfileOwner && (
-            <button onClick={() => setIsEditing(true)}>Editar Contacto</button>
-          )}
-        </>
-      );
-    }
-  };
-
-  // OPCIONES DE PERFIL
-  ////////////////////////////////////////////////////////////////////////
-  const renderOptions = () => {
-    switch (user.role) {
-      case "CLIENT":
-        console.log("CLIENT");
-        return (
-          <>
-            <h3>Rol: {user.role}</h3>
-            {user.roles.length > 1 ? (
-              <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
-            ) : (
-              <Link to="/registerPro">RegisterPro</Link>
-            )}
-          </>
-        );
-      case "PROFESSIONAL":
-        console.log("PROFESSIONAL");
-        return (
-          <>
-            <h3>Rol: {user.role}</h3>
-            <h3>District: {user.district}</h3>
-            <h3>Trade: {user.trade}</h3>
-            {renderContactInfo()}
-            <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
-          </>
-        );
-    }
-  };
-
+  // CUANDO TENGA EL ENDPOINT DE TRAER REVIEWS TRAER EL COMPONENTE DE REVIEWS
   return (
     <>
       <h1>Profile</h1>
-      {user && (
+      {profileUser && (
         <div>
           <div>
-            <h2>{user.username}</h2>
+            <h2>{profileUser.username}</h2>
           </div>
-          <div>{renderOptions()}</div>
+          {profileUser.role === "CLIENT" ? (
+            isProfileOwner ? (
+              profileUser.roles.length > 1 ? (
+                <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
+              ) : (
+                <Link to="/registerPro">RegisterPro</Link>
+              )
+            ) : null
+          ) : (
+            <div>
+              <h3>District: {profileUser.district}</h3>
+              <h3>Trade: {profileUser.trade}</h3>
+              <UserInfo
+                profileUser={profileUser}
+                setProfileUser={setProfileUser}
+                isProfileOwner={isProfileOwner}
+                setModalMessage={setModalMessage}
+              />
+              {isProfileOwner ? (
+                <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
+              ) : null}
+            </div>
+          )}
         </div>
       )}
     </>
