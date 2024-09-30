@@ -80,12 +80,12 @@ public class UserService {
     public User addPhone(String email, String phone) {
         User user = getByMail(email);
         user.addPhone(phone);
-        return saveOrUpdate(user);
+        return userDao.save(user);
     }
 
     public User addEmailContact(String email, String emailContact) {
         User user = getByMail(email);
         user.addMail(emailContact);
-        return saveOrUpdate(user);
+        return userDao.save(user);
     }
 }
