@@ -29,6 +29,10 @@ const HomePage = () => {
             district: userResp.district,
             trade: userResp.trade,
             role: response.data.currentRolDto,
+            phone: response.data.phoneNumber ? "" : response.data.phoneNumber,
+            contactEmail: response.data.contactMail
+              ? ""
+              : response.data.contactMail,
           });
         })
         .catch(error => {

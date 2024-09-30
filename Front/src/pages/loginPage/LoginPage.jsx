@@ -17,14 +17,13 @@ const LoginPage = () => {
     api
       .login({ password: password, email: email })
       .then(response => {
-        console.log(response);
         setTokenToLocalStorage(response.headers["authorization"]);
         setUserRoleToLocalStorage(response.data.currentRolDto);
         setUserEmailToLocalStorage(response.data.email);
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   };
 

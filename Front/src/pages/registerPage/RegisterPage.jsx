@@ -32,7 +32,7 @@ const RegisterPage = () => {
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   };
 

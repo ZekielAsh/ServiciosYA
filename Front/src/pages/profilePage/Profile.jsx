@@ -12,68 +12,70 @@ const Profile = () => {
   // MODIFICAR EL AUTHPATH YA QUE NECESITAS ESTAR LOGEADO
   const params = useParams();
   // POR AHORA EL USER ES EL USUARIO DEL PERFIL QUE ESTAMOS VIENDO
-  const [logedUser, setUser] = useState(null);
+  const [logedUser, setLogedUser] = useState(null);
   const [profileUser, setProfileUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
-
-  const [reviews, setReviews] = useState([]); // Estado para las reseñas existentes
 
   useEffect(() => {
     const userProfileEmail = params.email;
     const logedUserEmail = getUserEmailFromLocalStorage();
 
-    api.getUserByEmail(userProfileEmail).then(response => {
-      const userResp = response.data.userRoles;
-      const professionalRole = userResp.find(
-        role => role.role === "PROFESSIONAL"
-      );
-      setProfileUser({
-        username: response.data.nickName,
-        email: response.data.email,
-        roles: userResp.map(role => role.role),
-        district: professionalRole ? professionalRole.district : "", // Verifica si el rol existe
-        trade: professionalRole ? professionalRole.trade : "", // Verifica si el rol existe
-        role: response.data.currentRolDto,
-      });
-      api
-        .getUserByEmail(logedUserEmail)
-        .then(response => {
-          const userResp = response.data.userRoles;
-          const professionalRole = userResp.find(
-            role => role.role === "PROFESSIONAL"
-          );
-          setUser({
-            username: response.data.nickName,
-            email: response.data.email,
-            roles: userResp.map(role => role.role),
-            district: professionalRole ? professionalRole.district : "", // Verifica si el rol existe
-            trade: professionalRole ? professionalRole.trade : "", // Verifica si el rol existe
-            role: response.data.currentRolDto,
-          });
-        })
-        .catch(error => {
-          setModalMessage(error.message);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    });
-  }, []);
-
-  // PARA PROBAR, CASI LISTO. FALTA CAMBIAR EL UserDto DEL BACK
-  ////////////////////////////////////////////////////////////////////////
-  const handleSwitchRole = () => {
     api
-      .changeRole(logedUser.email)
+      .getUserByEmail(userProfileEmail)
       .then(response => {
-        setUser(response.data);
-        setModalMessage("Rol cambiado con éxito.");
+        const userResp = response.data.userRoles;
+        const professionalRole = userResp.find(
+          role => role.role === "PROFESSIONAL"
+        );
+        console.log(response.data);
+        setProfileUser({
+          username: response.data.nickName,
+          email: response.data.email,
+          roles: userResp.map(role => role.role),
+          district: professionalRole ? professionalRole.district : "", // Verifica si el rol existe
+          trade: professionalRole ? professionalRole.trade : "", // Verifica si el rol existe
+          phoneNumber:
+            response.data.phoneNumber == null ? "" : response.data.phoneNumber,
+          contactEmail:
+            response.data.contactMail == null ? "" : response.data.contactMail,
+          role: response.data.currentRolDto,
+        });
+        api
+          .getUserByEmail(logedUserEmail)
+          .then(response => {
+            const userResp = response.data.userRoles;
+            const professionalRole = userResp.find(
+              role => role.role === "PROFESSIONAL"
+            );
+            setLogedUser({
+              username: response.data.nickName,
+              email: response.data.email,
+              roles: userResp.map(role => role.role),
+              district: professionalRole ? professionalRole.district : "", // Verifica si el rol existe
+              trade: professionalRole ? professionalRole.trade : "", // Verifica si el rol existe
+              phoneNumber:
+                response.data.phoneNumber == null
+                  ? ""
+                  : response.data.phoneNumber,
+              contactEmail:
+                response.data.contactMail == null
+                  ? ""
+                  : response.data.contactMail,
+              role: response.data.currentRolDto,
+            });
+          })
+          .catch(error => {
+            setModalMessage(error.response.data.error);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       })
       .catch(error => {
-        setModalMessage(error.message);
+        setModalMessage(error.response.data.error);
       });
-  };
+  }, []);
 
   if (isLoading) return <Spinner />;
 
@@ -81,11 +83,15 @@ const Profile = () => {
     <>
       <Navbar user={logedUser} />
       <UserProfile
-        user={profileUser}
+        logedUser={logedUser}
+        profileUser={profileUser}
+        setProfileUser={setProfileUser}
         setModalMessage={setModalMessage}
-        handleSwitchRole={handleSwitchRole}
       />
-      <CommentSection reviews={reviews} setReviews={setReviews} />
+      <CommentSection
+        profileUserEmail={profileUser.email}
+        setModalMessage={setModalMessage}
+      />
       {modalMessage && (
         <Modal message={modalMessage} setModalMessage={setModalMessage} />
       )}
