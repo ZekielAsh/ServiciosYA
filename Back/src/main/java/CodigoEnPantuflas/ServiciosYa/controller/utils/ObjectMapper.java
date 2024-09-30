@@ -24,7 +24,6 @@ public class ObjectMapper {
     }
 
     public UserDto convertUserToUserDto(User user){
-        System.out.println(user.getCurrentRole().getTrade());
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
         Role userRole = user.getCurrentRole();
         return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword(),
