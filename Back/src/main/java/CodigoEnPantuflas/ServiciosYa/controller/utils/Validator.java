@@ -74,11 +74,11 @@ public class Validator {
         }
     }
 
-    public void validateComment(CommentDto commentDto) {
-        if (commentDto.getText().isBlank()) {
+    public void validateComment(String comment) {
+        if (comment.isBlank()) {
             throw new IllegalArgumentException(COMMENT_EMPTY_MESSAGE);
         }
-        if ((commentDto.getText().length() > 150)){
+        if ((comment.length() > 150)){
             throw new IllegalArgumentException(COMMENT_LONG_MESSAGE);
         }
     }

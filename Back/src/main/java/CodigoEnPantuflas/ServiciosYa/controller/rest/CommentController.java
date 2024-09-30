@@ -31,10 +31,11 @@ public class CommentController {
 
     @PostMapping("/addComment")
     @CrossOrigin
-    public ResponseEntity<CommentDto> addComment(@RequestBody CommentDto commentDto, @RequestParam String email) {
-        Validator.getInstance().validateComment(commentDto);
+    public ResponseEntity<CommentDto> addComment(@RequestBody String comment, @RequestParam String email) {
+        Validator.getInstance().validateComment(comment);
         User user = userService.getByMail(email);
-        Comment savedComment = commentService.addComment(commentDto.getText(), user);
+        Comment savedComment = commentService.addComment(comment, user);
+        CommentDto commentDto = ObjectMapper.getInstance().convertCommentToCommentDto(savedComment);
         SimpleUserDto simpleUserDto = ObjectMapper.getInstance().convertUserToSimpleUserDto(user);
         commentDto.setUser(simpleUserDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentDto);
