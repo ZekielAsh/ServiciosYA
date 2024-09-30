@@ -1,59 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../services/api";
 
-const CommentSection = ({ reviews, setReviews }) => {
-  // TODO : Recibir como prop el email del usuario y asi obtener las rewiews de ese usuario.
-  //        Agregar los endpoint en la API.
-  ////////////////////////////////////////////////////////////
+const CommentSection = ({ profileUserEmail, setModalMessage }) => {
   const [review, setReview] = useState(""); // Estado para el nuevo comentario
-  const [reviewError, setReviewError] = useState(""); // Estado para errores de reseña
+  const [reviews, setReviews] = useState([]); // Estado para la lista de comentarios
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    api
+      .getComments(profileUserEmail)
+      .then(response => {
+        console.log(response.data);
+        setReviews(response.data);
+      })
+      .catch(error => {
+        setModalMessage(error.response.data.error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleReviewChange = event => {
     setReview(event.target.value);
   };
 
-  // Por prop "reviews"
-  const renderReviews = () => {
-    return reviews.map((review, index) => (
-      <div key={index}>
-        <p>{review}</p>
-      </div>
-    ));
-  };
-
-  const handleReviewSubmit = e => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      // Llamar al backend para validar y enviar la reseña
+  const handleReviewSubmit = event => {
+    if (event.key === "Enter" && review.trim() !== "") {
+      event.preventDefault();
       api
-        .submitReview({ review })
+        .addComment({ review, profileUserEmail })
         .then(response => {
-          // Añadir la nueva reseña a la lista de reseñas
-          setReviews([...reviews, response.data.review]);
-          setReview(""); // Limpiar el campo de reseña
-          setReviewError(""); // Limpiar errores
+          // Agregar la nueva reseña a la lista
+          setReviews([...reviews, response.data]);
         })
         .catch(error => {
           // Mostrar error proporcionado por el backend (e.g. reseña vacía, límite de caracteres)
-          setReviewError(
-            error.response.data.message || "Error al enviar la reseña."
-          );
+          setModalMessage(error.response.data.error);
         });
+      setReview("");
     }
   };
+
+  if (isLoading) {
+    return <div>Cargando reseñas...</div>;
+  }
 
   return (
     <div>
       <h2>Reseñas</h2>
-      {renderReviews()}
+      <div>
+        {reviews.map((review, key) => (
+          <div key={key}>
+            <p>{review.text}</p>
+          </div>
+        ))}
+      </div>
       <textarea
         value={review}
         onChange={handleReviewChange}
         onKeyDown={handleReviewSubmit}
         placeholder="Escribe tu reseña y presiona Enter"
       />
-      {reviewError && <div style={{ color: "red" }}>{reviewError}</div>}
     </div>
   );
 };
