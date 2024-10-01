@@ -38,7 +38,12 @@ public class UserService {
         } else {
             String district = userDao.findProfessionalDistrictByEmail(mail);
             String trade = userDao.findProfessionalTradeByEmail(mail);
-            user.setCurrentRole(new Professional(user, district, trade));
+            String contactMail = userDao.findProfessionalContactMailbyEmail(mail);
+            String phoneNumber = userDao.findProfessionalPhoneByEmail(mail);
+            Professional pro = new Professional(user, district, trade);
+            pro.setContactMail(contactMail);
+            pro.setPhoneNumber(phoneNumber);
+            user.setCurrentRole(pro);
         }
         user.setMail(mail);
         return userDao.save(user);
@@ -80,12 +85,12 @@ public class UserService {
     public User addPhone(String email, String phone) {
         User user = getByMail(email);
         user.addPhone(phone);
-        return saveOrUpdate(user);
+        return userDao.save(user);
     }
 
     public User addEmailContact(String email, String emailContact) {
         User user = getByMail(email);
         user.addMail(emailContact);
-        return saveOrUpdate(user);
+        return userDao.save(user);
     }
 }

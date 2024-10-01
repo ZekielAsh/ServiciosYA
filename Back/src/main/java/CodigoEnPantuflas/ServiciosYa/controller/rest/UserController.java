@@ -64,7 +64,8 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<UserDto> saveOrUpdatePhone(@RequestParam String email, @RequestParam String phone){
         Validator.getInstance().validatePhoneNumber(phone);
-        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(userService.addPhone(email, phone));
+        User user = userService.addPhone(email, phone);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
