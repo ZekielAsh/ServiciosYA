@@ -45,6 +45,11 @@ public class ObjectMapper {
         return new CommentDto(comment.getText(), simpleUserDto);
     }
 
+    public RequestDto convertRequestToRequestDto(Request request){
+        SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getUser());
+        return new RequestDto(request.getDescription(), simpleUserDto, request.getStatus());
+    }
+
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
         return new SimpleUserDto(user.getUserNickname());
     }
