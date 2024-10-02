@@ -6,12 +6,16 @@ import SearchInput from "../searchInput/SearchInput";
 import Button from "../button/Button";
 import "./Navbar.css";
 
-const Navbar = ({ user, handleSearch }) => {
+const Navbar = ({ user }) => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
     removeItemsFromLocalStorage();
     navigate("/login");
+  };
+
+  const handleSearch = searchValue => {
+    navigate(`/search/${searchValue}`);
   };
 
   return (
