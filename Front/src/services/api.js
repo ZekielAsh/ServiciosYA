@@ -25,8 +25,6 @@ const getUserByEmail = userEmail =>
     .get(`${API_URL}/user/getByEmail`, { params: { email: userEmail } })
     .then(response => response);
 
-// CAMBIAR NOMBRE A changeUserRole?
-// TA MAL
 const changeRole = userEmail =>
   axios
     .post(`${API_URL}/user/changeRole?email=${userEmail}`) // Enviar el email como parámetro en la URL
@@ -59,11 +57,11 @@ const getComments = userEmail =>
     .then(response => response);
 
 // PEDIR AL BACK QUE SOLO SE PASE EL STRING DEL COMENTARIO
-const addComment = (commentDto, userEmail) =>
+const addComment = (textComment, userEmail) =>
   axios
-    .post(`${API_URL}/comments/addComment`, commentDto, {
-      params: { email: userEmail },
-    })
+    .post(
+      `${API_URL}/comments/addComment?comment=${textComment}&email=${userEmail}`
+    )
     .then(response => response);
 
 // FALTA AGREGAR EL ENDPOINT PARA OBTENER LAS REVIEWS DE UN USUARIO

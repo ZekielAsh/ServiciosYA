@@ -33,14 +33,14 @@ const UserInfo = ({
             }));
           })
           .catch(error => {
-            setModalMessage(error);
+            setModalMessage(error.response.data.error);
           })
           .finally(() => {
             setIsEditing(false);
           });
       })
       .catch(error => {
-        setModalMessage(error);
+        setModalMessage(error.response.data.error);
       });
   };
 
