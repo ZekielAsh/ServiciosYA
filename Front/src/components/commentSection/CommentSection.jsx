@@ -15,7 +15,7 @@ const CommentSection = ({ profileUserEmail, setModalMessage }) => {
         setReviews(response.data);
       })
       .catch(error => {
-        setModalMessage(error.response.data.error);
+        setModalMessage(error.response);
       })
       .finally(() => {
         setIsLoading(false);
@@ -30,8 +30,9 @@ const CommentSection = ({ profileUserEmail, setModalMessage }) => {
     if (event.key === "Enter" && review.trim() !== "") {
       event.preventDefault();
       api
-        .addComment({ review, profileUserEmail })
+        .addComment(review, profileUserEmail)
         .then(response => {
+          console.log(response.data);
           // Agregar la nueva reseña a la lista
           setReviews([...reviews, response.data]);
         })

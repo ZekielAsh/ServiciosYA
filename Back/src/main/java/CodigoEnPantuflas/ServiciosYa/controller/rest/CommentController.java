@@ -31,7 +31,7 @@ public class CommentController {
 
     @PostMapping("/addComment")
     @CrossOrigin
-    public ResponseEntity<CommentDto> addComment(@RequestBody String comment, @RequestParam String email) {
+    public ResponseEntity<CommentDto> addComment(@RequestParam String comment, @RequestParam String email) {
         Validator.getInstance().validateComment(comment);
         User user = userService.getByMail(email);
         Comment savedComment = commentService.addComment(comment, user);

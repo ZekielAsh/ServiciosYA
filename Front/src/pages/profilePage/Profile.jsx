@@ -28,7 +28,6 @@ const Profile = () => {
         const professionalRole = userResp.find(
           role => role.role === "PROFESSIONAL"
         );
-        console.log(response.data);
         setProfileUser({
           username: response.data.nickName,
           email: response.data.email,
