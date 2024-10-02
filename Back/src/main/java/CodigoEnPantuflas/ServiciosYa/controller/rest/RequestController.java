@@ -30,7 +30,7 @@ public class RequestController {
 
     @PostMapping("/addRequest")
     @CrossOrigin
-    public ResponseEntity<RequestDto> addRequest(@RequestBody String request, @RequestParam String email) {
+    public ResponseEntity<RequestDto> addRequest(@RequestParam String request, @RequestParam String email) {
         Validator.getInstance().validateRequest(request);
         User user = userService.getByMail(email);
         Request savedRequest = requestService.addRequest(request, user);
@@ -48,6 +48,7 @@ public class RequestController {
         return ResponseEntity.ok(requestsDto);
     }
 
+    // Los status que puede tener una request son: "PENDING", "ACCEPTED", "REJECTED"
     @PutMapping("/updateRequestStatus")
     @CrossOrigin
     public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {

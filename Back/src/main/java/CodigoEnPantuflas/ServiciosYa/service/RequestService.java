@@ -22,7 +22,6 @@ public class RequestService {
         public Request addRequest(String description, User user) {
             Request request = new Request(description, user);
             user.addNewRequest(request);
-            userDao.save(user);
             return requestDao.save(request);
         }
 
