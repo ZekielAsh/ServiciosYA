@@ -7,6 +7,7 @@ import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
 import Modal from "../../components/modal/Modal";
 import api from "../../services/api";
+import "./Profile.css";
 
 const Profile = () => {
   // MODIFICAR EL AUTHPATH YA QUE NECESITAS ESTAR LOGEADO
@@ -27,6 +28,7 @@ const Profile = () => {
         const professionalRole = userResp.find(
           role => role.role === "PROFESSIONAL"
         );
+        console.log(response.data);
         setProfileUser({
           username: response.data.nickName,
           email: response.data.email,
@@ -105,17 +107,19 @@ const Profile = () => {
   return (
     <>
       <Navbar user={logedUser} />
-      <UserProfile
-        logedUser={logedUser}
-        profileUser={profileUser}
-        setProfileUser={setProfileUser}
-        setModalMessage={setModalMessage}
-        handleSwitchRole={handleSwitchRole}
-      />
-      <CommentSection
-        profileUserEmail={profileUser.email}
-        setModalMessage={setModalMessage}
-      />
+      <div className="profile-page-container">
+        <UserProfile
+          logedUser={logedUser}
+          profileUser={profileUser}
+          setProfileUser={setProfileUser}
+          setModalMessage={setModalMessage}
+          handleSwitchRole={handleSwitchRole}
+        />
+        <CommentSection
+          profileUserEmail={profileUser.email}
+          setModalMessage={setModalMessage}
+        />
+      </div>
       {modalMessage && (
         <Modal message={modalMessage} setModalMessage={setModalMessage} />
       )}
