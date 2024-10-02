@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import UserInfo from "../../components/userInfo/UserInfo";
+import "./UserProfile.css";
 
 const UserProfile = ({
   profileUser,
@@ -12,7 +13,7 @@ const UserProfile = ({
 
   // CUANDO TENGA EL ENDPOINT DE TRAER REVIEWS TRAER EL COMPONENTE DE REVIEWS
   return (
-    <>
+    <div>
       <h1>Profile</h1>
       {profileUser && (
         <div>
@@ -44,7 +45,7 @@ const UserProfile = ({
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
