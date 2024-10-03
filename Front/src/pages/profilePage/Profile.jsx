@@ -74,7 +74,7 @@ const Profile = () => {
       .catch(error => {
         setModalMessage(error.response.data.error);
       });
-  }, []);
+  }, [params.email]);
 
   const handleSwitchRole = () => {
     api
