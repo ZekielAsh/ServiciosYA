@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import api from "../../services/api";
 import "./CommentSection.css";
 
-const CommentSection = ({ profileUserEmail, setModalMessage }) => {
+const CommentSection = ({
+  logedUserEmail,
+  profileUserEmail,
+  setModalMessage,
+}) => {
   const [review, setReview] = useState(""); // Estado para el nuevo comentario
   const [reviews, setReviews] = useState([]); // Estado para la lista de comentarios
   const [isLoading, setIsLoading] = useState(true);
@@ -51,13 +55,15 @@ const CommentSection = ({ profileUserEmail, setModalMessage }) => {
   return (
     <div className="comment-section">
       <h2>Reseñas</h2>
-      <textarea
-        className="comment-section-review-input"
-        value={review}
-        onChange={handleReviewChange}
-        onKeyDown={handleReviewSubmit}
-        placeholder="Escribe tu reseña y presiona Enter"
-      />
+      {logedUserEmail !== profileUserEmail ? (
+        <textarea
+          className="comment-section-review-input"
+          value={review}
+          onChange={handleReviewChange}
+          onKeyDown={handleReviewSubmit}
+          placeholder="Escribe tu reseña y presiona Enter"
+        />
+      ) : null}
       <div className="comment-section-reviews">
         {reviews.map((review, key) => (
           <div className="comment-section-review" key={key}>

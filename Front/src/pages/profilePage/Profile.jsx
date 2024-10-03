@@ -115,6 +115,7 @@ const Profile = () => {
           handleSwitchRole={handleSwitchRole}
         />
         <CommentSection
+          logedUserEmail={logedUser.email}
           profileUserEmail={profileUser.email}
           setModalMessage={setModalMessage}
         />
