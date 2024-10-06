@@ -66,6 +66,18 @@ const addComment = (textComment, userEmail) =>
 
 // FALTA AGREGAR EL ENDPOINT PARA OBTENER LAS REVIEWS DE UN USUARIO
 
+/* ############################## SERVICE REQUEST ############################## */
+
+const addRequest = (title, description, email, professionalEmail) =>{
+  const requestData = {title, description}
+  return axios
+  .post(
+    `${API_URL}/requests/sendRequest?email=${email}&professionalEmail=${professionalEmail}`, requestData
+  )
+  .then(response => response);
+}
+
+
 export default {
   getUserByEmail,
   searchProUsers,
@@ -75,6 +87,7 @@ export default {
   registerPro,
   changeRole,
   addComment,
+  addRequest,
   addPhone,
   register,
   login,

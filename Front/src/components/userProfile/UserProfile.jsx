@@ -32,6 +32,7 @@ const UserProfile = ({
             <div>
               <h3>District: {profileUser.district}</h3>
               <h3>Trade: {profileUser.trade}</h3>
+              
               <UserInfo
                 profileUser={profileUser}
                 setProfileUser={setProfileUser}

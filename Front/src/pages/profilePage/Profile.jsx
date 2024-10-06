@@ -1,6 +1,7 @@
 import { getUserEmailFromLocalStorage } from "../../utils/localStorage";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import RequestDescriptionBox from "../../components/requestDescriptionBox/requestDecriptionBox";
 import CommentSection from "../../components/commentSection/CommentSection";
 import UserProfile from "../../components/userProfile/UserProfile";
 import Spinner from "../../components/spinner/Spinner";
@@ -16,6 +17,7 @@ const Profile = () => {
   const [profileUser, setProfileUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
+  const [isDescriptionBoxVisible, setIsDescriptionBoxVisible] = useState(false);
 
   useEffect(() => {
     const userProfileEmail = params.email;
@@ -101,6 +103,10 @@ const Profile = () => {
       });
   };
 
+  const handleRequestDescription = () => {
+    setIsDescriptionBoxVisible(true)
+  }
+
   if (isLoading) return <Spinner />;
 
   return (
@@ -113,8 +119,14 @@ const Profile = () => {
           setProfileUser={setProfileUser}
           setModalMessage={setModalMessage}
           handleSwitchRole={handleSwitchRole}
+          handleRequestDescription={handleRequestDescription}
         />
         <CommentSection
+          logedUserEmail={logedUser.email}
+          profileUserEmail={profileUser.email}
+          setModalMessage={setModalMessage}
+        />
+         <RequestDescriptionBox
           logedUserEmail={logedUser.email}
           profileUserEmail={profileUser.email}
           setModalMessage={setModalMessage}
