@@ -29,6 +29,5 @@ public class CommentService {
 
     public List<Comment> findCommentsById(Long userId) {
         return commentDao.findCommentsById(userId);
-
     }
 }

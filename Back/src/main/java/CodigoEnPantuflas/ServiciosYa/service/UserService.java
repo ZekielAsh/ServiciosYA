@@ -1,5 +1,7 @@
 package CodigoEnPantuflas.ServiciosYa.service;
+import CodigoEnPantuflas.ServiciosYa.dao.IRequestDao;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
+import CodigoEnPantuflas.ServiciosYa.exceptions.UserNotFoundException;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import java.util.Set;
 public class UserService {
     @Autowired
     IUserDao userDao;
+    @Autowired
+    IRequestDao requestDao;
 
     public User saveOrUpdate(User user){
         return userDao.save(user);
@@ -32,7 +36,7 @@ public class UserService {
 
     public User getByMail(String mail) {
         User user = userDao.getByMail(mail)
-                .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
+                .orElseThrow(() -> new UserNotFoundException(mail));
         if (user.getNameOfCurrentRole() == "CLIENT"){
             user.setCurrentRole( new Client());
         } else {
@@ -97,9 +101,14 @@ public class UserService {
     public Request sendNewRequest(String email, String professionalEmail, String description, String title) {
         User client = getByMail(email);
         User professional = getByMail(professionalEmail);
+
         Request request = new Request(client, professional, description, title);
+
         client.sendNewRequest(request);
         professional.receiveNewRequest(request);
+
+        requestDao.save(request);
+
         return request;
     }
 }
