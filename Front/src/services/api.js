@@ -68,19 +68,15 @@ const addComment = (textComment, userEmail) =>
 
 /* ############################## SERVICE REQUEST ############################## */
 
-const addRequest = (title, description, senderEmail, receiverEmail) => {
-  const requestData = {
-    title,
-    description,
-    reqStatus,
-    senderEmail,
-    receiverEmail,
-  };
-
+const addRequest = (title, description, email, professionalEmail) =>{
+  const requestData = {title, description}
   return axios
-    .post(`${API_URL}/requests/addRequest`, requestData)
-    .then(response => response);
-};
+  .post(
+    `${API_URL}/requests/${email}/sendRequestTo/${professionalEmail}`, requestData
+  )
+  .then(response => response);
+}
+
 
 export default {
   getUserByEmail,
@@ -91,6 +87,7 @@ export default {
   registerPro,
   changeRole,
   addComment,
+  addRequest,
   addPhone,
   register,
   login,

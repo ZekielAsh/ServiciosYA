@@ -26,18 +26,16 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessa
     setTitle(event.target.value)
   };
 
-  const handleSubmit = () => {
-    api.addRequest(title, description, null, logedUserEmail, profileUserEmail)
-      .then(response => {
-        console.log('Request added successfully:', response.data);
-      })
-      .catch(error => {
-        setModalMessage(error.response);
-        console.error('Error adding request:', error);
-      });
-  
-    console.log(description);
-    handleCloseInput(); // Resetea y cierra el cuadro de texto al enviar
+  const handleSubmit = () => { 
+    api.addRequest(title, description, logedUserEmail, profileUserEmail)
+    .then(response => {
+      setModalMessage("La solicitud ha sido enviada");
+    })
+    .catch(error => {
+      setModalMessage(error.response.data.error)
+      
+    })
+    handleCloseInput();
   };
 
   return (
