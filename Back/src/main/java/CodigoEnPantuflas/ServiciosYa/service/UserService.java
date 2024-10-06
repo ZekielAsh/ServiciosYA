@@ -1,4 +1,5 @@
 package CodigoEnPantuflas.ServiciosYa.service;
+import CodigoEnPantuflas.ServiciosYa.dao.IRequestDao;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
@@ -11,6 +12,8 @@ import java.util.Set;
 public class UserService {
     @Autowired
     IUserDao userDao;
+    @Autowired
+    IRequestDao requestDao;
 
     public User saveOrUpdate(User user){
         return userDao.save(user);
@@ -97,9 +100,14 @@ public class UserService {
     public Request sendNewRequest(String email, String professionalEmail, String description, String title) {
         User client = getByMail(email);
         User professional = getByMail(professionalEmail);
+
         Request request = new Request(client, professional, description, title);
+
         client.sendNewRequest(request);
         professional.receiveNewRequest(request);
+
+        requestDao.save(request);
+
         return request;
     }
 }
