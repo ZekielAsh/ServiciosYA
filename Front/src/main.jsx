@@ -11,6 +11,7 @@ import Profile from "./pages/profilePage/Profile";
 import React from "react";
 import "./styles/Colors.css";
 import "./index.css";
+import BackgroundSection from './components/backgroundSection/BackgroundSection';
 
 const router = createBrowserRouter([
   {
