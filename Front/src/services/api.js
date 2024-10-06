@@ -72,7 +72,7 @@ const addRequest = (title, description, email, professionalEmail) =>{
   const requestData = {title, description}
   return axios
   .post(
-    `${API_URL}/requests/${email}/sendRequestTo/${professionalEmail}`, requestData
+    `${API_URL}/requests/sendRequest?email=${email}&professionalEmail=${professionalEmail}`, requestData
   )
   .then(response => response);
 }
