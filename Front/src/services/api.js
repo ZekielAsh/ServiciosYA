@@ -68,7 +68,7 @@ const addComment = (textComment, userEmail) =>
 
 /* ############################## SERVICE REQUEST ############################## */
 
-const addRequest = (title, description, reqStatus, senderEmail, receiverEmail) => {
+const addRequest = (title, description, senderEmail, receiverEmail) => {
   const requestData = {
     title,
     description,
