@@ -46,7 +46,7 @@ public class ObjectMapper {
 
     public RequestDto convertRequestToRequestDto(Request request){
         SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getClient());
-        return new RequestDto(request.getTitle(), simpleUserDto, request.getStatus().toString());
+        return new RequestDto(request.getTitle(), simpleUserDto, request.getStatus().toString(), request.getDescription());
     }
 
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
