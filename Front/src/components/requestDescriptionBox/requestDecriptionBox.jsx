@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import api from "../../services/api";
 
-const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail }) => {
+const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessage}) => {
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -26,7 +27,15 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail }) => {
   };
 
   const handleSubmit = () => {
-    // Aquí podrías manejar lo que quieres hacer con la descripción
+    api.addRequest(title, description, null, logedUserEmail, profileUserEmail)
+      .then(response => {
+        console.log('Request added successfully:', response.data);
+      })
+      .catch(error => {
+        setModalMessage(error.response);
+        console.error('Error adding request:', error);
+      });
+  
     console.log(description);
     handleCloseInput(); // Resetea y cierra el cuadro de texto al enviar
   };

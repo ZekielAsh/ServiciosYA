@@ -129,6 +129,7 @@ const Profile = () => {
          <RequestDescriptionBox
           logedUserEmail={logedUser.email}
           profileUserEmail={profileUser.email}
+          setModalMessage={setModalMessage}
         />
       </div>
       {modalMessage && (
