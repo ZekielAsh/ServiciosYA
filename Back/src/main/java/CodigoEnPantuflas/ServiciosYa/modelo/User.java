@@ -38,6 +38,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Request> requests = new HashSet<>();
+
 
     public User(String userNickname, String mail, String password){
         this.setUserNickname(userNickname);
@@ -135,6 +138,8 @@ public class User implements UserDetails {
         }
     }
 
-
+    public void addNewRequest(Request request) {
+        this.requests.add(request);
+    }
 }
 

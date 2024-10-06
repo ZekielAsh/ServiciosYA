@@ -17,7 +17,9 @@ public class Validator {
     private static final String NAME_EMPTY_MESSAGE = "El nombre no puede estar en blanco";
     private static final String WRONG_EMAIL_OR_PASSWORD = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
     private static final String COMMENT_EMPTY_MESSAGE = "El comentario no puede estar vacío.";
-    private static final String COMMENT_LONG_MESSAGE =  "El mensaje excedio el limite de 150 caracteres. Pruebe con un mensaje mas corto.";
+    private static final String COMMENT_LONG_MESSAGE =  "El mensaje excedió el limite de 150 caracteres. Pruebe con un mensaje mas corto.";
+    private static final String REQUEST_EMPTY_MESSAGE = "Por favor, escriba un motivo para su solicitud.";
+    private static final String REQUEST_LONG_MESSAGE =  "El mensaje excedió el limite de 150 caracteres. Pruebe con un mensaje mas corto.";
 
     private static volatile Validator instance;
 
@@ -80,6 +82,15 @@ public class Validator {
         }
         if ((comment.length() > 150)){
             throw new IllegalArgumentException(COMMENT_LONG_MESSAGE);
+        }
+    }
+
+    public void validateRequest(String request) {
+        if (request.isBlank()) {
+            throw new IllegalArgumentException(REQUEST_EMPTY_MESSAGE);
+        }
+        if ((request.length() > 150)){
+            throw new IllegalArgumentException(REQUEST_LONG_MESSAGE);
         }
     }
 

@@ -8,6 +8,8 @@ import Navbar from "../../components/navbar/Navbar";
 import Modal from "../../components/modal/Modal";
 import api from "../../services/api.js";
 import "./HomePage.css";
+import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
+import { motion } from "framer-motion"; // Importar framer-motion
 
 const HomePage = () => {
   const [user, setUser] = useState(null);
@@ -50,60 +52,65 @@ const HomePage = () => {
 
   return (
     <>
+      <BackgroundSection />
       <Navbar user={user} />
       <div className="home-body">
-        <h1>Home Page</h1>
+        <div className="home-title"> Home Page </div>
         {modalMessage && (
           <Modal message={modalMessage} setModalMessage={setModalMessage} />
         )}
+  
         {/* Descripción del Home */}
-        <h1>
-          Bienvenido a <strong>ServiciosYa</strong>
-        </h1>
-        <div className="home-body-description">
-          <p>
-            <strong>ServiciosYa</strong> es la solución perfecta para quienes
-            buscan profesionales confiables para reparaciones y mejoras en el
-            hogar. Nuestra misión es facilitar el proceso de encontrar,
-            contactar y reservar servicios de calidad, para que puedas enfocarte
-            en lo que realmente importa.
-          </p>
-          <h2>¿Por qué creamos ServiciosYa?</h2>
-          <p>
-            Nos dimos cuenta de lo difícil que es encontrar profesionales
-            confiables para trabajos del hogar, como plomeros o electricistas.
-            Queremos cambiar eso, conectándote directamente con expertos que se
-            adaptan a tus necesidades y superan tus expectativas.
-          </p>
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+        <div>
+            <div className="home-title"> 
+              Bienvenido a ServiciosYa
+              <br/> ServiciosYa
+            </div>
+            <div div className="home-container">  
+              es la solución perfecta para quienes buscan profesionales confiables para reparaciones y mejoras en el hogar. Nuestra misión es facilitar el proceso de encontrar, contactar y reservar servicios de calidad, para que puedas enfocarte en lo que realmente importa.
+            </div> 
         </div>
+        </motion.div>
+  
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <div className="home-title">
+            ¿Por qué creamos ServiciosYa?
+          </div>
+          <div className="home-container">
+            Nos dimos cuenta de lo difícil que es encontrar profesionales confiables para trabajos del hogar, como plomeros o electricistas. Queremos cambiar eso, conectándote directamente con expertos que se adaptan a tus necesidades y superan tus expectativas.
+          </div>
+        </motion.div>
+  
         {/* Cómo Funciona */}
-        <h2>¿Cómo Funciona?</h2>
-        <div className="home-body-description">
-          <ul>
-            <li>
-              <strong>Búsqueda Inteligente:</strong> Utiliza nuestro buscador
-              para encontrar profesionales de confianza, ya sea por nombre o por
-              el tipo de servicio que necesitas.
-            </li>
-            <li>
-              <strong>Perfiles Detallados:</strong> Cada profesional tiene su
-              propio perfil, donde podrás encontrar formas de contacto,
-              información sobre su experiencia y opiniones de otros usuarios.
-            </li>
-            <li>
-              <strong>Reseñas de Clientes:</strong> Después de utilizar un
-              servicio, podrás dejar tu reseña para ayudar a otros a tomar
-              decisiones informadas.
-            </li>
-          </ul>
-        </div>
-        {/* Pie de Página */}
-        <div className="home-footer">
-          <span>© 2024 ServiciosYa. Todos los derechos reservados.</span>
-        </div>
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <div className="home-title">
+            ¿Cómo Funciona?
+          </div>
+          <div className="home-container">
+            <ul>
+              <li>
+                <strong>Búsqueda Inteligente:</strong> Utiliza nuestro buscador para encontrar profesionales de confianza, ya sea por nombre o por el tipo de servicio que necesitas.
+              </li>
+              <li>
+                <strong>Perfiles Detallados:</strong> Cada profesional tiene su propio perfil, donde podrás encontrar formas de contacto, información sobre su experiencia y opiniones de otros usuarios.
+              </li>
+              <li>
+                <strong>Reseñas de Clientes:</strong> Después de utilizar un servicio, podrás dejar tu reseña para ayudar a otros a tomar decisiones informadas.
+              </li>
+            </ul>
+          </div>
+        </motion.div>
+      </div>
+          {/* Pie de Página */}
+      <div className="home-footer">
+        <span>© 2024 ServiciosYa. Todos los derechos reservados.</span>
       </div>
     </>
-  );
+        
+
+);
+  
 };
 
 export default HomePage;

@@ -1,0 +1,19 @@
+:root {
+    --gradient-dark: #000;
+    --gradient-light: #63e;
+  }
+  
+.background-gradient { 
+background:  radial-gradient(
+  ellipse 80% 80% at 50% -20%, 
+  rgba(120, 119, 198, 0.3), 
+  rgba(255, 255, 255, 0)),
+  radial-gradient(125% 125% at 50% 10%, var(--gradient-dark) 40%, var(--gradient-light) 100%); 
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+} 
+
