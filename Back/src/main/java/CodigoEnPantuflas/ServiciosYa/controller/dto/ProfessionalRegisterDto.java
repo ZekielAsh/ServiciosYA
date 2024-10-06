@@ -1,6 +1,7 @@
 package CodigoEnPantuflas.ServiciosYa.controller.dto;
 
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
+import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import lombok.*;
 
 @Data
@@ -8,5 +9,5 @@ import lombok.*;
 public class ProfessionalRegisterDto {
     private String email;
     private String district;
-    private Mode trade;
+    private Trades trade;
 }
