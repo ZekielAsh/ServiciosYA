@@ -13,16 +13,25 @@ public class Request {
 
     @Column(length = 150)
     private String description;
+    @Column(length = 50)
+    private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private User client;  // Asociado al usuario que hizo la solicitud
+
+    @ManyToOne
+    @JoinColumn(name = "professional_id")
+    private User professional;  // Asociado al usuario que hizo la solicitud
+
 
     private ReqStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;  // Asociado al usuario que hizo la solicitud
-
-    public Request(String description, User user) {
-        this.setUser(user);
+    public Request(User client, User professional, String description,  String title) {
+        this.setClient(client);
+        this.setProfessional(professional);
         this.description = description;
+        this.title = title;
         this.status = ReqStatus.PENDING;
     }
 

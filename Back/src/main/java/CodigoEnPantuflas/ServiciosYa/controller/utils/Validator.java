@@ -1,8 +1,7 @@
 package CodigoEnPantuflas.ServiciosYa.controller.utils;
 
-import CodigoEnPantuflas.ServiciosYa.controller.dto.CommentDto;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.LoginBody;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.RegisterBody;
+import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
+import CodigoEnPantuflas.ServiciosYa.modelo.Request;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 
 import java.util.regex.Pattern;
@@ -18,7 +17,10 @@ public class Validator {
     private static final String WRONG_EMAIL_OR_PASSWORD = "La dirección de mail o contraseña son erroneas. Verifique su información e intente otra vez";
     private static final String COMMENT_EMPTY_MESSAGE = "El comentario no puede estar vacío.";
     private static final String COMMENT_LONG_MESSAGE =  "El mensaje excedió el limite de 150 caracteres. Pruebe con un mensaje mas corto.";
-    private static final String REQUEST_EMPTY_MESSAGE = "Por favor, escriba un motivo para su solicitud.";
+    private static final String REQUEST_LONG_MOTIVE = "El motivo excedio el limite de 150 caracteres. Por favor haga una explicación mas corta.";
+    private static final String REQUEST_LONG_TITLE = "El titulo excedio el limite de 50 caracteres. Por favor intente con un titulo mas corto.";
+    private static final String REQUEST_EMPTY_MOTIVE = "El motivo no puede estar vacío";
+    private static final String REQUEST_EMPTY_TITLE = "El titulo no puede estar vacío";
     private static final String REQUEST_LONG_MESSAGE =  "El mensaje excedió el limite de 150 caracteres. Pruebe con un mensaje mas corto.";
 
     private static volatile Validator instance;
@@ -85,12 +87,18 @@ public class Validator {
         }
     }
 
-    public void validateRequest(String request) {
-        if (request.isBlank()) {
-            throw new IllegalArgumentException(REQUEST_EMPTY_MESSAGE);
+    public void validateRequest(CreateRequestDTO request) {
+        if (request.getTitle().isBlank()) {
+            throw new IllegalArgumentException(REQUEST_EMPTY_TITLE);
         }
-        if ((request.length() > 150)){
-            throw new IllegalArgumentException(REQUEST_LONG_MESSAGE);
+        if (request.getDescription().isBlank()) {
+            throw new IllegalArgumentException(REQUEST_EMPTY_MOTIVE);
+        }
+        if ((request.getTitle().length() > 50)){
+            throw new IllegalArgumentException(REQUEST_LONG_TITLE);
+        }
+        if ((request.getDescription().length() > 150)){
+            throw new IllegalArgumentException(REQUEST_LONG_MOTIVE);
         }
     }
 
