@@ -30,7 +30,6 @@ public class ObjectMapper {
                 userRole.getTrade(),userRole.getDistrict(),userRole.getContactMail(), userRole.getPhoneNumber());
     }
 
-
     public RoleDto converRoleToRoleDto(Role role) {
         if(role.getMode() == Mode.CLIENT){
             return new ClientDto(role.getUser().getUserNickname());
@@ -46,8 +45,8 @@ public class ObjectMapper {
     }
 
     public RequestDto convertRequestToRequestDto(Request request){
-        SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getUser());
-        return new RequestDto(request.getDescription(), simpleUserDto, request.getStatus());
+        SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getClient());
+        return new RequestDto(request.getTitle(), simpleUserDto, request.getStatus().toString());
     }
 
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
@@ -61,8 +60,5 @@ public class ObjectMapper {
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
-
-
-
 
 }

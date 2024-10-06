@@ -93,4 +93,13 @@ public class UserService {
         user.addMail(emailContact);
         return userDao.save(user);
     }
+
+    public Request sendNewRequest(String email, String professionalEmail, String description, String title) {
+        User client = getByMail(email);
+        User professional = getByMail(professionalEmail);
+        Request request = new Request(client, professional, description, title);
+        client.sendNewRequest(request);
+        professional.receiveNewRequest(request);
+        return request;
+    }
 }

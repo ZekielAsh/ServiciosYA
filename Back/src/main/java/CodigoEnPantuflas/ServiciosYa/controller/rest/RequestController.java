@@ -1,5 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.controller.rest;
 
+import CodigoEnPantuflas.ServiciosYa.controller.dto.CreateRequestDTO;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RequestDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.SimpleUserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
@@ -28,33 +29,45 @@ public class RequestController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/addRequest")
+    @PostMapping("/{email}/sendRequestTo/{professionalEmail}")
     @CrossOrigin
-    public ResponseEntity<RequestDto> addRequest(@RequestParam String request, @RequestParam String email) {
-        Validator.getInstance().validateRequest(request);
-        User user = userService.getByMail(email);
-        Request savedRequest = requestService.addRequest(request, user);
-        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(savedRequest);
-        SimpleUserDto simpleUserDto = ObjectMapper.getInstance().convertUserToSimpleUserDto(user);
-        requestDto.setUser(simpleUserDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(requestDto);
-    }
-
-    @GetMapping("profile/{email}")
-    @CrossOrigin
-    public ResponseEntity<List<RequestDto>> getRequestsByProfile(@PathVariable String email) {
-        User user = userService.getByMail(email);
-        List<RequestDto> requestsDto = user.getRequests().stream().map(r -> ObjectMapper.getInstance().convertRequestToRequestDto(r)).toList();
-        return ResponseEntity.ok(requestsDto);
-    }
-
-    // Los status que puede tener una request son: "PENDING", "ACCEPTED", "REJECTED"
-    @PutMapping("/updateRequestStatus")
-    @CrossOrigin
-    public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {
-        Request updatedRequest = requestService.updateRequestStatus(requestId, status);
-        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
+    public ResponseEntity<RequestDto> addRequest(@RequestBody CreateRequestDTO dto, @PathVariable String email, @PathVariable String professionalEmail) {
+        Validator.getInstance().validateRequest(dto);
+        Request request = userService.sendNewRequest(email, professionalEmail, dto.getDescription(), dto.getTitle());
+        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(request);
         return ResponseEntity.ok(requestDto);
     }
+
+
+//    const addRequest = (title, description, reqStatus, senderEmail, receiverEmail) => {
+//  const requestData = {
+//                title,
+//                description,
+//                reqStatus,
+//                senderEmail,
+//                receiverEmail,
+//        };
+//
+//        return axios
+//                .post(${API_URL}/requests/addRequest, requestData)
+//    .then(response => response);
+//    }
+
+//    @GetMapping("profile/{email}")
+//    @CrossOrigin
+//    public ResponseEntity<List<RequestDto>> getRequestsByProfile(@PathVariable String email) {
+//        User user = userService.getByMail(email);
+//        List<RequestDto> requestsDto = user.getRequests().stream().map(r -> ObjectMapper.getInstance().convertRequestToRequestDto(r)).toList();
+//        return ResponseEntity.ok(requestsDto);
+//    }
+
+//    // Los status que puede tener una request son: "PENDING", "ACCEPTED", "REJECTED"
+//    @PutMapping("/updateRequestStatus")
+//    @CrossOrigin
+//    public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {
+//        Request updatedRequest = requestService.updateRequestStatus(requestId, status);
+//        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
+//        return ResponseEntity.ok(requestDto);
+//    }
 
 }
