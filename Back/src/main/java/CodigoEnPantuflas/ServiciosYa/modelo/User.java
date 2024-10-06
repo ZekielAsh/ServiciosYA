@@ -38,8 +38,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Request> requests = new HashSet<>();
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Request> sendRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Request> receivedRequests = new HashSet<>();
 
 
     public User(String userNickname, String mail, String password){
@@ -139,7 +142,15 @@ public class User implements UserDetails {
     }
 
     public void addNewRequest(Request request) {
-        this.requests.add(request);
+        this.sendRequests.add(request);
+    }
+
+    public void sendNewRequest(Request request) {
+        this.sendRequests.add(request);
+    }
+
+    public void receiveNewRequest(Request request) {
+        this.receivedRequests.add(request);
     }
 }
 

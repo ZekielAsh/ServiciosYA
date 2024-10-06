@@ -19,15 +19,14 @@ public class RequestService {
         @Autowired
         IUserDao userDao;
 
-        public Request addRequest(String description, User user) {
-            Request request = new Request(description, user);
+        public Request addRequest(Request request, User user) {
             user.addNewRequest(request);
             return requestDao.save(request);
         }
 
-        public List<Request> findRequestsById(Long userId) {
-            return requestDao.findRequestsById(userId);
-        }
+//        public List<Request> findRequestsById(Long userId) {
+//            return requestDao.findRequestsById(userId);
+//        }
 
         public Request updateRequestStatus(Long requestId, String status) {
             Request request = requestDao.findById(requestId).get();

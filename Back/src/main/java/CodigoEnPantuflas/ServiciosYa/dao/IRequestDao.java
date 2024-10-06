@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IRequestDao extends JpaRepository<Request, Long> {
 
-    @Query("SELECT r FROM Request r WHERE r.user.id = ?1")
-    List<Request> findRequestsById(Long userId);
+//    @Query("SELECT r FROM Request r WHERE r.user.id = ?1")
+//    List<Request> findRequestsById(Long userId);
 }
