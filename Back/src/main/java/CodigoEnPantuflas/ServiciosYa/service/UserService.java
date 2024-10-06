@@ -1,6 +1,7 @@
 package CodigoEnPantuflas.ServiciosYa.service;
 import CodigoEnPantuflas.ServiciosYa.dao.IRequestDao;
 import CodigoEnPantuflas.ServiciosYa.dao.IUserDao;
+import CodigoEnPantuflas.ServiciosYa.exceptions.UserNotFoundException;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserService {
 
     public User getByMail(String mail) {
         User user = userDao.getByMail(mail)
-                .orElseThrow(() -> new RuntimeException(Errors.NOT_FOUND_IN_DATABASE.getMessage()));
+                .orElseThrow(() -> new UserNotFoundException(mail));
         if (user.getNameOfCurrentRole() == "CLIENT"){
             user.setCurrentRole( new Client());
         } else {

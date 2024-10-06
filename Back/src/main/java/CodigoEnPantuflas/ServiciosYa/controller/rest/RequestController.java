@@ -31,27 +31,13 @@ public class RequestController {
 
     @PostMapping("/sendRequest")
     @CrossOrigin
-    public ResponseEntity<RequestDto> addRequest(@RequestBody CreateRequestDTO dto, @RequestParam String email, @RequestParam String professionalEmail) {
+    public void addRequest(@RequestBody CreateRequestDTO dto, @RequestParam String email, @RequestParam String professionalEmail) {
         Validator.getInstance().validateRequest(dto);
-        Request request = userService.sendNewRequest(email, professionalEmail, dto.getDescription(), dto.getTitle());
-        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(request);
-        return ResponseEntity.ok(requestDto);
+        userService.sendNewRequest(email, professionalEmail, dto.getDescription(), dto.getTitle());
     }
 
-
-//    const addRequest = (title, description, reqStatus, senderEmail, receiverEmail) => {
-//  const requestData = {
-//                title,
-//                description,
-//                reqStatus,
-//                senderEmail,
-//                receiverEmail,
-//        };
-//
-//        return axios
-//                .post(${API_URL}/requests/addRequest, requestData)
-//    .then(response => response);
-//    }
+//    RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(request);
+//        return ResponseEntity.ok(requestDto);
 
     @GetMapping("sent/profile/{email}")
     @CrossOrigin
