@@ -9,4 +9,5 @@ public class RequestDto {
     private String title;
     private SimpleUserDto user;
     private String status;
+    private String description;
 }
