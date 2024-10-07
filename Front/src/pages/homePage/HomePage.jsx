@@ -67,7 +67,7 @@ const HomePage = () => {
               Bienvenido a ServiciosYa
               <br/> ServiciosYa
             </div>
-            <div div className="home-container">  
+            <div className="home-container">  
               es la solución perfecta para quienes buscan profesionales confiables para reparaciones y mejoras en el hogar. Nuestra misión es facilitar el proceso de encontrar, contactar y reservar servicios de calidad, para que puedas enfocarte en lo que realmente importa.
             </div> 
         </div>
