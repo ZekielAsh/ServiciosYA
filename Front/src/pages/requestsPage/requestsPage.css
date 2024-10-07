@@ -1,0 +1,6 @@
+.request-info-card-container {
+    display: flex;              /* Permite la alineación horizontal */
+    flex-wrap: wrap;           /* Permite que las tarjetas se muevan a la siguiente línea si no hay espacio */
+    gap: 16px;                 /* Espacio entre las tarjetas (ajusta según sea necesario) */
+    margin-top: 40;
+}

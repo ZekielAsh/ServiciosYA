@@ -50,7 +50,7 @@ public class ObjectMapper {
     }
 
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
-        return new SimpleUserDto(user.getUserNickname());
+        return new SimpleUserDto(user.getUserNickname(), user.getMail());
     }
 
     public User convertUserDtoToUser(UserDto userDto){

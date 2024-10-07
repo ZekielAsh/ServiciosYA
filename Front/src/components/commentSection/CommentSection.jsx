@@ -37,11 +37,9 @@ const CommentSection = ({
         .addComment(review, profileUserEmail)
         .then(response => {
           console.log(response.data);
-          // Agregar la nueva reseña a la lista
           setReviews([...reviews, response.data]);
         })
         .catch(error => {
-          // Mostrar error proporcionado por el backend (e.g. reseña vacía, límite de caracteres)
           setModalMessage(error.response.data.error);
         });
       setReview("");
