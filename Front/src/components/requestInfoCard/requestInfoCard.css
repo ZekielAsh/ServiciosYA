@@ -1,0 +1,15 @@
+.request-info-card {
+    display: flex;  /* Cambia flexbox por flex */
+    flex-direction: row; /* Asegúrate de que los hijos estén en una fila */
+    justify-content: center;
+    border-radius: 20px;
+    width: 200px; /* Ajusta el ancho según sea necesario */
+    padding: 8px;
+    margin-top: 20px; /* Añade 'px' a los valores de margen */
+    margin-left: 80px; /* Añade 'px' a los valores de margen */
+}
+
+.request-info-card-item {
+    margin: 0 10px; /* Espacio horizontal (izquierda y derecha) */
+    font-size: 20px;
+}

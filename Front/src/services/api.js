@@ -88,7 +88,7 @@ const getSendRequests = (email) =>{
 const getRecievedRequests = (email) =>{
   return axios
   .get(
-    `${API_URL}received/profile/${email}`
+    `${API_URL}/requests/received/profile/${email}`
   )
   .then(response => response);
 }

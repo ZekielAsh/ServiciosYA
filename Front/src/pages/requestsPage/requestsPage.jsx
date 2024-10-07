@@ -4,6 +4,8 @@ import Navbar from "../../components/navbar/Navbar";
 import api from "../../services/api.js";
 import "./requestsPage.css";
 import Spinner from "../../components/spinner/Spinner";
+import RequestInfoCard from "../../components/requestInfoCard/requestInfoCard.jsx";
+import { div } from "framer-motion/client";
 
 const RequestsPage = () => {
   const [modalMessage, setModalMessage] = useState("");
@@ -44,6 +46,7 @@ const RequestsPage = () => {
         
         if (userResponse.data.currentRolDto.includes('PROFESSIONAL')) {
           const recievedRequestsResponse = await api.getRecievedRequests(logedUserEmail);
+          console.log(recievedRequestsResponse.data)
           setRecievedRequests(recievedRequestsResponse.data);
         } else{
           const sentRequestsResponse = await api.getSendRequests(logedUserEmail);
@@ -65,25 +68,24 @@ const RequestsPage = () => {
       {/* Aquí puedes renderizar tus requests */}
       <div>
         {logedUser.role === 'CLIENT' ? (
-          Sentrequests.map(Sentrequests => (
-            <div key={Sentrequests.id}>
-              <p>{Sentrequests.user.nickname}</p>
-              <p>{Sentrequests.title}</p>
-              <p>{Sentrequests.description}</p>
+          Sentrequests.map(sentRequest => (
+            <div key={sentRequest.id}>
+              <p>{sentRequest.title}</p>
+              <p>{sentRequest.description}</p>
+              <p>{sentRequest.status}</p>
             </div>
           ))
         ) : (
-          recievedRequests.map(receivedRequest => (
-            <div key={receivedRequest.id}>
-              <p>{receivedRequest.user.nickname}</p>
-              <p>{receivedRequest.title}</p>
-              <p>{receivedRequest.description}</p>
-            </div>
-          ))
+          <div className="request-info-card-container">
+            {recievedRequests.map(receivedRequest => (
+              <RequestInfoCard key={receivedRequest.id} request={receivedRequest} />
+            ))}
+          </div>
         )}
       </div>
     </>
   );
+  
 };
 
 export default RequestsPage;
