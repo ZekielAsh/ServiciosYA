@@ -3,6 +3,7 @@ import UserInfo from "../../components/userInfo/UserInfo";
 import "./UserProfile.css";
 
 const UserProfile = ({
+  comesFromRequest,
   profileUser,
   setProfileUser,
   logedUser,
@@ -24,7 +25,7 @@ const UserProfile = ({
           <div>
             <h2>{profileUser.username}</h2>
           </div>
-          {!isProfessional ? (
+          {!isProfessional  ? (
             isProfileOwner ? (
               isProfessional ? (
                 <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
@@ -35,6 +36,7 @@ const UserProfile = ({
           ) : (
             <div>
               <UserInfo
+                comesFromRequest={comesFromRequest}
                 profileUser={profileUser}
                 setProfileUser={setProfileUser}
                 isProfileOwner={isProfileOwner}

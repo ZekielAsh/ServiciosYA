@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../../services/api";
 
 const UserInfo = ({
+  comesFromRequest,
   profileUser,
   setProfileUser,
   isProfileOwner,
@@ -12,8 +13,7 @@ const UserInfo = ({
   const [contactEmail, setContactEmail] = useState(profileUser.contactEmail);
 
   const isProfessional = profileUser.roles.length >= 2
-  console.log(isProfileOwner)
-
+  const comesFromRequestBoolean = (comesFromRequest.toLowerCase() === 'true'); // javascript decidio que mi booleano se tiene que parsear a string, aca lo hago booleano de vuelta
   const handlePhoneNumberChange = event => {
     setPhoneNumber(event.target.value);
   };
@@ -53,6 +53,12 @@ const UserInfo = ({
         profileUser.role === "PROFESSIONAL" ? (
           <div>
             <div>
+              <h3>District: {profileUser.district}</h3>
+            </div>
+            <div>
+             <h3>Trade: {profileUser.trade}</h3>
+            </div>
+            <div>
               <p>Teléfono: </p>
               <p>
                 {isEditing ? (
@@ -91,13 +97,19 @@ const UserInfo = ({
             )}
           </div>
         ) : null 
-      ) : isProfessional ? (
+      ) : isProfessional && !comesFromRequestBoolean ? (
         <div>
           <div>
-            <h3>Teléfono: {phoneNumber}</h3>
+            <h3>District: {profileUser.district}</h3>
           </div>
           <div>
-            <h3>Email: {contactEmail}</h3>
+            <h3>Trade: {profileUser.trade}</h3>
+          </div>
+          <div>
+            <h3>Teléfono: {profileUser.phoneNumber}</h3>
+          </div>
+          <div>
+            <h3>Email: {profileUser.email}</h3>
           </div>
         </div>
       ) : null} 

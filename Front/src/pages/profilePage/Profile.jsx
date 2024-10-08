@@ -18,9 +18,11 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
   const [isDescriptionBoxVisible, setIsDescriptionBoxVisible] = useState(false);
-
+  const comesFromRequest = params.comesFromRequest;
   useEffect(() => {
     const userProfileEmail = params.email;
+    const comesFromRequest = params.comesFromRequest;
+    console.log(comesFromRequest)
     const logedUserEmail = getUserEmailFromLocalStorage();
 
     api
@@ -96,6 +98,7 @@ const Profile = () => {
           ...prevUser,
           role: response.data.currentRolDto,
         }));
+        console.log(logedUser)
         setModalMessage("Rol cambiado con éxito.");
       })
       .catch(error => {
@@ -107,6 +110,9 @@ const Profile = () => {
     setIsDescriptionBoxVisible(true)
   }
 
+
+  
+
   if (isLoading) return <Spinner />;
 
   return (
@@ -114,6 +120,7 @@ const Profile = () => {
       <Navbar user={logedUser} />
       <div className="profile-page-container">
         <UserProfile
+          comesFromRequest={comesFromRequest}
           logedUser={logedUser}
           profileUser={profileUser}
           setProfileUser={setProfileUser}

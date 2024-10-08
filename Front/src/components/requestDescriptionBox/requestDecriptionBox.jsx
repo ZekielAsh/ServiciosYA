@@ -7,6 +7,9 @@ const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, set
   const [isInputVisible, setIsInputVisible] = useState(false);
 
   const isProfileOwner = logedUserEmail === profileUser.email;
+  const isProfessional = profileUser.roles.length >= 2 
+
+  // console.log(isProfileOwner || profileUser.role === "CLIENT" || logedUserRole === "PROFESSIONAL")
 
   const handleRequestDescription = () => {
     setIsInputVisible(true);
@@ -27,8 +30,9 @@ const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, set
   };
 
   const handleSubmit = () => { 
-    api.addRequest(title, description, logedUserEmail, profileUserEmail)
+    api.addRequest(title, description, logedUserEmail, profileUser.email)
     .then(response => {
+      console.log(response)
       setModalMessage("La solicitud ha sido enviada");
     })
     .catch(error => {
@@ -40,7 +44,7 @@ const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, set
 
   return (
     <div>
-      {isProfileOwner || profileUser.role === "CLIENT" || logedUserRole === "PROFESSIONAL" ?(
+      {isProfileOwner || !isProfessional || logedUserRole === "PROFESSIONAL" ?(
         null
       ) : (
         isInputVisible ? (
