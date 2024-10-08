@@ -8,13 +8,18 @@
 .request-info-line {
     display: flex;
     align-items: center;  /* Alinea los elementos verticalmente en el centro */
-    gap: 10px;  /* Espaciado entre los elementos */
+    gap: 100px;  /* Espaciado entre los elementos */
     width: 100%;  /* Asegura que ocupe el ancho completo */
+    font-size: 18px;
 }
 
 .request-info-title {
     font-size: 20px;
     margin-right: 10px;
+    color: white;
+    background: none;
+    font-size: 14px;
+
 }
 
 .description-toggle {
@@ -32,32 +37,34 @@
     margin-left: auto;  /* Mueve los botones al final de la línea */
 }
 
-.accept-btn,
-.reject-btn {
+.request-nickname{
+    margin-left: 15px ;
+}
+
+
+.accept-btn {
+    border: none;  
+    background-color: green;
     padding: 5px 10px;
-    border: none;
+    color: white;
+    border-radius: 0%;
     cursor: pointer;
 }
 
-.accept-btn {
-    background-color: green;
-    color: white;
-}
-
 .reject-btn {
+    border: none;
     background-color: red;
+    padding: 5px 10px;
     color: white;
+    cursor: pointer;
 }
 
 .request-info-description {
     margin-top: 10px;  /* Un pequeño margen para separar la descripción del nombre */
     font-size: 16px;
-    background-color: #f1f1f1;
     padding: 10px;
     border-radius: 5px;
+    background-color: lavender;
     width: 100%;
 }
 
-.violeta{
-    color: #5B2E91;
-}

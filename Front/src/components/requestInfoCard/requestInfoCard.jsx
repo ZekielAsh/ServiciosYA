@@ -13,16 +13,28 @@ const RequestInfoCard = ({ request }) => {
   return (
     <div className="request-body">
       <div className="request-info-line">
-        <strong class="violeta">Nombre:</strong >
         <Link to={`/profile/${request.user.email}`}>
+          <div className="request-nickname">
           {request.user.nickname}
+          </div>
         </Link>
+        <div className="request-info-title">
+          "{request.title}"
+        </div>
         <button onClick={toggleDescription} className="description-toggle">
           {isDescriptionVisible ? "Ocultar Descripción" : "Ver Descripción"}
         </button>
         <div className="request-buttons">
-          <Button className="accept-btn">Aceptar</Button>
-          <Button className="reject-btn">Rechazar</Button>
+          <Button> 
+            <div  className="accept-btn"> 
+            Aceptar
+            </div>
+          </Button>
+          <Button > 
+            <div className="reject-btn"> 
+            Rechazar
+            </div>
+          </Button>
         </div>
       </div>
       {isDescriptionVisible && (
