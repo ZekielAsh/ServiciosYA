@@ -1,15 +1,59 @@
-.request-info-card {
-    display: flex;  /* Cambia flexbox por flex */
-    flex-direction: row; /* Asegúrate de que los hijos estén en una fila */
-    justify-content: center;
-    border-radius: 20px;
-    width: 200px; /* Ajusta el ancho según sea necesario */
-    padding: 8px;
-    margin-top: 20px; /* Añade 'px' a los valores de margen */
-    margin-left: 80px; /* Añade 'px' a los valores de margen */
+.request-body {
+    width: 100%;  /* Ajusta el ancho según sea necesario */
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
 }
 
-.request-info-card-item {
-    margin: 0 10px; /* Espacio horizontal (izquierda y derecha) */
+.request-info-line {
+    display: flex;
+    align-items: center;  /* Alinea los elementos verticalmente en el centro */
+    gap: 10px;  /* Espaciado entre los elementos */
+    width: 100%;  /* Asegura que ocupe el ancho completo */
+}
+
+.request-info-title {
     font-size: 20px;
+    margin-right: 10px;
+}
+
+.description-toggle {
+    background: none;
+    border: none;
+    color: blueviolet;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.request-buttons {
+    display: flex;
+    gap: 5px;  /* Espaciado entre los botones A y R */
+    margin-left: auto;  /* Mueve los botones al final de la línea */
+}
+
+.accept-btn,
+.reject-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.accept-btn {
+    background-color: green;
+    color: white;
+}
+
+.reject-btn {
+    background-color: red;
+    color: white;
+}
+
+.request-info-description {
+    margin-top: 10px;  /* Un pequeño margen para separar la descripción del nombre */
+    font-size: 16px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
 }
