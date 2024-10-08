@@ -11,6 +11,9 @@ const UserInfo = ({
   const [phoneNumber, setPhoneNumber] = useState(profileUser.phoneNumber);
   const [contactEmail, setContactEmail] = useState(profileUser.contactEmail);
 
+  const isProfessional = profileUser.roles.length >= 2
+  console.log(isProfileOwner)
+
   const handlePhoneNumberChange = event => {
     setPhoneNumber(event.target.value);
   };
@@ -46,8 +49,8 @@ const UserInfo = ({
 
   return (
     <>
-      {profileUser.role === "PROFESSIONAL" ? (
-        isProfileOwner ? (
+      {isProfileOwner ? (
+        profileUser.role === "PROFESSIONAL" ? (
           <div>
             <div>
               <p>Teléfono: </p>
@@ -87,17 +90,17 @@ const UserInfo = ({
               </button>
             )}
           </div>
-        ) : (
+        ) : null 
+      ) : isProfessional ? (
+        <div>
           <div>
-            <div>
-              <h3>Teléfono: {phoneNumber}</h3>
-            </div>
-            <div>
-              <h3>Email: {contactEmail}</h3>
-            </div>
+            <h3>Teléfono: {phoneNumber}</h3>
           </div>
-        )
-      ) : null}
+          <div>
+            <h3>Email: {contactEmail}</h3>
+          </div>
+        </div>
+      ) : null} 
     </>
   );
 };
