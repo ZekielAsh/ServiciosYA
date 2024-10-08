@@ -13,7 +13,7 @@ const RequestInfoCard = ({ request }) => {
   return (
     <div className="request-body">
       <div className="request-info-line">
-        <strong>Nombre:</strong>
+        <strong class="violeta">Nombre:</strong >
         <Link to={`/profile/${request.user.email}`}>
           {request.user.nickname}
         </Link>

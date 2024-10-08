@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from "../../services/api";
 
-const RequestDescriptionBox = ({ logedUserEmail, profileUser, setModalMessage}) => {
+const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, setModalMessage}) => {
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -40,7 +40,7 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUser, setModalMessage}) 
 
   return (
     <div>
-      {isProfileOwner || profileUser.role ?(
+      {isProfileOwner || profileUser.role === "CLIENT" || logedUserRole === "PROFESSIONAL" ?(
         null
       ) : (
         isInputVisible ? (

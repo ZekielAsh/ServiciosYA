@@ -128,6 +128,7 @@ const Profile = () => {
         />
          <RequestDescriptionBox
           logedUserEmail={logedUser.email}
+          logedUserRole={logedUser.role}
           profileUser={profileUser}
           setModalMessage={setModalMessage}
         />
