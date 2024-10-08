@@ -6,6 +6,7 @@ import "./requestsPage.css";
 import Spinner from "../../components/spinner/Spinner";
 import RequestInfoCard from "../../components/requestInfoCard/requestInfoCard.jsx";
 import { div } from "framer-motion/client";
+import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
 
 const RequestsPage = () => {
   const [modalMessage, setModalMessage] = useState("");
@@ -64,6 +65,7 @@ const RequestsPage = () => {
   
   return (
     <>
+      <BackgroundSection />
       <Navbar user={logedUser} />
       {/* Aquí puedes renderizar tus requests */}
       <div>

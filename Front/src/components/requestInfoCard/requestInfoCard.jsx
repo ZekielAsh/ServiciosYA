@@ -1,29 +1,37 @@
+import React, { useState } from "react";
 import "./requestInfoCard.css";
 import { Link } from "react-router-dom";
 import Button from "../button/Button";
 
 const RequestInfoCard = ({ request }) => {
-    console.log(request)
-    console.log("aca esta la desc: " + request.description)
-    return(
-      <div className="request-body">
-        <div className="request-info-title">
-        <strong> Nombre </strong> 
-          <Link to={`/profile/${request.user.email}`}>
-          {request.user.nickname}</Link>  
-        </div>
-        <strong> Descripcion </strong>
-           {request.description}
+  const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
+
+  const toggleDescription = () => {
+    setIsDescriptionVisible(!isDescriptionVisible);
+  };
+
+  return (
+    <div className="request-body">
+      <div className="request-info-line">
+        <strong>Nombre:</strong>
+        <Link to={`/profile/${request.user.email}`}>
+          {request.user.nickname}
+        </Link>
+        <button onClick={toggleDescription} className="description-toggle">
+          {isDescriptionVisible ? "Ocultar Descripción" : "Ver Descripción"}
+        </button>
         <div className="request-buttons">
-          <div className="request-button-left">
-            <Button>Aceptar</Button>
-          </div>
-          <div className="request-button-right">
-            <Button>Rechazar</Button>
-          </div>
+          <Button className="accept-btn">Aceptar</Button>
+          <Button className="reject-btn">Rechazar</Button>
         </div>
       </div>
-    )    
+      {isDescriptionVisible && (
+        <div className="request-info-description">
+          <strong>Descripción:</strong> {request.description}
+        </div>
+      )}
+    </div>
+  );
 };
 
 
