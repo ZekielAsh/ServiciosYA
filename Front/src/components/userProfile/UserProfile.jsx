@@ -18,7 +18,7 @@ const UserProfile = ({
 
   // CUANDO TENGA EL ENDPOINT DE TRAER REVIEWS TRAER EL COMPONENTE DE REVIEWS
   return (
-    <div>
+    <div className="body-profile">
       <h1>Profile</h1>
       {profileUser && (
         <div>

@@ -49,27 +49,29 @@ const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, set
         null
       ) : (
         isInputVisible ? (
-          <div className="description-input">
-            <h2>Título</h2>
-            <textarea 
-              value={title}
-              onChange={handleTitleChange}
-              placeholder="Escribe el título aquí"
-            />
-            <h2>Descripción</h2>
-            <textarea 
-              value={description}
-              onChange={handleDescriptionChange}
-              placeholder="Escribe la descripción aquí"
-            />
-            <button onClick={handleSubmit}>Enviar</button>
-            <button onClick={handleCloseInput}>Cancelar</button>
-          </div>
-        ) : (
-          <button onClick={handleRequestDescription}>Solicitar</button>
-        )
-      )}
-    </div>
+         <div className="body-input">
+           <h2>Titulo</h2>
+           <textarea 
+             value={title}
+             onChange={handleTitleChange}
+             placeholder="Escribe el título aquí"
+           />
+           <h2>Descripción</h2>
+           <textarea 
+             value={description}
+             onChange={handleDescriptionChange}
+             placeholder="Escribe la descripcion aquí"
+           />
+           <div className='buttons'>
+            <button className='button' onClick={handleSubmit}>Enviar</button>
+            <button className='button' onClick={handleCloseInput}>Cancelar</button>
+           </div>
+         </div>
+       ) : (
+         <button onClick={handleRequestDescription}>Solicitar</button>
+       )
+     )}
+   </div>
   );
 
 };
