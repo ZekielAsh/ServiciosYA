@@ -33,11 +33,13 @@ const Navbar = ({ user }) => {
         className="logo"
       />
     </Link>
+    {user == null || user.role === "CLIENT" ? (<div></div>) :( 
     <Link to="/requestsPage">
         <Button  type="primary">
           Servicios
         </Button>
     </Link>
+    )}
   </div>
   <SearchInput onSearch={handleSearch} />
   {user ? (

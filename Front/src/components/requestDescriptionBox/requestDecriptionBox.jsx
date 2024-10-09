@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from "../../services/api";
+import "./requestDescriptionBox.css";
 
 const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, setModalMessage}) => {
   const [description, setDescription] = useState('');
@@ -48,28 +49,58 @@ const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, set
         null
       ) : (
         isInputVisible ? (
-          <div className="description-input">
-            <h2>Titulo</h2>
-            <textarea 
-              value={title}
-              onChange={handleTitleChange}
-            />
-            <h2>Descripción</h2>
-            <textarea 
-              value={description}
-              onChange={handleDescriptionChange}
-            />
-            <button onClick={handleSubmit}>Enviar</button>
-            <button onClick={handleCloseInput}>Cancelar</button>
-          </div>
-        ) : (
-          <button onClick={handleRequestDescription}>Solicitar</button>
-        )
-      )}
-    </div>
+         <div className="body-input">
+           <h2>Titulo</h2>
+           <textarea 
+             value={title}
+             onChange={handleTitleChange}
+             placeholder="Escribe el título aquí"
+           />
+           <h2>Descripción</h2>
+           <textarea 
+             value={description}
+             onChange={handleDescriptionChange}
+             placeholder="Escribe la descripcion aquí"
+           />
+           <div className='buttons'>
+            <button className='button' onClick={handleSubmit}>Enviar</button>
+            <button className='button' onClick={handleCloseInput}>Cancelar</button>
+           </div>
+         </div>
+       ) : (
+         <button onClick={handleRequestDescription}>Solicitar</button>
+       )
+     )}
+   </div>
   );
-  
+
 };
 
 export default RequestDescriptionBox;
 
+// return (
+//   <div>
+//     {isProfileOwner ? (
+//       null
+//     ) : (
+//       isInputVisible ? (
+//         <div className="description-input">
+//           <h2>Titulo</h2>
+//           <textarea 
+//             value={title}
+//             onChange={handleTitleChange}
+//           />
+//           <h2>Descripción</h2>
+//           <textarea 
+//             value={description}
+//             onChange={handleDescriptionChange}
+//           />
+//           <button onClick={handleSubmit}>Enviar</button>
+//           <button onClick={handleCloseInput}>Cancelar</button>
+//         </div>
+//       ) : (
+//         <button onClick={handleRequestDescription}>Solicitar</button>
+//       )
+//     )}
+//   </div>
+// );

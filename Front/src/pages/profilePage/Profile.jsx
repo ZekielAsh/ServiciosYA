@@ -2,6 +2,7 @@ import { getUserEmailFromLocalStorage } from "../../utils/localStorage";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import RequestDescriptionBox from "../../components/requestDescriptionBox/requestDecriptionBox";
+import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
 import CommentSection from "../../components/commentSection/CommentSection";
 import UserProfile from "../../components/userProfile/UserProfile";
 import Spinner from "../../components/spinner/Spinner";
@@ -117,6 +118,7 @@ const Profile = () => {
 
   return (
     <>
+      <BackgroundSection />
       <Navbar user={logedUser} />
       <div className="profile-page-container">
         <UserProfile
