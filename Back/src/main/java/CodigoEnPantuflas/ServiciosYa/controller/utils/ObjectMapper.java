@@ -24,13 +24,11 @@ public class ObjectMapper {
     }
 
     public UserDto convertUserToUserDto(User user){
-        System.out.println(user.getCurrentRole().getTrade());
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
         Role userRole = user.getCurrentRole();
         return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword(),
                 userRole.getTrade(),userRole.getDistrict(),userRole.getContactMail(), userRole.getPhoneNumber());
     }
-
 
     public RoleDto converRoleToRoleDto(Role role) {
         if(role.getMode() == Mode.CLIENT){
@@ -46,8 +44,13 @@ public class ObjectMapper {
         return new CommentDto(comment.getText(), simpleUserDto);
     }
 
+    public RequestDto convertRequestToRequestDto(Request request){
+        SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getClient());
+        return new RequestDto(request.getTitle(), simpleUserDto, request.getStatus().toString(), request.getDescription());
+    }
+
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
-        return new SimpleUserDto(user.getUserNickname());
+        return new SimpleUserDto(user.getUserNickname(), user.getMail());
     }
 
     public User convertUserDtoToUser(UserDto userDto){
@@ -57,8 +60,5 @@ public class ObjectMapper {
     public User convertRegisterBodyToUser(RegisterBody registerBody){
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
-
-
-
 
 }

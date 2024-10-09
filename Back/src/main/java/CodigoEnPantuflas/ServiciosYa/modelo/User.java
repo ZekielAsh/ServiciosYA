@@ -38,6 +38,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<>();
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Request> sendRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Request> receivedRequests = new HashSet<>();
+
 
     public User(String userNickname, String mail, String password){
         this.setUserNickname(userNickname);
@@ -104,7 +110,7 @@ public class User implements UserDetails {
     }
 
     public void addProfessionalRole(String distric, String trade) {
-        Role role = new Professional(distric, trade);
+        Role role = new Professional(this, distric, trade);
         this.userRoles.add(role);
         this.setRoleAsCurrent(Mode.PROFESSIONAL);
     }
@@ -135,8 +141,16 @@ public class User implements UserDetails {
         }
     }
 
+    public void addNewRequest(Request request) {
+        this.sendRequests.add(request);
+    }
 
+    public void sendNewRequest(Request request) {
+        this.sendRequests.add(request);
+    }
 
-
+    public void receiveNewRequest(Request request) {
+        this.receivedRequests.add(request);
+    }
 }
 

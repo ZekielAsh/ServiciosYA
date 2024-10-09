@@ -1,0 +1,33 @@
+.comment-section {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  color: white;
+}
+
+.comment-section-review-input {
+  height: 38px;
+  caret-color: var(--color-blue-dark);
+  background: var(--color-grey-light);
+  border-radius: 6px;
+  border: none;
+  padding: 10px;
+  outline-color: var(--color-blue-dark);
+  outline-width: 1px;
+  resize: none;
+  overflow: hidden;
+}
+
+.comment-section-reviews {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.comment-section-review {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-blue-dark);
+  color: white;
+}

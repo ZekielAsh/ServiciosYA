@@ -22,8 +22,6 @@ export const getUserEmailFromLocalStorage = () => {
   return localStorage.getItem("email");
 };
 
-export const removeTokenFromLocalStorage = () => {
+export const removeItemsFromLocalStorage = () => {
   localStorage.clear();
 };
-
-// con usar localStorage.clear() se limpia todo el localStorage

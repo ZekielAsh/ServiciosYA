@@ -36,5 +36,11 @@ public interface IUserDao extends JpaRepository<User, String> {
     @Query("SELECT p.district FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
     String findProfessionalDistrictByEmail(@Param("email") String email);
 
+    @Query("SELECT p.contactMail FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
+    String findProfessionalContactMailbyEmail(@Param("email") String email);
+
+    @Query("SELECT p.phoneNumber FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
+    String findProfessionalPhoneByEmail(@Param("email") String email);
+
 }
 

@@ -24,12 +24,10 @@ public class CommentService {
         comment.setText(text);
         comment.setUser(user);
         user.addNewComment(comment);
-        userDao.save(user);
         return commentDao.save(comment);
     }
 
     public List<Comment> findCommentsById(Long userId) {
         return commentDao.findCommentsById(userId);
-
     }
 }

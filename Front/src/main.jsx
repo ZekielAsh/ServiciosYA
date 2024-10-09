@@ -11,6 +11,8 @@ import Profile from "./pages/profilePage/Profile";
 import React from "react";
 import "./styles/Colors.css";
 import "./index.css";
+import BackgroundSection from './components/backgroundSection/BackgroundSection';
+import RequestsPage from "./pages/requestsPage/requestsPage";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +36,12 @@ const router = createBrowserRouter([
     element: <SearchPage />,
   },
   {
-    path: "/profile/:email",
+    path: "/profile/:email/:comesFromRequest",
     element: <ProtectedRoute element={<Profile />} />,
+  },
+  {
+    path: "/requestsPage",
+    element: <ProtectedRoute element={<RequestsPage />} />,
   }
 ]);
 
