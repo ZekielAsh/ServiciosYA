@@ -1,0 +1,53 @@
+.description-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre el título, la descripción y los botones */
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    width: 400px; /* Ancho del contenedor */
+  }
+  
+  .description-input h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .description-input textarea {
+    width: 100%; /* Para que ocupe todo el ancho disponible del contenedor */
+    height: 60px; /* Puedes ajustar la altura para la caja de título */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none; /* Evita que el usuario cambie el tamaño de la caja */
+  }
+  
+  .description-input textarea:last-of-type {
+    height: 120px; /* Ajusta la altura de la caja de descripción */
+  }
+  
+  .description-input button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .description-input button:hover {
+    background-color: #45a049; /* Cambia el color al pasar el cursor */
+  }
+  
+  .description-input button:nth-child(4) {
+    background-color: #f44336; /* Color rojo para el botón "Cancelar" */
+  }
+  
+  .description-input button:nth-child(4):hover {
+    background-color: #d32f2f; /* Cambia el color del botón "Cancelar" al pasar el cursor */
+  }
+  

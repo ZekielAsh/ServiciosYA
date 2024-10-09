@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from "../../services/api";
+import "./requestDescriptionBox.css";
 
 const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessage}) => {
   const [description, setDescription] = useState('');
@@ -45,15 +46,17 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessa
       ) : (
         isInputVisible ? (
           <div className="description-input">
-            <h2>Titulo</h2>
+            <h2>Título</h2>
             <textarea 
               value={title}
               onChange={handleTitleChange}
+              placeholder="Escribe el título aquí"
             />
             <h2>Descripción</h2>
             <textarea 
               value={description}
               onChange={handleDescriptionChange}
+              placeholder="Escribe la descripción aquí"
             />
             <button onClick={handleSubmit}>Enviar</button>
             <button onClick={handleCloseInput}>Cancelar</button>
@@ -64,8 +67,34 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessa
       )}
     </div>
   );
-  
+
 };
 
 export default RequestDescriptionBox;
 
+// return (
+//   <div>
+//     {isProfileOwner ? (
+//       null
+//     ) : (
+//       isInputVisible ? (
+//         <div className="description-input">
+//           <h2>Titulo</h2>
+//           <textarea 
+//             value={title}
+//             onChange={handleTitleChange}
+//           />
+//           <h2>Descripción</h2>
+//           <textarea 
+//             value={description}
+//             onChange={handleDescriptionChange}
+//           />
+//           <button onClick={handleSubmit}>Enviar</button>
+//           <button onClick={handleCloseInput}>Cancelar</button>
+//         </div>
+//       ) : (
+//         <button onClick={handleRequestDescription}>Solicitar</button>
+//       )
+//     )}
+//   </div>
+// );
