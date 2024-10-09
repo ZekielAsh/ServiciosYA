@@ -1,37 +1,80 @@
-.request-body{
-    width: 200px;
+.request-body {
+    /* width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    margin-top: 10px; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 15px;  /* Espaciado interno */
+    border: 1px solid rgba(207, 192, 192, 0.2);  /* Borde de color gris claro */
+    border-radius: 8px;  /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(208, 43, 241, 0.1);  /* Sombra suave para efecto de elevación */
+    margin-bottom: 20px;  
 }
 
+.request-info-line {
+    display: flex;
+    align-items: center;  /* Alinea los elementos verticalmente en el centro */
+    gap: 100px;  /* Espaciado entre los elementos */
+    width: 100%;  /* Asegura que ocupe el ancho completo */
+    font-size: 18px;
+}
 
 .request-info-title {
     font-size: 20px;
+    margin-right: 10px;
+    color: white;
+    background: none;
+    font-size: 14px;
+
 }
 
-.request-button-left{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 30px;
+.description-toggle {
+    background: none;
+    border: none;
+    color: blueviolet;
+    cursor: pointer;
+    font-size: 14px;
     margin-left: 10px;
 }
 
-.request-button-right{
-    display: flex;
-    flex-direction: column;
-    margin-right: 15px;
-    justify-content: flex-end;
-}
-
 .request-buttons {
-    display: flex;  
-    justify-content: space-between;
-    width: 100%;  
-    padding: 10px 0; 
+    display: flex;
+    gap: 5px;  /* Espaciado entre los botones A y R */
+    margin-left: auto;  /* Mueve los botones al final de la línea */
 }
 
-/* .request-info-description{
+.request-nickname{
+    margin-left: 15px ;
+    color: rgb(119, 160, 236); 
+}
 
-} */
+
+.accept-btn {
+    border: none;  
+    background-color: green;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 0%;
+    cursor: pointer;
+}
+
+.reject-btn {
+    border: none;
+    background-color: red;
+    padding: 5px 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.request-info-description {
+    margin-top: 10px;  /* Un pequeño margen para separar la descripción del nombre */
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: lavender;
+    width: 100%;
+}
+

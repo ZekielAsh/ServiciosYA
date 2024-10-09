@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import api from "../../services/api";
 
-const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessage}) => {
+const RequestDescriptionBox = ({ logedUserEmail, logedUserRole, profileUser, setModalMessage}) => {
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
   const [isInputVisible, setIsInputVisible] = useState(false);
 
-  const isProfileOwner = logedUserEmail === profileUserEmail;
+  const isProfileOwner = logedUserEmail === profileUser.email;
+  const isProfessional = profileUser.roles.length >= 2 
+
+  // console.log(isProfileOwner || profileUser.role === "CLIENT" || logedUserRole === "PROFESSIONAL")
 
   const handleRequestDescription = () => {
     setIsInputVisible(true);
@@ -27,8 +30,9 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessa
   };
 
   const handleSubmit = () => { 
-    api.addRequest(title, description, logedUserEmail, profileUserEmail)
+    api.addRequest(title, description, logedUserEmail, profileUser.email)
     .then(response => {
+      console.log(response)
       setModalMessage("La solicitud ha sido enviada");
     })
     .catch(error => {
@@ -40,7 +44,7 @@ const RequestDescriptionBox = ({ logedUserEmail, profileUserEmail, setModalMessa
 
   return (
     <div>
-      {isProfileOwner ? (
+      {isProfileOwner || !isProfessional || logedUserRole === "PROFESSIONAL" ?(
         null
       ) : (
         isInputVisible ? (
