@@ -3,13 +3,18 @@ import UserInfo from "../../components/userInfo/UserInfo";
 import "./UserProfile.css";
 
 const UserProfile = ({
+  comesFromRequest,
   profileUser,
   setProfileUser,
   logedUser,
   setModalMessage,
   handleSwitchRole,
 }) => {
+  
   const isProfileOwner = logedUser.email === profileUser.email;
+
+  const isProfessional = profileUser.roles.length >= 2
+  
 
   // CUANDO TENGA EL ENDPOINT DE TRAER REVIEWS TRAER EL COMPONENTE DE REVIEWS
   return (
@@ -20,9 +25,9 @@ const UserProfile = ({
           <div>
             <h2>{profileUser.username}</h2>
           </div>
-          {profileUser.role === "CLIENT" ? (
+          {!isProfessional  ? (
             isProfileOwner ? (
-              profileUser.roles.length > 1 ? (
+              isProfessional ? (
                 <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
               ) : (
                 <Link to="/registerPro">RegisterPro</Link>
@@ -30,10 +35,8 @@ const UserProfile = ({
             ) : null
           ) : (
             <div>
-              <h3>District: {profileUser.district}</h3>
-              <h3>Trade: {profileUser.trade}</h3>
-              
               <UserInfo
+                comesFromRequest={comesFromRequest}
                 profileUser={profileUser}
                 setProfileUser={setProfileUser}
                 isProfileOwner={isProfileOwner}
