@@ -48,7 +48,7 @@ public class ObjectMapper {
         SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getClient());
         RoleDto rolDto = this.converRoleToRoleDto(request.getProfessional().findRoleWithMode(Mode.PROFESSIONAL));
         ProfessionalDto profDto = (ProfessionalDto) rolDto;
-        return new RequestDto(request.getTitle(), simpleUserDto, request.getStatus().toString(), request.getDescription(), profDto);
+        return new RequestDto(request.getId(), request.getTitle(), simpleUserDto, request.getStatus().toString(), request.getDescription(), profDto);
     }
 
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
