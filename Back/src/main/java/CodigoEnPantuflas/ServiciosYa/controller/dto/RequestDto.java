@@ -11,6 +11,7 @@ public class RequestDto {
     private SimpleUserDto user;
     private String status;
     private String description;
-    private ProfessionalDto profDto;
+    private String profTrade;
     private String profNickName;
+    private String profEmail;
 }
