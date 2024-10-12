@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./SubmitedRequestCard.css";
 
 const SubmitedRequestCard = ({ request }) => {
@@ -15,8 +16,10 @@ const SubmitedRequestCard = ({ request }) => {
         <div className={`${request.status} status`}>{request.status}</div>
       </div>
       <div className="submited-request-card-user-info">
-        <div>{request.profNickName}</div>
-        <div>{request.profDto.trade}</div>
+        <Link to={`/profile/${request.profEmail}/${false}`}>
+          <div>{request.profNickName}</div>
+        </Link>
+        <div>{request.profTrade}</div>
       </div>
       <div className="submited-request-card-description">
         <button

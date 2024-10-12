@@ -32,9 +32,13 @@ const Navbar = ({ user }) => {
         </Link>
         {user == null ? (
           <div></div>
-        ) : (
+        ) : user.role === "PROFESSIONAL" ? (
           <Link to="/requestsPage">
             <Button type="primary">Servicios</Button>
+          </Link>
+        ) : (
+          <Link to="/requestsPage">
+            <Button type="primary">Solicitudes</Button>
           </Link>
         )}
       </div>
