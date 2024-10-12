@@ -55,14 +55,14 @@ public class RequestController {
         return ResponseEntity.ok(requestsDto);
     }
 
-//    // Los status que puede tener una request son: "PENDING", "ACCEPTED", "REJECTED"
-//    @PutMapping("/updateRequestStatus")
-//    @CrossOrigin
-//    public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {
-//        Request updatedRequest = requestService.updateRequestStatus(requestId, status);
-//        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
-//        return ResponseEntity.ok(requestDto);
-//    }
+
+    @PutMapping("/updateRequestStatus")
+    @CrossOrigin
+    public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {
+        Request updatedRequest = requestService.updateRequestStatus(requestId, status);
+        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
+        return ResponseEntity.ok(requestDto);
+    }
     
 
 }
