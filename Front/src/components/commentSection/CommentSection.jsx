@@ -15,7 +15,6 @@ const CommentSection = ({
     api
       .getComments(profileUserEmail)
       .then(response => {
-        console.log("getcomments", response.data);
         setReviews(response.data);
       })
       .catch(error => {
@@ -36,7 +35,6 @@ const CommentSection = ({
       api
         .addComment(review, profileUserEmail)
         .then(response => {
-          console.log(response.data);
           setReviews([...reviews, response.data]);
         })
         .catch(error => {

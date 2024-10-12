@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
 import { getUserEmailFromLocalStorage } from "../../utils/localStorage";
+import { useEffect, useState } from "react";
+import SubmitedRequestCard from "../../components/submitedRequestCard/SubmitedRequestCard";
+import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
+import RequestInfoCard from "../../components/requestInfoCard/requestInfoCard.jsx";
+import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
+import Modal from "../../components/modal/Modal";
 import api from "../../services/api.js";
 import "./requestsPage.css";
-import Spinner from "../../components/spinner/Spinner";
-import RequestInfoCard from "../../components/requestInfoCard/requestInfoCard.jsx";
-import { div } from "framer-motion/client";
-import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
 
 const RequestsPage = () => {
   const [modalMessage, setModalMessage] = useState("");
-  const [Sentrequests, setSentRequests] = useState([]);
-  const [recievedRequests, setRecievedRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const logedUserEmail = getUserEmailFromLocalStorage();
+
+  const [recievedRequests, setRecievedRequests] = useState([]);
+  const [Sentrequests, setSentRequests] = useState([]);
+
   const [logedUser, setUser] = useState(null);
+  const logedUserEmail = getUserEmailFromLocalStorage();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,61 +36,60 @@ const RequestsPage = () => {
         });
         setIsLoading(false);
       } catch (error) {
-        setModalMessage(error.respose.data.error);
+        setModalMessage(error.response.data.error);
       }
     };
-  
+
     fetchUserData();
   }, [logedUserEmail]);
-  
+
   useEffect(() => {
     const fetchSentRequests = async () => {
       try {
         const userResponse = await api.getUserByEmail(logedUserEmail);
-        
-        if (userResponse.data.currentRolDto.includes('PROFESSIONAL')) {
-          const recievedRequestsResponse = await api.getRecievedRequests(logedUserEmail);
-          console.log(recievedRequestsResponse.data)
+
+        if (userResponse.data.currentRolDto.includes("PROFESSIONAL")) {
+          const recievedRequestsResponse = await api.getRecievedRequests(
+            logedUserEmail
+          );
           setRecievedRequests(recievedRequestsResponse.data);
-        } else{
-          const sentRequestsResponse = await api.getSendRequests(logedUserEmail);
-          setSentRequests(sentRequestsResponse.data); 
+        } else {
+          const sentRequestsResponse = await api.getSendRequests(
+            logedUserEmail
+          );
+          console.log(sentRequestsResponse);
+          setSentRequests(sentRequestsResponse.data);
         }
       } catch (error) {
-        setModalMessage(error.respose.data.error);
+        // CREO QUE NO TRAE ERROR
+        console.log(error);
+        setModalMessage(error.response.data.error);
       }
     };
-    fetchSentRequests()
+    fetchSentRequests();
   }, [logedUserEmail]);
-  
 
   if (isLoading) return <Spinner />;
-  
+
   return (
     <>
       <BackgroundSection />
       <Navbar user={logedUser} />
       {/* Aquí puedes renderizar tus requests */}
-      <div>
-        {logedUser.role === 'CLIENT' ? (
-          Sentrequests.map(sentRequest => (
-            <div key={sentRequest.id}>
-              <p>{sentRequest.title}</p>
-              <p>{sentRequest.description}</p>
-              <p>{sentRequest.status}</p>
-            </div>
-          ))
-        ) : (
-          <div className="request-info-card-container">
-            {recievedRequests.map(receivedRequest => (
-              <RequestInfoCard key={receivedRequest.id} request={receivedRequest} />
+      <div className="request-info-card-container">
+        {logedUser.role === "CLIENT"
+          ? Sentrequests.map((sentRequest, index) => (
+              <SubmitedRequestCard request={sentRequest} key={index} />
+            ))
+          : recievedRequests.map((receivedRequest, index) => (
+              <RequestInfoCard key={index} request={receivedRequest} />
             ))}
-          </div>
-        )}
       </div>
+      {modalMessage && (
+        <Modal message={modalMessage} setModalMessage={setModalMessage} />
+      )}
     </>
   );
-  
 };
 
 export default RequestsPage;

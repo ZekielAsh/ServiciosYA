@@ -68,30 +68,27 @@ const addComment = (textComment, userEmail) =>
 
 /* ############################## SERVICE REQUEST ############################## */
 
-const addRequest = (title, description, email, professionalEmail) =>{
-  const requestData = {title, description}
+const addRequest = (title, description, email, professionalEmail) => {
+  const requestData = { title, description };
   return axios
-  .post(
-    `${API_URL}/requests/sendRequest?email=${email}&professionalEmail=${professionalEmail}`, requestData
-  )
-  .then(response => response);
-}
+    .post(
+      `${API_URL}/requests/sendRequest?email=${email}&professionalEmail=${professionalEmail}`,
+      requestData
+    )
+    .then(response => response);
+};
 
-const getSendRequests = (email) =>{
+const getSendRequests = email => {
   return axios
-  .get(
-    `${API_URL}/requests/sent/profile/${email}`
-  )
-  .then(response => response);
-}
+    .get(`${API_URL}/requests/sent/profile/${email}`)
+    .then(response => response);
+};
 
-const getRecievedRequests = (email) =>{
+const getRecievedRequests = email => {
   return axios
-  .get(
-    `${API_URL}/requests/received/profile/${email}`
-  )
-  .then(response => response);
-}
+    .get(`${API_URL}/requests/received/profile/${email}`)
+    .then(response => response);
+};
 
 export default {
   getUserByEmail,
