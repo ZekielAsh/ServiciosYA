@@ -15,17 +15,21 @@ const SubmitedRequestCard = ({ request }) => {
         <div className={`${request.status} status`}>{request.status}</div>
       </div>
       <div className="submited-request-card-user-info">
-        <div>{request.user.nickname}</div>
-        {/* <p>{sentRequest.user.userRoles.trade}</p> */}
+        <div>{request.profNickName}</div>
+        <div>{request.profDto.trade}</div>
       </div>
       <div className="submited-request-card-description">
-        <botton
+        <button
           className="submited-request-card-description-botton"
           onClick={handleDescriptionVisible}
         >
           {isDescriptionVisible ? "Ocultar Descripción" : "Ver Descripción"}
-        </botton>
-        {isDescriptionVisible && <p>{request.description}</p>}
+        </button>
+        {isDescriptionVisible && (
+          <div className="submited-request-card-description-text">
+            {request.description}
+          </div>
+        )}
       </div>
     </div>
   );

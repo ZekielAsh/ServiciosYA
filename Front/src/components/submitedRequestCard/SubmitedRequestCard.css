@@ -12,7 +12,7 @@
 }
 
 .submited-request-card-title {
-  padding: 0 0 10px 0;
+  padding: 0 0 10px;
   font-size: 20px;
   font-weight: bold;
   line-height: 1.5;
@@ -23,7 +23,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 24px;
 }
 
 .submited-request-card-info {
@@ -35,6 +35,8 @@
 }
 
 .submited-request-card-description-botton {
+  background: none;
+  border: none;
   color: blueviolet;
 }
 
@@ -48,16 +50,13 @@
 }
 
 .PENDING {
-  color: black;
   background-color: yellow;
 }
 
 .ACCEPTED {
-  color: black;
   background-color: green;
 }
 
 .REJECTED {
-  color: black;
   background-color: red;
 }
