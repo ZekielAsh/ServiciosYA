@@ -3,16 +3,15 @@ import { createRoot } from "react-dom/client";
 import UnprotectedRoute from "./services/auth/UnprotectedRoute";
 import RegisterProPage from "./pages/registerProPage/RegisterProPage";
 import ProtectedRoute from "./services/auth/ProtectedRoute";
+import RequestsPage from "./pages/requestsPage/requestsPage";
 import RegisterPage from "./pages/registerPage/RegisterPage";
+import ProfilePage from "./pages/profilePage/ProfilePage";
 import SearchPage from "./pages/searchPage/SearchPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
-import Profile from "./pages/profilePage/Profile";
 import React from "react";
 import "./styles/Colors.css";
 import "./index.css";
-import BackgroundSection from './components/backgroundSection/BackgroundSection';
-import RequestsPage from "./pages/requestsPage/requestsPage";
 
 const router = createBrowserRouter([
   {
@@ -37,12 +36,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile/:email/:comesFromRequest",
-    element: <ProtectedRoute element={<Profile />} />,
+    element: <ProtectedRoute element={<ProfilePage />} />,
   },
   {
     path: "/requestsPage",
     element: <ProtectedRoute element={<RequestsPage />} />,
-  }
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
