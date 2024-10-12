@@ -12,4 +12,5 @@ public class RequestDto {
     private String status;
     private String description;
     private ProfessionalDto profDto;
+    private String profNickName;
 }
