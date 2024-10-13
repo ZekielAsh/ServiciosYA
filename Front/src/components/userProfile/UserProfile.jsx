@@ -21,17 +21,19 @@ const UserProfile = ({
     <div className="body-profile">
       <h1>Profile</h1>
       {profileUser && (
-        <div className="register-pro">
+        <div>
           <div>
             <h2>{profileUser.username}</h2>
           </div>
-          {!isProfessional ? (
-            isProfileOwner ? (
+          {!isProfessional && isProfileOwner ? (
+            isProfessional ? (
               <button className="button" onClick={() => handleSwitchRole()}>
                 Cambiar Rol
               </button>
             ) : (
-              <Link to="/registerPro" className="button">RegisterPro</Link>
+              <Link to="/registerPro">
+                <button className="button">RegisterPro</button>
+              </Link>
             )
           ) : (
             <div>
@@ -46,13 +48,19 @@ const UserProfile = ({
                 <button className="button" onClick={() => handleSwitchRole()}>
                   Cambiar Rol
                 </button>
-              ) : null}
+              ) : (
+                <Link to="/registerPro">
+                  <button className="button">RegisterPro</button>
+                </Link>
+              )}
             </div>
           )}
         </div>
       )}
     </div>
   );
+  
+  
   
 };
 

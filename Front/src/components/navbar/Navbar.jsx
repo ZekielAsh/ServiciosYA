@@ -34,11 +34,11 @@ const Navbar = ({ user }) => {
           <div></div>
         ) : user.role === "PROFESSIONAL" ? (
           <Link to="/requestsPage">
-            <Button type="primary">Servicios</Button>
+            <button className="button">Servicios</button>
           </Link>
         ) : (
           <Link to="/requestsPage">
-            <Button type="primary">Solicitudes</Button>
+            <button className="button">Solicitudes</button>
           </Link>
         )}
       </div>
@@ -50,22 +50,23 @@ const Navbar = ({ user }) => {
               {user.username[0].toUpperCase()}
             </Button>
           </Link>
-          <Button type="primary"  onClick={handleLogOut}>
+          <button className="button" onClick={handleLogOut}>
             Logout
-          </Button>
+          </button>
         </div>
       ) : (
         <div className="actions-container">
           <Link to="/register">
-            <Button type="primary">Register</Button>
+            <button className="button">Register</button>
           </Link>
           <Link to="/login">
-            <Button type="primary">Login</Button>
+            <button className="button">Login</button>
           </Link>
         </div>
       )}
     </nav>
   );
+
 };
 
 export default Navbar;

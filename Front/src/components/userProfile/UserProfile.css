@@ -32,6 +32,7 @@
   h2 {
     margin-bottom: 15px; /* Espacio debajo del nombre de usuario */
     text-align: center; /* Centrar el nombre de usuario */
+    color:white;
   }
   
   .button {
