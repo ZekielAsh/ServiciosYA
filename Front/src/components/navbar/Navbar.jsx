@@ -50,7 +50,7 @@ const Navbar = ({ user }) => {
               {user.username[0].toUpperCase()}
             </Button>
           </Link>
-          <Button type="primary" onClick={handleLogOut}>
+          <Button type="primary"  onClick={handleLogOut}>
             Logout
           </Button>
         </div>

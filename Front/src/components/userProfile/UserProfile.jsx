@@ -21,18 +21,18 @@ const UserProfile = ({
     <div className="body-profile">
       <h1>Profile</h1>
       {profileUser && (
-        <div>
+        <div className="register-pro">
           <div>
             <h2>{profileUser.username}</h2>
           </div>
-          {!isProfessional  ? (
+          {!isProfessional ? (
             isProfileOwner ? (
-              isProfessional ? (
-                <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
-              ) : (
-                <Link to="/registerPro">RegisterPro</Link>
-              )
-            ) : null
+              <button className="button" onClick={() => handleSwitchRole()}>
+                Cambiar Rol
+              </button>
+            ) : (
+              <Link to="/registerPro" className="button">RegisterPro</Link>
+            )
           ) : (
             <div>
               <UserInfo
@@ -43,7 +43,9 @@ const UserProfile = ({
                 setModalMessage={setModalMessage}
               />
               {isProfileOwner ? (
-                <button onClick={() => handleSwitchRole()}>Cambiar Rol</button>
+                <button className="button" onClick={() => handleSwitchRole()}>
+                  Cambiar Rol
+                </button>
               ) : null}
             </div>
           )}
@@ -51,6 +53,7 @@ const UserProfile = ({
       )}
     </div>
   );
+  
 };
 
 export default UserProfile;

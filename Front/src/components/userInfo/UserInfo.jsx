@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../services/api";
+import './Userinfo.css';
 
 const UserInfo = ({
   comesFromRequest,
@@ -51,14 +52,14 @@ const UserInfo = ({
     <>
       {isProfileOwner ? (
         profileUser.role === "PROFESSIONAL" ? (
-          <div>
-            <div>
+          <div className="container">
+            <div className="section">
               <h3>District: {profileUser.district}</h3>
             </div>
-            <div>
-             <h3>Trade: {profileUser.trade}</h3>
+            <div className="section">
+              <h3>Trade: {profileUser.trade}</h3>
             </div>
-            <div>
+            <div className="section">
               <p>Teléfono: </p>
               <p>
                 {isEditing ? (
@@ -67,13 +68,14 @@ const UserInfo = ({
                     name="phoneNumber"
                     value={phoneNumber}
                     onChange={handlePhoneNumberChange}
+                    className="input"
                   />
                 ) : (
                   phoneNumber
                 )}
               </p>
             </div>
-            <div>
+            <div className="section">
               <p>Email: </p>
               <p>
                 {isEditing ? (
@@ -82,6 +84,7 @@ const UserInfo = ({
                     name="contactEmail"
                     value={contactEmail}
                     onChange={handleContactEmailChange}
+                    className="input"
                   />
                 ) : (
                   contactEmail
@@ -89,32 +92,35 @@ const UserInfo = ({
               </p>
             </div>
             {isEditing ? (
-              <button onClick={handleSaveContactInfo}>Guardar</button>
+              <button onClick={handleSaveContactInfo} className="button">
+                Guardar
+              </button>
             ) : (
-              <button onClick={() => setIsEditing(true)}>
+              <button onClick={() => setIsEditing(true)} className="button">
                 Editar Contacto
               </button>
             )}
           </div>
         ) : null 
       ) : isProfessional && !comesFromRequestBoolean ? (
-        <div>
-          <div>
+        <div className="container">
+          <div className="section">
             <h3>District: {profileUser.district}</h3>
           </div>
-          <div>
+          <div className="section">
             <h3>Trade: {profileUser.trade}</h3>
           </div>
-          <div>
+          <div className="section">
             <h3>Teléfono: {profileUser.phoneNumber}</h3>
           </div>
-          <div>
+          <div className="section">
             <h3>Email: {profileUser.email}</h3>
           </div>
         </div>
       ) : null} 
     </>
   );
+  
 };
 
 export default UserInfo;

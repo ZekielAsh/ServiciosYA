@@ -1,3 +1,54 @@
-.body-profile{
+/*.body-profile{
     color:white;
-}
+}*/
+
+/*.register-pro {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 15px;}
+*/  
+
+/* Profile.css */
+
+.body-profile {
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px; /* Ancho máximo */
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px; /* Espacio debajo del título */
+    color:white;
+  }
+  
+  .register-pro {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    color:white;
+  }
+  
+  h2 {
+    margin-bottom: 15px; /* Espacio debajo del nombre de usuario */
+    text-align: center; /* Centrar el nombre de usuario */
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 10px; /* Margen superior */
+    margin-right: 10px; /* Margen derecho */
+    background-color: var(--color-blue-dark);
+    color: #fff; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor tipo puntero */
+    text-decoration: none; /* Sin subrayado para el enlace */
+    transition: background-color 0.3s; /* Transición suave al pasar el mouse */
+  }
+  
+  .button:hover {
+    background-color: #0056b3; /* Color del botón al pasar el mouse */
+  }
+  

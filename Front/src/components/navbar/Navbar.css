@@ -23,6 +23,25 @@
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+/*
+
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  margin-top: 10px; 
+  margin-right: 10px;
+  background-color: var(--color-blue-dark);
+  color: #fff; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  text-decoration: none; 
+  transition: background-color 0.3s; 
+}
+
+.button:hover {
+  background-color: #0056b3;
+} */
 
 .actions-container {
   display: flex; /* Flexbox para los botones de acción */
