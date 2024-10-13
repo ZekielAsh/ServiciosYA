@@ -90,6 +90,18 @@ const getRecievedRequests = email => {
     .then(response => response);
 };
 
+const getRecievedRequestsByStatus = (email, status) => {
+  return axios
+    .get(`${API_URL}/requests/received/profile/${email}/${status}`)
+    .then(response => response);
+};
+
+const updateRequestStatus = (requestId, status) => {
+  return axios.put(
+    `${API_URL}/requests/updateRequestStatus?requestId=${requestId}&status=${status}`
+  );
+};
+
 export default {
   getUserByEmail,
   searchProUsers,
@@ -102,6 +114,8 @@ export default {
   addRequest,
   getSendRequests,
   getRecievedRequests,
+  updateRequestStatus,
+  getRecievedRequestsByStatus,
   addPhone,
   register,
   login,

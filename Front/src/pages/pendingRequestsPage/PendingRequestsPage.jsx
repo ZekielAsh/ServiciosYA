@@ -1,10 +1,12 @@
 import { getUserEmailFromLocalStorage } from "../../utils/localStorage.js";
 import { useState, useEffect } from "react";
 import BackgroundSection from "../../components/backgroundSection/BackgroundSection.jsx";
+import PendingWorkCard from "../../components/pendingWorkCard/PendingWorkCard.jsx";
 import Spinner from "../../components/spinner/Spinner.jsx";
 import Navbar from "../../components/navbar/Navbar.jsx";
 import Modal from "../../components/modal/Modal.jsx";
 import api from "../../services/api.js";
+import "./PendingRequestsPage.css";
 
 const PendingRequestsPage = () => {
   const [modalMessage, setModalMessage] = useState("");
@@ -12,6 +14,12 @@ const PendingRequestsPage = () => {
 
   const [logedUser, setUser] = useState(null);
   const logedUserEmail = getUserEmailFromLocalStorage();
+
+  const [pendingWork, setPendingWork] = useState([]);
+
+  const handleRemoveRequest = requestId => {
+    setPendingWork(pendingWork.filter(request => request.id !== requestId));
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -37,9 +45,20 @@ const PendingRequestsPage = () => {
     fetchUserData();
   }, [logedUserEmail]);
 
-  //////////////////////////////////////////////////////////////////////
-  //MANERA DE TRAER SOLICITUDES DE TRABAJO PENDIENTES DEL PROFESSIONAL//
-  //////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const fetchPendingWork = async () => {
+      try {
+        const pendingWorkResponse = await api.getRecievedRequestsByStatus(
+          logedUserEmail,
+          "ACEPTADA"
+        );
+        setPendingWork(pendingWorkResponse.data);
+      } catch (error) {
+        setModalMessage(error.response.data.error);
+      }
+    };
+    fetchPendingWork();
+  }, [logedUserEmail]);
 
   if (isLoading) {
     return <Spinner />;
@@ -49,6 +68,20 @@ const PendingRequestsPage = () => {
     <div>
       <BackgroundSection />
       <Navbar user={logedUser} />
+      {pendingWork.length != 0 ? (
+        pendingWork.map(request => (
+          <PendingWorkCard
+            key={request.id}
+            request={request}
+            setModalMessage={setModalMessage}
+            handleRemoveRequest={handleRemoveRequest}
+          />
+        ))
+      ) : (
+        <div className="pending-requests-page-text">
+          Aun no tienes trabajos pendientes
+        </div>
+      )}
       {modalMessage && (
         <Modal message={modalMessage} setModalMessage={setModalMessage} />
       )}

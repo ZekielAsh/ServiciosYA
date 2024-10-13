@@ -49,14 +49,14 @@
   line-height: 1.5;
 }
 
-.PENDING {
+.PENDIENTE {
   background-color: yellow;
 }
 
-.ACCEPTED {
+.ACEPTADA {
   background-color: green;
 }
 
-.REJECTED {
+.RECHAZADA {
   background-color: red;
 }

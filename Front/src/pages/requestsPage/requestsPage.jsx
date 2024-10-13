@@ -19,6 +19,12 @@ const RequestsPage = () => {
   const [logedUser, setUser] = useState(null);
   const logedUserEmail = getUserEmailFromLocalStorage();
 
+  const handleRemoveRequest = requestId => {
+    setRecievedRequests(prevRequests =>
+      prevRequests.filter(request => request.id !== requestId)
+    );
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -49,15 +55,13 @@ const RequestsPage = () => {
         const userResponse = await api.getUserByEmail(logedUserEmail);
 
         if (userResponse.data.currentRolDto.includes("PROFESSIONAL")) {
-          const recievedRequestsResponse = await api.getRecievedRequests(
-            logedUserEmail
-          );
+          const recievedRequestsResponse =
+            await api.getRecievedRequestsByStatus(logedUserEmail, "PENDIENTE");
           setRecievedRequests(recievedRequestsResponse.data);
         } else {
           const sentRequestsResponse = await api.getSendRequests(
             logedUserEmail
           );
-          console.log(sentRequestsResponse);
           setSentRequests(sentRequestsResponse.data);
         }
       } catch (error) {
@@ -78,11 +82,16 @@ const RequestsPage = () => {
       {/* Aquí puedes renderizar tus requests */}
       <div className="request-info-card-container">
         {logedUser.role === "CLIENT"
-          ? Sentrequests.map((sentRequest, index) => (
-              <SubmitedRequestCard request={sentRequest} key={index} />
+          ? Sentrequests.map(sentRequest => (
+              <SubmitedRequestCard request={sentRequest} key={sentRequest.id} />
             ))
-          : recievedRequests.map((receivedRequest, index) => (
-              <RequestInfoCard key={index} request={receivedRequest} />
+          : recievedRequests.map(receivedRequest => (
+              <RequestInfoCard
+                key={receivedRequest.id}
+                request={receivedRequest}
+                handleRemoveRequest={handleRemoveRequest}
+                setModalMessage={setModalMessage}
+              />
             ))}
       </div>
       {modalMessage && (
