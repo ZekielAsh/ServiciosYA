@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import api from "../../services/api";
 import "./requestDescriptionBox.css";
 
@@ -74,8 +74,33 @@ const RequestDescriptionBox = ({
             </button>
           </div>
         </div>
+      ) : isInputVisible ? (
+        <div className="solicitar-input">
+          <div className="solicitar-label">Titulo</div>
+          <textarea
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="   Escribe el título aquí"
+          />
+          <div className="solicitar-label">Descripción</div>
+          <textarea
+            value={description}
+            onChange={handleDescriptionChange}
+            placeholder="   Escribe la descripcion aquí"
+          />
+          <div className="buttons">
+            <button className="button-accept" onClick={handleSubmit}>
+              Enviar
+            </button>
+            <button className="button-reject" onClick={handleCloseInput}>
+              Cancelar
+            </button>
+          </div>
+        </div>
       ) : (
-        <button onClick={handleRequestDescription}>Solicitar</button>
+        <button className="button-solicitar" onClick={handleRequestDescription}>
+          Solicitar
+        </button>
       )}
     </div>
   );
