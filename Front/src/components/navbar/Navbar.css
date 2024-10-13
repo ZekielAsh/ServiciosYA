@@ -15,6 +15,12 @@
   align-items: center; /* Centrar verticalmente */
 }
 
+.logo-container-requests {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
 .logo {
   will-change: filter;
   transition: filter 300ms;
@@ -33,4 +39,3 @@
 .alert-icon {
   margin-left: 16px; /* Espacio entre el logo y el icono de alerta */
 }
-

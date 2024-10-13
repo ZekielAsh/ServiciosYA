@@ -33,9 +33,14 @@ const Navbar = ({ user }) => {
         {user == null ? (
           <div></div>
         ) : user.role === "PROFESSIONAL" ? (
-          <Link to="/requestsPage">
-            <Button type="primary">Servicios</Button>
-          </Link>
+          <div className="logo-container-requests">
+            <Link to="/requestsPage">
+              <Button type="primary">Servicios</Button>
+            </Link>
+            <Link to="/pendingRequests">
+              <Button type="primary">Pendientes</Button>
+            </Link>
+          </div>
         ) : (
           <Link to="/requestsPage">
             <Button type="primary">Solicitudes</Button>
