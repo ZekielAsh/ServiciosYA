@@ -34,7 +34,7 @@
 }
 
 .background-gradient {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -10;
   height: 100%;
