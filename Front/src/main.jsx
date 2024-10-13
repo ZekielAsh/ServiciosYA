@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
+import PendingRequestsPage from "./pages/pendingRequestsPage/PendingRequestsPage";
 import UnprotectedRoute from "./services/auth/UnprotectedRoute";
 import RegisterProPage from "./pages/registerProPage/RegisterProPage";
 import ProtectedRoute from "./services/auth/ProtectedRoute";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/requestsPage",
     element: <ProtectedRoute element={<RequestsPage />} />,
+  },
+  {
+    path: "/pendingRequests",
+    element: <ProtectedRoute element={<PendingRequestsPage />} />,
   },
 ]);
 

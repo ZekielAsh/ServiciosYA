@@ -1,12 +1,12 @@
-import { getUserEmailFromLocalStorage } from "../../utils/localStorage";
+import { getUserEmailFromLocalStorage } from "../../utils/localStorage.js";
 import { useState, useEffect } from "react";
-import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
-import Spinner from "../../components/spinner/Spinner";
-import Navbar from "../../components/navbar/Navbar";
-import Modal from "../../components/modal/Modal";
+import BackgroundSection from "../../components/backgroundSection/BackgroundSection.jsx";
+import Spinner from "../../components/spinner/Spinner.jsx";
+import Navbar from "../../components/navbar/Navbar.jsx";
+import Modal from "../../components/modal/Modal.jsx";
 import api from "../../services/api.js";
 
-const PendingPage = () => {
+const PendingRequestsPage = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,7 +49,6 @@ const PendingPage = () => {
     <div>
       <BackgroundSection />
       <Navbar user={logedUser} />
-      <h1>Pending Page</h1>
       {modalMessage && (
         <Modal message={modalMessage} setModalMessage={setModalMessage} />
       )}
@@ -57,4 +56,4 @@ const PendingPage = () => {
   );
 };
 
-export default PendingPage;
+export default PendingRequestsPage;
