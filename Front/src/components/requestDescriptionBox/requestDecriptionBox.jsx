@@ -49,60 +49,33 @@ const RequestDescriptionBox = ({
 
   return (
     <div>
-      {isProfileOwner ||
-      !isProfessional ||
-      logedUserRole === "PROFESSIONAL" ? null : isInputVisible ? (
-        <div className="body-input">
-          <h2>Titulo</h2>
-          <textarea
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="Escribe el título aquí"
-          />
-          <h2>Descripción</h2>
-          <textarea
-            value={description}
-            onChange={handleDescriptionChange}
-            placeholder="Escribe la descripcion aquí"
-          />
-          <div className="buttons">
-            <button className="button" onClick={handleSubmit}>
-              Enviar
-            </button>
-            <button className="button" onClick={handleCloseInput}>
-              Cancelar
-            </button>
-          </div>
-        </div>
-      ) : isInputVisible ? (
-        <div className="solicitar-input">
-          <div className="solicitar-label">Titulo</div>
-          <textarea
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="   Escribe el título aquí"
-          />
-          <div className="solicitar-label">Descripción</div>
-          <textarea
-            value={description}
-            onChange={handleDescriptionChange}
-            placeholder="   Escribe la descripcion aquí"
-          />
-          <div className="buttons">
-            <button className="button-accept" onClick={handleSubmit}>
-              Enviar
-            </button>
-            <button className="button-reject" onClick={handleCloseInput}>
-              Cancelar
-            </button>
-          </div>
-        </div>
+      {isProfileOwner || !isProfessional || logedUserRole === "PROFESSIONAL" ?(
+        null
       ) : (
-        <button className="button-solicitar" onClick={handleRequestDescription}>
-          Solicitar
-        </button>
-      )}
-    </div>
+        isInputVisible ? (
+         <div className="solicitar-input">
+           <div className='solicitar-label'>Titulo</div>
+           <textarea 
+             value={title}
+             onChange={handleTitleChange}
+             placeholder="   Escribe el título aquí"
+           />
+           <div className='solicitar-label'>Descripción</div>
+           <textarea 
+             value={description}
+             onChange={handleDescriptionChange}
+             placeholder="   Escribe la descripcion aquí"
+           />
+           <div className='buttons'>
+            <button className='button-accept' onClick={handleSubmit}>Enviar</button>
+            <button className='button-reject' onClick={handleCloseInput}>Cancelar</button>
+           </div>
+         </div>
+       ) : (
+         <button className="button-solicitar" onClick={handleRequestDescription}>Solicitar</button>
+       )
+     )}
+   </div>
   );
 };
 

@@ -1,6 +1,6 @@
   .solicitar-input{
     /* background-color: #272B3B; */
-    background: linear-gradient( black, #272B3B);
+    background: linear-gradient( rgb(14, 13, 13), #272B3B);
     display: flex;
     justify-content: center;
     align-items: center;
