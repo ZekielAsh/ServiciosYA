@@ -1,6 +1,7 @@
 
 package CodigoEnPantuflas.ServiciosYa.modelo;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
+import CodigoEnPantuflas.ServiciosYa.jwt.ReqStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -138,6 +139,18 @@ public class User implements UserDetails {
         if(this.isAlreadyProfessional()){
             this.setRoleAsCurrent(Mode.PROFESSIONAL);
             this.getCurrentRole().setContactMail(email);
+        }
+    }
+
+    public Set<Request> getReceivedRequestsByStatus(String status) {
+        try {
+            ReqStatus reqStatus = ReqStatus.valueOf(status);
+            return this.receivedRequests.stream()
+                    .filter(it -> it.getStatus() == reqStatus)
+                    .collect(Collectors.toSet());
+        } catch (IllegalArgumentException e) {
+            // Si no es valido el estado que le pasas devuelve vacio
+            return Collections.emptySet();
         }
     }
 

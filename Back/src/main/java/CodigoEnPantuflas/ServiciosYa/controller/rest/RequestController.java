@@ -54,7 +54,18 @@ public class RequestController {
         List<RequestDto> requestsDto = user.getReceivedRequests().stream().map(r -> ObjectMapper.getInstance().convertRequestToRequestDto(r)).toList();
         return ResponseEntity.ok(requestsDto);
     }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("received/profile/{email}/{status}")
+    @CrossOrigin
+    public ResponseEntity<List<RequestDto>> getReceivedRequestsByProfileAndStatus(@PathVariable String email, @PathVariable String status) {
+        User user = userService.getByMail(email);
+        List<RequestDto> requestsDto =
+                user.getReceivedRequestsByStatus(status).stream()
+                .map(r -> ObjectMapper.getInstance().convertRequestToRequestDto(r))
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(requestsDto);
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateRequestStatus")
     @CrossOrigin
