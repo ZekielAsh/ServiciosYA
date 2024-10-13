@@ -1,0 +1,39 @@
+.pending-work-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 100%;
+  padding: 10px;
+  color: var(--color-white);
+  border-radius: 5px;
+  border: 1px solid rgba(207, 192, 192, 0.2);
+  box-shadow: 0 4px 8px rgba(208, 43, 241, 0.1);
+}
+
+.pending-work-card-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.pending-work-card-title {
+  padding: 0 0 10px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.pending-work-card-description-button {
+  background: none;
+  border: none;
+  color: blueviolet;
+}
+
+.pending-work-card-finish-button {
+  background: none;
+  border: none;
+  color: blueviolet;
+}

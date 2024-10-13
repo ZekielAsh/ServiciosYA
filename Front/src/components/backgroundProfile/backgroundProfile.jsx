@@ -1,5 +1,4 @@
-import React from 'react';
-import './BackgroundProfile.css';
+import "./BackgroundProfile.css";
 
 const BackgroundSection = () => {
   return (
