@@ -39,10 +39,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // , orphanRemoval = true
     private Set<Request> sendRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.EAGER)// , orphanRemoval = true
     private Set<Request> receivedRequests = new HashSet<>();
 
 
@@ -164,6 +164,14 @@ public class User implements UserDetails {
 
     public void receiveNewRequest(Request request) {
         this.receivedRequests.add(request);
+    }
+
+    public void removeSentRequest(Long requestId) {
+        this.getSendRequests().removeIf(request -> request.getId().equals(requestId));
+    }
+
+    public void removeRecievedRequest(Long requestId) {
+        this.getReceivedRequests().removeIf(request -> request.getId().equals(requestId));
     }
 }
 

@@ -79,13 +79,22 @@ const RequestsPage = () => {
     <>
       <BackgroundSection />
       <Navbar user={logedUser} />
-      {/* Aquí puedes renderizar tus requests */}
-      <div className="request-info-card-container">
-        {logedUser.role === "CLIENT"
-          ? Sentrequests.map(sentRequest => (
+      {logedUser.role === "CLIENT" ? (
+        Sentrequests.length !== 0 ? (
+          <div className="request-info-card-container">
+            {Sentrequests.map(sentRequest => (
               <SubmitedRequestCard request={sentRequest} key={sentRequest.id} />
-            ))
-          : recievedRequests.map(receivedRequest => (
+            ))}
+          </div>
+        ) : (
+          <div className="requests-page-text">
+            Aún no tienes solicitudes enviadas
+          </div>
+        )
+      ) : logedUser.role === "PROFESSIONAL" ? (
+        recievedRequests.length !== 0 ? (
+          <div className="request-info-card-container">
+            {recievedRequests.map(receivedRequest => (
               <RequestInfoCard
                 key={receivedRequest.id}
                 request={receivedRequest}
@@ -93,12 +102,18 @@ const RequestsPage = () => {
                 setModalMessage={setModalMessage}
               />
             ))}
-      </div>
+          </div>
+        ) : (
+          <div className="requests-page-text">
+            Aún no te han enviado solicitudes
+          </div>
+        )
+      ) : null}
       {modalMessage && (
         <Modal message={modalMessage} setModalMessage={setModalMessage} />
       )}
     </>
-  );
+  );  
 };
 
 export default RequestsPage;
