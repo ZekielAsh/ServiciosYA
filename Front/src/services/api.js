@@ -78,10 +78,19 @@ const addRequest = (title, description, email, professionalEmail) => {
     .then(response => response);
 };
 
+const deleteRequest = (requestId) => {
+  return axios
+    .post(
+      `${API_URL}/requests/deleteRequest?requestId=${requestId}`
+    )
+    .then(response => response);
+};
+
 const getSendRequests = email => {
   return axios
     .get(`${API_URL}/requests/sent/profile/${email}`)
     .then(response => response);
+    
 };
 
 const getRecievedRequests = email => {
@@ -112,6 +121,7 @@ export default {
   changeRole,
   addComment,
   addRequest,
+  deleteRequest,
   getSendRequests,
   getRecievedRequests,
   updateRequestStatus,

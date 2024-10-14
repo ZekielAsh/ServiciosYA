@@ -12,15 +12,15 @@ const PendingWork = ({ request, setModalMessage, handleRemoveRequest }) => {
 
   const handleFinishRequest = () => {
     handleRemoveRequest(request.id);
-    // api
-    //   .deleteRequest(request.id)
-    //   .then(() => {
-    //     setModalMessage("Trabajo finalizado");
-    //     handleRemoveRequest(request.id);
-    //   })
-    //   .catch(error => {
-    //     setModalMessage(error.response.data.error);
-    //   });
+     api
+      .deleteRequest(request.id)
+       .then(() => {
+        setModalMessage("Trabajo finalizado");
+        handleRemoveRequest(request.id);
+      })
+       .catch(error => {
+        setModalMessage(error.response.data.error);
+      });
   };
 
   return (

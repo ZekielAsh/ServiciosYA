@@ -2,7 +2,6 @@ package CodigoEnPantuflas.ServiciosYa.controller.rest;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.CreateRequestDTO;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RequestDto;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.SimpleUserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.modelo.Request;
@@ -73,6 +72,13 @@ public class RequestController {
         Request updatedRequest = requestService.updateRequestStatus(requestId, status);
         RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
         return ResponseEntity.ok(requestDto);
+    }
+
+    @PostMapping("/deleteRequest")
+    @CrossOrigin
+    public ResponseEntity<Void> deleteRequest(@RequestParam Long requestId) {
+        requestService.deleteRequest(requestId);
+        return ResponseEntity.ok().build();
     }
 
 }

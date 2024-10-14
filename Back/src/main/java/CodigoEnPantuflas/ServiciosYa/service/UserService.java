@@ -6,6 +6,7 @@ import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -98,6 +99,7 @@ public class UserService {
         return userDao.save(user);
     }
 
+    @Transactional
     public Request sendNewRequest(String email, String professionalEmail, String description, String title) {
         User client = getByMail(email);
         User professional = getByMail(professionalEmail);
