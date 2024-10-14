@@ -88,7 +88,7 @@ const RequestsPage = () => {
           </div>
         ) : (
           <div className="requests-page-text">
-            Aún no tienes solicitudes enviadas
+            Aun no se han enviado solicitudes
           </div>
         )
       ) : logedUser.role === "PROFESSIONAL" ? (
