@@ -18,7 +18,7 @@ const RegisterProPage = () => {
         setOptions(response.data);
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   }, []);
 
@@ -29,7 +29,7 @@ const RegisterProPage = () => {
         setDistricts(response.data);
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   }, []);
 
@@ -42,7 +42,7 @@ const RegisterProPage = () => {
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   };
 

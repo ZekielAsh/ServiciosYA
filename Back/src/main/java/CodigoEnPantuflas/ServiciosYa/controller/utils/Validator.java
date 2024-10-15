@@ -121,5 +121,15 @@ public class Validator {
             throw new IllegalArgumentException("El Profesional no posee medios de contacto");
         }
     }
+
+    public void validateRegisterProfessional(ProfessionalRegisterDto profDto) {
+        if (profDto.getDistrict() == null) {
+            throw new IllegalArgumentException("EL distrito no puede estar vacio");
+        } else if (profDto.getTrade() == null) {
+            throw new IllegalArgumentException("El rubro no puede estar vacio");
+        } else if (profDto.getEmail() == null) {
+            throw new IllegalArgumentException("El email no puede estar vacio");
+        }
+    }
 }
 

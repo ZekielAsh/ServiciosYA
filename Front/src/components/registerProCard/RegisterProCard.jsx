@@ -47,15 +47,15 @@ const RegisterProCard = ({
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleSubmitRegisterPro(neighborhood.value, trade);
-    setIsEmpty(!neighborhood || !trade);
+    handleSubmitRegisterPro(neighborhood?.value, trade);
+    setIsEmpty(!neighborhood || !trade || !zone);
   };
 
   return (
     <form className="card">
       <div className="card-content">
         {!isEmpty && error ? <p>{error}</p> : null}
-        {!neighborhood && !trade && isEmpty ? (
+        {(!zone || !neighborhood || !trade) && isEmpty ? (
           <p>Faltan completar campos</p>
         ) : null}
         <label>District</label>

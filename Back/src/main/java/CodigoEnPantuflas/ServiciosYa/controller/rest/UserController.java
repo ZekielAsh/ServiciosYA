@@ -23,6 +23,7 @@ public class UserController {
     @PostMapping("/addProfessionalRole")
     @CrossOrigin
     public ResponseEntity<UserDto> addProfessionalRole(@RequestBody ProfessionalRegisterDto profRegDto){
+        Validator.getInstance().validateRegisterProfessional(profRegDto);
         User user = userService.addProfessionalRole(profRegDto.getEmail(), profRegDto.getDistrict(), profRegDto.getTrade().name());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
