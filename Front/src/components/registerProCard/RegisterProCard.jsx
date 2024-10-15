@@ -4,7 +4,7 @@ import Button from "../button/Button";
 import Input from "../input/Input";
 import "../../styles/Cards.css";
 
-const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
+const RegisterProCard = ({ handleSubmitRegisterPro, error, options, districts}) => {
   const [district, setDistrict] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -13,6 +13,9 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
     value: option,
     label: option,
   }));
+
+  console.log(options)
+  console.log(districts)
 
   const handleDistrictChange = event => {
     setDistrict(event.target.value);
@@ -52,3 +55,5 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
 };
 
 export default RegisterProCard;
+
+

@@ -9,12 +9,24 @@ const RegisterProPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [options, setOptions] = useState([]);
+  const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
     api
       .getAllTrades()
       .then(response => {
         setOptions(response.data);
+      })
+      .catch(error => {
+        setError(error.response.data.status);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getAllDistricts()
+      .then(response => {
+        setDistricts(response.data);
       })
       .catch(error => {
         setError(error.response.data.status);
@@ -41,6 +53,7 @@ const RegisterProPage = () => {
           <RegisterPro
             handleSubmitRegisterPro={handleSubmitRegisterPro}
             options={options}
+            districts={districts}
             error={error}
           />
         </div>

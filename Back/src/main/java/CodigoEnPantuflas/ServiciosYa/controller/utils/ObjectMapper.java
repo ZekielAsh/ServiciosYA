@@ -4,6 +4,8 @@ import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -64,4 +66,15 @@ public class ObjectMapper {
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
 
+    public DistrictDto convertoToDisctrictDto(Class<? extends Enum<?>> districtClass) {
+
+        Enum<?>[] enumValues = districtClass.getEnumConstants();
+
+
+        List<String> districtNames = Arrays.stream(enumValues)
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+        return new DistrictDto(districtClass.getSimpleName(), districtNames);
+    }
 }

@@ -111,6 +111,12 @@ const updateRequestStatus = (requestId, status) => {
   );
 };
 
+const getAllDistricts = () => {
+  return axios
+    .get(`${API_URL}/district/getAllDistricts`)
+    .then(response => response);
+};
+
 export default {
   getUserByEmail,
   searchProUsers,
@@ -129,4 +135,5 @@ export default {
   addPhone,
   register,
   login,
+  getAllDistricts
 };
