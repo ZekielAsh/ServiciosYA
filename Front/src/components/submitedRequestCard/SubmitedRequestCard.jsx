@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SubmitedRequestCard.css";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import api from "../../services/api.js";
 
 const SubmitedRequestCard = ({ request }) => {
@@ -60,6 +60,3 @@ const SubmitedRequestCard = ({ request }) => {
 };
 
 export default SubmitedRequestCard;
-
-
-
