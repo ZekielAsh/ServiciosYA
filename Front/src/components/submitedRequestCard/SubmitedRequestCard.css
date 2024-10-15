@@ -34,7 +34,7 @@
   width: 100%;
 }
 
-.submited-request-card-description-botton {
+.submited-request-card-description-button {
   background: none;
   border: none;
   color: blueviolet;
@@ -59,4 +59,18 @@
 
 .RECHAZADA {
   background-color: red;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+}
+
+.delete-icon {
+  cursor: pointer;
+  margin-right: 8px; /* Espacio entre el icono y el texto */
+}
+
+.trash-icon{
+  font-size: 25px;
 }
