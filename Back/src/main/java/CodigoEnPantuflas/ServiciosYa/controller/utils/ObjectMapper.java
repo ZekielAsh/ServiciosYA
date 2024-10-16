@@ -72,9 +72,17 @@ public class ObjectMapper {
 
 
         List<String> districtNames = Arrays.stream(enumValues)
-                .map(Enum::name)
+                .map(enumValue -> formatEnumName(enumValue.name()))
                 .collect(Collectors.toList());
 
         return new DistrictDto(districtClass.getSimpleName(), districtNames);
+    }
+
+    private String formatEnumName(String enumName) {
+        // Para cambiar los guiones por espacios
+        String formatted = enumName.replace("_", " ").toLowerCase();
+        return Arrays.stream(formatted.split(" "))
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
     }
 }

@@ -58,7 +58,7 @@ const RegisterProCard = ({
         {(!zone || !neighborhood || !trade) && isEmpty ? (
           <p>Faltan completar campos</p>
         ) : null}
-        <label>District</label>
+        <label>Zona</label>
         <Select onChange={handleZoneChange} options={zoneOptions}></Select>
         <Select
           value={neighborhood}
