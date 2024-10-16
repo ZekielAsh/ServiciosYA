@@ -79,10 +79,6 @@ public class ObjectMapper {
     }
 
     private String formatEnumName(String enumName) {
-        // Para cambiar los guiones por espacios
-        String formatted = enumName.replace("_", " ").toLowerCase();
-        return Arrays.stream(formatted.split(" "))
-                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
-                .collect(Collectors.joining(" "));
+        return enumName.replace("_", " ");
     }
 }
