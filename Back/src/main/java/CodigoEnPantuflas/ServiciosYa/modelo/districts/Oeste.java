@@ -1,6 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.modelo.districts;
 
-public enum DistritoOeste {
+public enum Oeste {
     CIUDADELA,
     HAEDO,
     HURLINGHAM,
