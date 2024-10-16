@@ -1,6 +1,6 @@
 package CodigoEnPantuflas.ServiciosYa.modelo.districts;
 
-public enum DistrictNorth {
+public enum DistritoNorte {
     BOULOGNE,
     CASEROS,
     DON_TORCUATO,
