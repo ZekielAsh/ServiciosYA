@@ -18,6 +18,7 @@ public abstract class Role {
     private User user;
     private String contactMail;
     private String phoneNumber;
+    private String socialMedia;
 
     public abstract String getTrade();
     public abstract String getDistrict();
@@ -25,4 +26,11 @@ public abstract class Role {
 
     public abstract Boolean isProfessional();
 
+    public void addSocialMedia(String link) {
+        if (socialMedia.isEmpty()){
+            this.socialMedia = link;
+        }else{
+            this.socialMedia += "<br>" + link;
+        }
+    }
 }

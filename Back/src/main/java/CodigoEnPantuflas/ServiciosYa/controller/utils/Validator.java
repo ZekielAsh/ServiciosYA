@@ -131,5 +131,12 @@ public class Validator {
             throw new IllegalArgumentException("El email no puede estar vacio");
         }
     }
+
+    public void validateLink(String link) {
+        if(link == null || link.isEmpty()){
+            throw new IllegalArgumentException("No se puede agregar un link vacio");
+        }
+        if(!link.contains(".com")) throw new IllegalArgumentException("El link dado no posee .com");
+    }
 }
 

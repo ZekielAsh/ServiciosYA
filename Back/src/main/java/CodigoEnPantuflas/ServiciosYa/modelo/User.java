@@ -142,6 +142,13 @@ public class User implements UserDetails {
         }
     }
 
+    public void addSocialMedia(String link) {
+        if(this.isAlreadyProfessional()){
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+            this.getCurrentRole().addSocialMedia(link);
+        }
+    }
+
     public Set<Request> getReceivedRequestsByStatus(String status) {
         try {
             ReqStatus reqStatus = ReqStatus.valueOf(status);
@@ -173,5 +180,7 @@ public class User implements UserDetails {
     public void removeRecievedRequest(Long requestId) {
         this.getReceivedRequests().removeIf(request -> request.getId().equals(requestId));
     }
+
+
 }
 
