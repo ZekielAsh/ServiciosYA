@@ -111,6 +111,12 @@ public class UserService {
         return userDao.save(user);
     }
 
+    public User addSocialMedia(String email, String link) {
+        User user = getByMail(email);
+        user.addSocialMedia(link);
+        return userDao.save(user);
+    }
+
     @Transactional
     public Request sendNewRequest(String email, String professionalEmail, String description, String title) {
         User client = getByMail(email);
@@ -125,4 +131,5 @@ public class UserService {
 
         return request;
     }
+
 }
