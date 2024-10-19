@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/getByTrade")
     @CrossOrigin
-    public ResponseEntity<Set<UserDto>> getProfessionalsByTrade(@RequestParam Trades trade){
+    public ResponseEntity<Set<UserDto>> getProfessionalsByTrade(@RequestParam String trade){
         Set<User> professionalUsers = userService.getProfessionalsByTrade(trade);
         Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
         return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
@@ -82,6 +82,15 @@ public class UserController {
     @PostMapping("/addPhone")
     @CrossOrigin
     public ResponseEntity<UserDto> saveOrUpdatePhone(@RequestParam String email, @RequestParam String phone){
+        Validator.getInstance().validatePhoneNumber(phone);
+        User user = userService.addPhone(email, phone);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
+    @PostMapping("/addSocialMedia")
+    @CrossOrigin
+    public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestParam String email, @RequestParam String phone){
         Validator.getInstance().validatePhoneNumber(phone);
         User user = userService.addPhone(email, phone);
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);

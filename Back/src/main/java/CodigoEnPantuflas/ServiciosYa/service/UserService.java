@@ -75,8 +75,8 @@ public class UserService {
         }
     }
 
-    public Set<User> getProfessionalsByTrade(Trades trade) {
-        Set<User> users =  userDao.getProfessionalByTrade(trade.name());
+    public Set<User> getProfessionalsByTrade(String trade) {
+        Set<User> users =  userDao.getProfessionalByTrade(trade);
         users.forEach(user -> {user.setRoleAsCurrent(Mode.PROFESSIONAL);});
         return users;
     }
