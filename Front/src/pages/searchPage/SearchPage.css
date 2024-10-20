@@ -43,3 +43,9 @@
   padding: 4px 10px;
   gap: 10px;
 }
+
+.search-page-sidebar {
+  width: 20%;
+  padding: 1rem;
+  background-color: #f1f1f1;
+}

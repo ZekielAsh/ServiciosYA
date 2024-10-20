@@ -30,6 +30,16 @@ const changeRole = userEmail =>
     .post(`${API_URL}/user/changeRole?email=${userEmail}`) // Enviar el email como parámetro en la URL
     .then(response => response);
 
+const getUserByTrade = userTrade =>
+  axios
+    .get(`${API_URL}/user/getByTrade`, { params: { trade: userTrade } })
+    .then(response => response);
+
+const getUserByDistrict = userDistrict =>
+  axios
+    .get(`${API_URL}/user/getByDistrict`, { params: { district: userDistrict } })
+    .then(response => response);
+
 /* ############################## TRADES ############################## */
 
 const getAllTrades = () =>
@@ -135,5 +145,7 @@ export default {
   addPhone,
   register,
   login,
-  getAllDistricts
+  getAllDistricts,
+  getUserByTrade,
+  getUserByDistrict
 };
