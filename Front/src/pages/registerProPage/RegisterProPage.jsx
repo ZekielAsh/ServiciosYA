@@ -8,14 +8,14 @@ import "./RegisterProPage.css";
 const RegisterProPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [trades, setTrades] = useState([]);
+  const [options, setOptions] = useState([]);
   const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
     api
       .getAllTrades()
       .then(response => {
-        setTrades(response.data);
+        setOptions(response.data);
       })
       .catch(error => {
         setError(error.response.data.error);
@@ -52,7 +52,7 @@ const RegisterProPage = () => {
         <div className="login-container-card">
           <RegisterPro
             handleSubmitRegisterPro={handleSubmitRegisterPro}
-            trades={trades}
+            options={options}
             districts={districts}
             error={error}
           />

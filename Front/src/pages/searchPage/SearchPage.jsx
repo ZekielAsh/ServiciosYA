@@ -15,10 +15,12 @@ const SearchPage = () => {
   const searchText = useParams().text;
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [originalUsers, setOriginalUsers] = useState([]); // Estado para guardar los usuarios originales
   const [trades, setTrades] = useState([]); // Estado para los rubros
   const [selectedTrade, setSelectedTrade] = useState(""); // Rubro seleccionado
   const [districts, setDistricts] = useState([]); // Estado para los distritos
-  const [selectedDistrict, setSelectedDistrict] = useState(""); // Distrito seleccionado
+  const [selectedZone, setSelectedZone] = useState(""); // Zona seleccionada
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState(""); // Barrio seleccionado
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
 
@@ -49,7 +51,7 @@ const SearchPage = () => {
             username: response.data.nickName,
             email: response.data.email,
             roles: userResp.map(role => role.role),
-            district: professionalRole ? professionalRole.district : "", 
+            district: professionalRole ? professionalRole.district : "",
             trade: professionalRole ? professionalRole.trade : "",
             phoneNumber:
               response.data.phoneNumber == null
@@ -68,15 +70,18 @@ const SearchPage = () => {
         });
     }
 
-    // Cargar resultados de búsqueda
+    // Cargar resultados de búsqueda originales
     api
       .searchProUsers(searchText)
-      .then(response => setUsers(response.data))
+      .then(response => {
+        setUsers(response.data);
+        setOriginalUsers(response.data); // Guardar los resultados originales
+      })
       .catch(error => setModalMessage(error.response?.data?.error))
       .finally(() => setIsLoading(false));
   }, [searchText]);
 
-  // Filtrar usuarios por rubro seleccionado
+  // Filtrar usuarios por rubro seleccionado o quitar filtro si se desmarca
   useEffect(() => {
     if (selectedTrade) {
       setIsLoading(true);
@@ -85,42 +90,46 @@ const SearchPage = () => {
         .then(response => setUsers(response.data))
         .catch(error => setModalMessage(error.response?.data?.error))
         .finally(() => setIsLoading(false));
-    }
-  }, [selectedTrade]);// Filtrar usuarios por distrito seleccionado
-  
-  useEffect(() => {
-    if (selectedDistrict) {
-      setIsLoading(true);
-      // Busca en los neighborhoods asociados al distrito seleccionado
-      const district = districts.find(d => d.zone === selectedDistrict);
-      if (district && district.neighborhoods.length > 0) {
-        api
-          .getUserByDistrict(district.neighborhoods) // Cambiar a getUserByNeighborhoods
-          .then(response => setUsers(response.data))
-          .catch(error => setModalMessage(error.response?.data?.error))
-          .finally(() => setIsLoading(false));
-      } else {
-        setUsers([]); // Si no hay neighborhoods, no hay resultados
-        setIsLoading(false);
-      }
-    }
-  }, [selectedDistrict, districts]);
-
-  const handleTradeChange = (trade) => {
-    // Si el rubro ya está seleccionado, deselecciona
-    if (selectedTrade === trade) {
-      setSelectedTrade(""); // Deselecciona
     } else {
-      setSelectedTrade(trade); // Selecciona el nuevo rubro
+      setUsers(originalUsers); // Restaurar los usuarios originales si no hay rubro seleccionado
+    }
+  }, [selectedTrade]);
+
+  // Filtrar usuarios por barrio seleccionado o quitar filtro si se desmarca
+  useEffect(() => {
+    if (selectedNeighborhood) {
+      setIsLoading(true);
+      api
+        .getUserByDistrict(selectedNeighborhood) // Filtrar por barrio
+        .then(response => setUsers(response.data))
+        .catch(error => setModalMessage(error.response?.data?.error))
+        .finally(() => setIsLoading(false));
+    } else if (!selectedZone) {
+      setUsers(originalUsers); // Restaurar los usuarios originales si no hay barrio ni zona seleccionada
+    }
+  }, [selectedNeighborhood, selectedZone]);
+
+  // Manejar cambio de rubro con opción de desmarcar
+  const handleTradeChange = (trade) => {
+    if (selectedTrade === trade) {
+      setSelectedTrade(""); // Desmarcar si se vuelve a seleccionar
+    } else {
+      setSelectedTrade(trade);
     }
   };
-  
-  const handleDistrictChange = (district) => {
-    // Si el distrito ya está seleccionado, deselecciona
-    if (selectedDistrict === district) {
-      setSelectedDistrict(""); // Deselecciona
+
+  // Manejar cambio de zona
+  const handleZoneChange = (zone) => {
+    setSelectedZone(zone);
+    setSelectedNeighborhood(""); // Reiniciar el barrio seleccionado al cambiar la zona
+  };
+
+  // Manejar selección de un barrio con opción de desmarcar
+  const handleNeighborhoodChange = (neighborhood) => {
+    if (selectedNeighborhood === neighborhood) {
+      setSelectedNeighborhood(""); // Desmarcar si se vuelve a seleccionar
     } else {
-      setSelectedDistrict(district); // Selecciona el nuevo distrito
+      setSelectedNeighborhood(neighborhood);
     }
   };
 
@@ -138,35 +147,48 @@ const SearchPage = () => {
             {trades.map(trade => (
               <li key={trade}>
                 <input
-                  type="radio" // Cambiar checkbox a radio button
-                  name="trade" // Agrupar los radios por nombre
+                  type="radio"
+                  name="trade"
                   value={trade}
-                  checked={selectedTrade === trade} // Verificar si el rubro está seleccionado
+                  checked={selectedTrade === trade}
                   onChange={() => handleTradeChange(trade)}
                 />
                 <label>{trade}</label>
               </li>
             ))}
           </ul>
-          <h3>Distritos</h3>
-          <ul>
+
+          <h3>Zona</h3>
+          <select onChange={(e) => handleZoneChange(e.target.value)}>
+            <option value="">Seleccionar Zona</option>
             {districts.map(district => (
-              <li key={district.zone}> {/* Usamos 'zone' como clave única */}
-                <input
-                  type="radio"
-                  name="district"
-                  value={district.zone} // Usamos 'zone' como el valor del distrito
-                  checked={selectedDistrict === district.zone}
-                  onChange={() => handleDistrictChange(district.zone)} // Filtrar por la zona
-                />
-                <label>
-                  {district.zone} 
-                  {district.neighborhoods.length > 0 && 
-                    ` (${district.neighborhoods.join(", ")})`}
-                </label>
-              </li>
+              <option key={district.zone} value={district.zone}>
+                {district.zone}
+              </option>
             ))}
-          </ul>
+          </select>
+
+          {selectedZone && (
+            <>
+              <h3>Distritos en Zona {selectedZone}</h3>
+              <ul>
+                {districts
+                  .find(d => d.zone === selectedZone)
+                  ?.neighborhoods.map(neighborhood => (
+                    <li key={neighborhood}>
+                      <input
+                        type="radio"
+                        name="neighborhood"
+                        value={neighborhood}
+                        checked={selectedNeighborhood === neighborhood}
+                        onChange={() => handleNeighborhoodChange(neighborhood)}
+                      />
+                      <label>{neighborhood}</label>
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
         </div>
         <div className="search-container-content">
           <div className="search-container-content-body flex-d-c">
