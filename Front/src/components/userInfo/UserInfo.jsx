@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify"; 
 import api from "../../services/api";
 
 const UserInfo = ({
@@ -12,8 +13,9 @@ const UserInfo = ({
   const [phoneNumber, setPhoneNumber] = useState(profileUser.phoneNumber);
   const [contactEmail, setContactEmail] = useState(profileUser.contactEmail);
 
-  const isProfessional = profileUser.roles.length >= 2
-  const comesFromRequestBoolean = (comesFromRequest.toLowerCase() === 'true'); // javascript decidio que mi booleano se tiene que parsear a string, aca lo hago booleano de vuelta
+  const isProfessional = profileUser.roles.length >= 2;
+  const comesFromRequestBoolean = comesFromRequest.toLowerCase() === "true";
+
   const handlePhoneNumberChange = event => {
     setPhoneNumber(event.target.value);
   };
@@ -23,27 +25,26 @@ const UserInfo = ({
   };
 
   const handleSaveContactInfo = () => {
+    // Guardar teléfono
     api
       .addPhone(profileUser.email, phoneNumber)
       .then(responseOne => {
-        api
-          .addMailContact(profileUser.email, contactEmail)
-          .then(responseTwo => {
-            setProfileUser(prevUser => ({
-              ...prevUser,
-              phoneNumber: responseOne.data.phoneNumber,
-              contactEmail: responseTwo.data.contactMail,
-            }));
-          })
-          .catch(error => {
-            setModalMessage(error.response.data.error);
-          })
-          .finally(() => {
-            setIsEditing(false);
-          });
+        // Guardar correo solo si la primera petición fue exitosa
+        return api.addMailContact(profileUser.email, contactEmail).then(responseTwo => {
+          setProfileUser(prevUser => ({
+            ...prevUser,
+            phoneNumber: responseOne.data.phoneNumber,
+            contactEmail: responseTwo.data.contactMail,
+          }));
+          // Notificar éxito
+          toast.success("Información de contacto actualizada correctamente");
+          // Salir del modo edición
+          setIsEditing(false);
+        });
       })
       .catch(error => {
-        setModalMessage(error.response.data.error);
+        // Notificar error
+        toast.error(error.response?.data?.error || "Error al actualizar la información");
       });
   };
 
@@ -56,7 +57,7 @@ const UserInfo = ({
               <h3>District: {profileUser.district}</h3>
             </div>
             <div>
-             <h3>Trade: {profileUser.trade}</h3>
+              <h3>Trade: {profileUser.trade}</h3>
             </div>
             <div>
               <p>Teléfono: </p>
@@ -96,7 +97,7 @@ const UserInfo = ({
               </button>
             )}
           </div>
-        ) : null 
+        ) : null
       ) : isProfessional && !comesFromRequestBoolean ? (
         <div>
           <div>
@@ -112,7 +113,7 @@ const UserInfo = ({
             <h3>Email: {profileUser.email}</h3>
           </div>
         </div>
-      ) : null} 
+      ) : null}
     </>
   );
 };

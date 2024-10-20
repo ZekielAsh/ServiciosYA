@@ -6,3 +6,79 @@
   width: 100%;
   padding: 5px 20px;
 }
+/* 
+body {
+  background: linear-gradient(to bottom, #0f0f0f, #1c1c1c);
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.profile-page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  width: 100%;
+}
+
+.user-profile {
+  background-color: #1c1c1c;
+  border-radius: 10px;
+  padding: 20px;
+  width: 40%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.reviews-section {
+  background-color: #252525;
+  border-radius: 10px;
+  padding: 20px;
+  width: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.reviews-section h2 {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.review-item {
+  background-color: #333;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  background-color: #3e63dd;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3252b0;
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #555;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #2e2e2e;
+  color: white;
+}
+
+.logout-button {
+  background-color: #d14e4e;
+  margin-left: 15px;
+} */

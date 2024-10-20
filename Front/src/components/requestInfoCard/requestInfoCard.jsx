@@ -1,10 +1,11 @@
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import Button from "../button/Button";
 import "./requestInfoCard.css";
 
-const RequestInfoCard = ({ request, handleRemoveRequest, setModalMessage }) => {
+const RequestInfoCard = ({ request, handleRemoveRequest }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
 
   const toggleDescription = () => {
@@ -16,14 +17,14 @@ const RequestInfoCard = ({ request, handleRemoveRequest, setModalMessage }) => {
       .updateRequestStatus(request.id, status)
       .then(() => {
         if (status === "RECHAZADA") {
-          setModalMessage("Solicitud rechazada exitosamente");
+          toast.success("Solicitud rechazada exitosamente");
         } else {
-          setModalMessage("Solicitud aceptada exitosamente");
+          toast.success("Solicitud aceptada exitosamente");
         }
         handleRemoveRequest(request.id);
       })
       .catch(error => {
-        setModalMessage(error.response.data.error);
+        toast.error(error.response.data.error);
       });
   };
 
@@ -56,16 +57,3 @@ const RequestInfoCard = ({ request, handleRemoveRequest, setModalMessage }) => {
 };
 
 export default RequestInfoCard;
-
-// return (
-//   <div className="request-info-">
-//       <Link to={`/profile/${request.user.email}`}>{request.user.nickname}</Link>
-//     <div className="request-info-title">{request.title}
-//       <div className="request-info-description">{request.description}</div>
-//     </div>
-//     <div className="request-button-column">
-//       <Button>Aceptar</Button>
-//       <Button>Rechazar</Button>
-//     </div>
-//   </div>
-// );

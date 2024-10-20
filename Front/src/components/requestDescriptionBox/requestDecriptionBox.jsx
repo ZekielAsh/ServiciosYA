@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify"; // Importa toast de react-toastify
 import api from "../../services/api";
 import "./requestDescriptionBox.css";
 
@@ -14,8 +15,6 @@ const RequestDescriptionBox = ({
 
   const isProfileOwner = logedUserEmail === profileUser.email;
   const isProfessional = profileUser.roles.length >= 2;
-
-  // console.log(isProfileOwner || profileUser.role === "CLIENT" || logedUserRole === "PROFESSIONAL")
 
   const handleRequestDescription = () => {
     setIsInputVisible(true);
@@ -39,17 +38,17 @@ const RequestDescriptionBox = ({
     api
       .addRequest(title, description, logedUserEmail, profileUser.email)
       .then(() => {
-        setModalMessage("La solicitud ha sido enviada");
+        toast.success("La solicitud ha sido enviada"); // Muestra el mensaje de éxito con toast
       })
       .catch(error => {
-        setModalMessage(error.response.data.error);
+        toast.error(error.response.data.error); // Muestra el mensaje de error con toast
       });
     handleCloseInput();
   };
 
   return (
     <div>
-      {isProfileOwner || !isProfessional || logedUserRole === "PROFESSIONAL" ?(
+      {isProfileOwner || !isProfessional || logedUserRole === "PROFESSIONAL" ? (
         null
       ) : (
         isInputVisible ? (
@@ -80,30 +79,3 @@ const RequestDescriptionBox = ({
 };
 
 export default RequestDescriptionBox;
-
-// return (
-//   <div>
-//     {isProfileOwner ? (
-//       null
-//     ) : (
-//       isInputVisible ? (
-//         <div className="description-input">
-//           <h2>Titulo</h2>
-//           <textarea
-//             value={title}
-//             onChange={handleTitleChange}
-//           />
-//           <h2>Descripción</h2>
-//           <textarea
-//             value={description}
-//             onChange={handleDescriptionChange}
-//           />
-//           <button onClick={handleSubmit}>Enviar</button>
-//           <button onClick={handleCloseInput}>Cancelar</button>
-//         </div>
-//       ) : (
-//         <button onClick={handleRequestDescription}>Solicitar</button>
-//       )
-//     )}
-//   </div>
-// );

@@ -11,6 +11,8 @@ import SearchPage from "./pages/searchPage/SearchPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import HomePage from "./pages/homePage/HomePage";
 import React from "react";
+import { ToastContainer } from "react-toastify";  
+import 'react-toastify/dist/ReactToastify.css';   
 import "./styles/Colors.css";
 import "./index.css";
 
@@ -52,5 +54,16 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <ToastContainer 
+      position="top-left"   // Aquí defines la nueva posición
+      autoClose={3000} 
+      hideProgressBar={false} 
+      newestOnTop={false} 
+      closeOnClick 
+      rtl={false} 
+      pauseOnFocusLoss 
+      draggable 
+      pauseOnHover 
+    />
   </React.StrictMode>
 );
