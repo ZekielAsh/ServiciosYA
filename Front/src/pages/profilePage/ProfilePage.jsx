@@ -1,6 +1,7 @@
 import { getUserEmailFromLocalStorage } from "../../utils/localStorage";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import RequestDescriptionBox from "../../components/requestDescriptionBox/requestDecriptionBox";
 import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
 import CommentSection from "../../components/commentSection/CommentSection";
@@ -99,10 +100,10 @@ const Profile = () => {
           role: response.data.currentRolDto,
         }));
         console.log(logedUser);
-        setModalMessage("Rol cambiado con éxito.");
+        toast.success("Rol cambiado con éxito.");
       })
       .catch(error => {
-        setModalMessage(error.message);
+        toast.error(error.message);
       });
   };
 

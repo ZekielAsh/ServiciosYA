@@ -6,25 +6,29 @@ import api from "../../services/api.js";
 
 const SubmitedRequestCard = ({ request }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);  // Nuevo estado para la animación
 
   const handleDescriptionVisible = () => {
     setIsDescriptionVisible(!isDescriptionVisible);
   };
 
   const handleDeleteRequest = () => {
-    api
-      .deleteRequest(request.id)
-      .then(() => {
-        window.location.reload();
-      })
-      .catch(error => {
-        console.error(error);
-        setModalMessage(error.response.data.error);
-      });
+    setIsDeleting(true); // Inicia la animación de eliminación
+    setTimeout(() => {
+      api
+        .deleteRequest(request.id)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error(error);
+          setIsDeleting(false); // Si hay un error, detenemos la animación
+        });
+    }, 1000); // Esperamos 1 segundo para la animación antes de proceder
   };
 
   return (
-    <div className="submited-request-card-container">
+    <div className={`submited-request-card-container ${isDeleting ? 'deleting' : ''}`}>
       <div className="submited-request-card-info">
         <div className="submited-request-card-title">{request.title}</div>
         <div className="status-container">

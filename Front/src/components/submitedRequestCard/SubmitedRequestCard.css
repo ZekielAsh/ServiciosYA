@@ -74,3 +74,12 @@
 .trash-icon{
   font-size: 25px;
 }
+
+.submited-request-card-container {
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.submited-request-card-container.deleting {
+  opacity: 0;
+  transform: scale(0.9); /* Disminuir ligeramente el tamaño */
+}
