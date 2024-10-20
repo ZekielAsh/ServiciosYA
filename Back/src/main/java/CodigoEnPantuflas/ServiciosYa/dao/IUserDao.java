@@ -1,6 +1,7 @@
 package CodigoEnPantuflas.ServiciosYa.dao;
 
 import CodigoEnPantuflas.ServiciosYa.modelo.Role;
+import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,6 +42,18 @@ public interface IUserDao extends JpaRepository<User, String> {
 
     @Query("SELECT p.phoneNumber FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
     String findProfessionalPhoneByEmail(@Param("email") String email);
+
+    @Query("SELECT u FROM Professional p " +
+            "JOIN Role r ON p.id = r.id " +
+            "JOIN User u ON r.user = u " +
+            "WHERE p.trade LIKE %?1% ")
+    Set<User> getProfessionalByTrade(String trade);
+
+    @Query("SELECT u FROM Professional p " +
+            "JOIN Role r ON p.id = r.id " +
+            "JOIN User u ON r.user = u " +
+            "WHERE p.district LIKE %?1% ")
+    Set<User> getProfessionalByDistrict(String district);
 
 }
 

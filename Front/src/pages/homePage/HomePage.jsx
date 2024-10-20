@@ -55,7 +55,7 @@ const HomePage = () => {
       <BackgroundSection />
       <Navbar user={user} />
       <div className="home-body">
-        <div className="home-title"> Home Page </div>
+        <div className="home-title"> Servicios YA! </div>
         {modalMessage && (
           <Modal message={modalMessage} setModalMessage={setModalMessage} />
         )}
@@ -63,12 +63,8 @@ const HomePage = () => {
         {/* Descripción del Home */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <div>
-            <div className="home-title"> 
-              Bienvenido a ServiciosYa
-              <br/> ServiciosYa
-            </div>
             <div className="home-container">  
-              es la solución perfecta para quienes buscan profesionales confiables para reparaciones y mejoras en el hogar. Nuestra misión es facilitar el proceso de encontrar, contactar y reservar servicios de calidad, para que puedas enfocarte en lo que realmente importa.
+              Ofrecemos la solución perfecta para quienes buscan profesionales confiables para reparaciones y mejoras en el hogar. Nuestra misión es facilitar el proceso de encontrar, contactar y reservar servicios de calidad, para que puedas enfocarte en lo que realmente importa.
             </div> 
         </div>
         </motion.div>

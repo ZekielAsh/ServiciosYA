@@ -4,6 +4,8 @@ import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,7 +29,7 @@ public class ObjectMapper {
         Set<RoleDto> userRolesDto = user.getUserRoles().stream().map(this::converRoleToRoleDto).collect(Collectors.toSet());
         Role userRole = user.getCurrentRole();
         return new UserDto(user.getUserNickname(), user.getMail(), userRolesDto, user.getNameOfCurrentRole(), user.getPassword(),
-                userRole.getTrade(),userRole.getDistrict(),userRole.getContactMail(), userRole.getPhoneNumber());
+                userRole.getTrade(),userRole.getDistrict(),userRole.getContactMail(), userRole.getPhoneNumber(), userRole.getSocialMedia());
     }
 
     public RoleDto converRoleToRoleDto(Role role) {
@@ -46,7 +48,10 @@ public class ObjectMapper {
 
     public RequestDto convertRequestToRequestDto(Request request){
         SimpleUserDto simpleUserDto = this.convertUserToSimpleUserDto(request.getClient());
-        return new RequestDto(request.getTitle(), simpleUserDto, request.getStatus().toString(), request.getDescription());
+        String trade = request.getProfessional().findRoleWithMode(Mode.PROFESSIONAL).getTrade();
+        String profEmail = request.getProfessional().getMail();
+        String profNickName = request.getProfessional().getUserNickname();
+        return new RequestDto(request.getId(), request.getTitle(), simpleUserDto, request.getStatus().toString(), request.getDescription(), trade, profNickName, profEmail);
     }
 
     public SimpleUserDto convertUserToSimpleUserDto(User user) {
@@ -61,4 +66,19 @@ public class ObjectMapper {
         return new User(registerBody.getUserName(), registerBody.getEmail(), registerBody.getPassword());
     }
 
+    public DistrictDto convertoToDisctrictDto(Class<? extends Enum<?>> districtClass) {
+
+        Enum<?>[] enumValues = districtClass.getEnumConstants();
+
+
+        List<String> districtNames = Arrays.stream(enumValues)
+                .map(enumValue -> formatEnumName(enumValue.name()))
+                .collect(Collectors.toList());
+
+        return new DistrictDto(districtClass.getSimpleName(), districtNames);
+    }
+
+    private String formatEnumName(String enumName) {
+        return enumName.replace("_", " ");
+    }
 }

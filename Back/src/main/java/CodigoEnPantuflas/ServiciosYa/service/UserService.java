@@ -6,6 +6,7 @@ import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
 import CodigoEnPantuflas.ServiciosYa.modelo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -74,6 +75,18 @@ public class UserService {
         }
     }
 
+    public Set<User> getProfessionalsByTrade(String trade) {
+        Set<User> users =  userDao.getProfessionalByTrade(trade);
+        users.forEach(user -> {user.setRoleAsCurrent(Mode.PROFESSIONAL);});
+        return users;
+    }
+
+    public Set<User> getProfessionalsByDistrict(String district) {
+        Set<User> users =  userDao.getProfessionalByDistrict(district);
+        users.forEach(user -> {user.setRoleAsCurrent(Mode.PROFESSIONAL);});
+        return users;
+    }
+
     public Set<User> getProfessionalsByKeyword(String keyword) {
         Set<User> users =  userDao.getProfessionalByKeyword(keyword);
         users.forEach(user -> {user.setRoleAsCurrent(Mode.PROFESSIONAL);});
@@ -98,6 +111,13 @@ public class UserService {
         return userDao.save(user);
     }
 
+    public User addSocialMedia(String email, String link) {
+        User user = getByMail(email);
+        user.addSocialMedia(link);
+        return userDao.save(user);
+    }
+
+    @Transactional
     public Request sendNewRequest(String email, String professionalEmail, String description, String title) {
         User client = getByMail(email);
         User professional = getByMail(professionalEmail);
@@ -111,4 +131,5 @@ public class UserService {
 
         return request;
     }
+
 }

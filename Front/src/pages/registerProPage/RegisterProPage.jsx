@@ -8,16 +8,28 @@ import "./RegisterProPage.css";
 const RegisterProPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [options, setOptions] = useState([]);
+  const [trades, setTrades] = useState([]);
+  const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
     api
       .getAllTrades()
       .then(response => {
-        setOptions(response.data);
+        setTrades(response.data);
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .getAllDistricts()
+      .then(response => {
+        setDistricts(response.data);
+      })
+      .catch(error => {
+        setError(error.response.data.error);
       });
   }, []);
 
@@ -30,7 +42,7 @@ const RegisterProPage = () => {
         navigate("/", { replace: true });
       })
       .catch(error => {
-        setError(error.response.data.status);
+        setError(error.response.data.error);
       });
   };
 
@@ -40,7 +52,8 @@ const RegisterProPage = () => {
         <div className="login-container-card">
           <RegisterPro
             handleSubmitRegisterPro={handleSubmitRegisterPro}
-            options={options}
+            trades={trades}
+            districts={districts}
             error={error}
           />
         </div>

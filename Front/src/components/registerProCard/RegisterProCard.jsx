@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { arrayDistrictsToOneObject } from "../../utils/functions";
 import Select from "react-select";
 import Button from "../button/Button";
-import Input from "../input/Input";
 import "../../styles/Cards.css";
 
-const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
-  const [district, setDistrict] = useState("");
+const RegisterProCard = ({
+  handleSubmitRegisterPro,
+  error,
+  options,
+  districts,
+}) => {
   const [isEmpty, setIsEmpty] = useState(false);
 
   const [trade, setTrade] = useState(null);
@@ -14,8 +18,27 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
     label: option,
   }));
 
-  const handleDistrictChange = event => {
-    setDistrict(event.target.value);
+  const newDistricts = arrayDistrictsToOneObject(districts);
+
+  const [zone, setZone] = useState(null);
+  const zoneOptions = Object.keys(newDistricts).map(key => ({
+    value: key,
+    label: key,
+  }));
+
+  const [neighborhood, setNeighborhood] = useState(null);
+  const neighborhoodOptions = newDistricts[zone]?.map(neighborhoodOption => ({
+    value: neighborhoodOption,
+    label: neighborhoodOption,
+  }));
+
+  const handleZoneChange = selectedOption => {
+    setZone(selectedOption.value);
+    setNeighborhood(null);
+  };
+
+  const handleNeighborhoodChange = selectedOption => {
+    setNeighborhood(selectedOption);
   };
 
   const handleTradeChange = selectedOption => {
@@ -24,21 +47,24 @@ const RegisterProCard = ({ handleSubmitRegisterPro, error, options }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    handleSubmitRegisterPro(district, trade);
-    setIsEmpty(!district || !trade);
+    handleSubmitRegisterPro(neighborhood?.value, trade);
+    setIsEmpty(!neighborhood || !trade || !zone);
   };
 
   return (
     <form className="card">
       <div className="card-content">
         {!isEmpty && error ? <p>{error}</p> : null}
-        {!district && isEmpty ? <p>Faltan completar campos</p> : null}
-        <label>District</label>
-        <Input
-          type="text"
-          placeholder="district"
-          onChange={handleDistrictChange}
-        />
+        {(!zone || !neighborhood || !trade) && isEmpty ? (
+          <p>Faltan completar campos</p>
+        ) : null}
+        <label>Zona</label>
+        <Select onChange={handleZoneChange} options={zoneOptions}></Select>
+        <Select
+          value={neighborhood}
+          onChange={handleNeighborhoodChange}
+          options={neighborhoodOptions}
+        ></Select>
       </div>
       <div className="card-content">
         <label>Trade</label>

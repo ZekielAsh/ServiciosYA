@@ -1,39 +1,48 @@
-import React, { useState } from "react";
-import "./requestInfoCard.css";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../../services/api";
 import Button from "../button/Button";
+import "./requestInfoCard.css";
 
-const RequestInfoCard = ({ request }) => {
+const RequestInfoCard = ({ request, handleRemoveRequest, setModalMessage }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
 
   const toggleDescription = () => {
     setIsDescriptionVisible(!isDescriptionVisible);
   };
 
+  const handleUpdateRequestStatus = status => {
+    api
+      .updateRequestStatus(request.id, status)
+      .then(() => {
+        if (status === "RECHAZADA") {
+          setModalMessage("Solicitud rechazada exitosamente");
+        } else {
+          setModalMessage("Solicitud aceptada exitosamente");
+        }
+        handleRemoveRequest(request.id);
+      })
+      .catch(error => {
+        setModalMessage(error.response.data.error);
+      });
+  };
+
   return (
     <div className="request-body">
       <div className="request-info-line">
         <Link to={`/profile/${request.user.email}/${true}`}>
-          <div className="request-nickname">
-          {request.user.nickname}
-          </div>
+          <div className="request-nickname">{request.user.nickname}</div>
         </Link>
-        <div className="request-info-title">
-          "{request.title}"
-        </div>
+        <div className="request-info-title">{request.title}</div>
         <button onClick={toggleDescription} className="description-toggle">
           {isDescriptionVisible ? "Ocultar Descripción" : "Ver Descripción"}
         </button>
         <div className="request-buttons">
-          <Button> 
-            <div  className="accept-btn"> 
-            Aceptar
-            </div>
+          <Button onClick={() => handleUpdateRequestStatus("ACEPTADA")}>
+            <div className="accept-btn">Aceptar</div>
           </Button>
-          <Button > 
-            <div className="reject-btn"> 
-            Rechazar
-            </div>
+          <Button onClick={() => handleUpdateRequestStatus("RECHAZADA")}>
+            <div className="reject-btn">Rechazar</div>
           </Button>
         </div>
       </div>
@@ -46,9 +55,7 @@ const RequestInfoCard = ({ request }) => {
   );
 };
 
-
 export default RequestInfoCard;
-
 
 // return (
 //   <div className="request-info-">

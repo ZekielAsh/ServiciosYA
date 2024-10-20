@@ -32,7 +32,7 @@ public class Request {
         this.setProfessional(professional);
         this.description = description;
         this.title = title;
-        this.status = ReqStatus.PENDING;
+        this.status = ReqStatus.PENDIENTE;
     }
 
 }

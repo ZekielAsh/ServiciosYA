@@ -14,4 +14,12 @@ const convertFromUserDTOtoUser = userDTO => {
   };
 };
 
-export { convertFromUserDTOtoUser };
+const arrayDistrictsToOneObject = arrayObject => {
+  // para que sea mas facil de usar en el front.
+  return arrayObject.reduce((acc, obj) => {
+    acc[obj.zone] = obj.neighborhoods;
+    return acc;
+  }, {});
+};
+
+export { convertFromUserDTOtoUser, arrayDistrictsToOneObject };

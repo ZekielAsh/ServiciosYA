@@ -1,6 +1,7 @@
 
 package CodigoEnPantuflas.ServiciosYa.modelo;
 import CodigoEnPantuflas.ServiciosYa.jwt.Mode;
+import CodigoEnPantuflas.ServiciosYa.jwt.ReqStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,10 +39,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> userRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // , orphanRemoval = true
     private Set<Request> sendRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "professional", cascade = CascadeType.ALL, fetch = FetchType.EAGER)// , orphanRemoval = true
     private Set<Request> receivedRequests = new HashSet<>();
 
 
@@ -141,6 +142,25 @@ public class User implements UserDetails {
         }
     }
 
+    public void addSocialMedia(String link) {
+        if(this.isAlreadyProfessional()){
+            this.setRoleAsCurrent(Mode.PROFESSIONAL);
+            this.getCurrentRole().addSocialMedia(link);
+        }
+    }
+
+    public Set<Request> getReceivedRequestsByStatus(String status) {
+        try {
+            ReqStatus reqStatus = ReqStatus.valueOf(status);
+            return this.receivedRequests.stream()
+                    .filter(it -> it.getStatus() == reqStatus)
+                    .collect(Collectors.toSet());
+        } catch (IllegalArgumentException e) {
+            // Si no es valido el estado que le pasas devuelve vacio
+            return Collections.emptySet();
+        }
+    }
+
     public void addNewRequest(Request request) {
         this.sendRequests.add(request);
     }
@@ -152,5 +172,15 @@ public class User implements UserDetails {
     public void receiveNewRequest(Request request) {
         this.receivedRequests.add(request);
     }
+
+    public void removeSentRequest(Long requestId) {
+        this.getSendRequests().removeIf(request -> request.getId().equals(requestId));
+    }
+
+    public void removeRecievedRequest(Long requestId) {
+        this.getReceivedRequests().removeIf(request -> request.getId().equals(requestId));
+    }
+
+
 }
 

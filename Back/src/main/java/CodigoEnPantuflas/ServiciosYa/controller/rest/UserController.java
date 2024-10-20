@@ -3,6 +3,7 @@ import CodigoEnPantuflas.ServiciosYa.controller.dto.ProfessionalRegisterDto;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.UserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
+import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserController {
     @PostMapping("/addProfessionalRole")
     @CrossOrigin
     public ResponseEntity<UserDto> addProfessionalRole(@RequestBody ProfessionalRegisterDto profRegDto){
+        Validator.getInstance().validateRegisterProfessional(profRegDto);
         User user = userService.addProfessionalRole(profRegDto.getEmail(), profRegDto.getDistrict(), profRegDto.getTrade().name());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
@@ -32,6 +34,23 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<Set<UserDto>> getProfessionalsByKeyword(@RequestParam String keyword){
         Set<User> professionalUsers = userService.getProfessionalsByKeyword(keyword);
+        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
+        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
+    }
+
+    @GetMapping("/getByTrade")
+    @CrossOrigin
+    public ResponseEntity<Set<UserDto>> getProfessionalsByTrade(@RequestParam String trade){
+        Set<User> professionalUsers = userService.getProfessionalsByTrade(trade);
+        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
+        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
+    }
+
+
+    @GetMapping("/getByDistrict")
+    @CrossOrigin
+    public ResponseEntity<Set<UserDto>> getProfessionalsByDistrict(@RequestParam String district){
+        Set<User> professionalUsers = userService.getProfessionalsByDistrict(district);
         Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
         return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
     }
@@ -65,6 +84,15 @@ public class UserController {
     public ResponseEntity<UserDto> saveOrUpdatePhone(@RequestParam String email, @RequestParam String phone){
         Validator.getInstance().validatePhoneNumber(phone);
         User user = userService.addPhone(email, phone);
+        UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userDto);
+    }
+
+    @PostMapping("/addSocialMedia")
+    @CrossOrigin
+    public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestParam String email, @RequestParam String link){
+        Validator.getInstance().validateLink(link);
+        User user = userService.addSocialMedia(email, link);
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }

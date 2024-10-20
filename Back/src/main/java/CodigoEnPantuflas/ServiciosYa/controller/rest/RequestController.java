@@ -2,7 +2,6 @@ package CodigoEnPantuflas.ServiciosYa.controller.rest;
 
 import CodigoEnPantuflas.ServiciosYa.controller.dto.CreateRequestDTO;
 import CodigoEnPantuflas.ServiciosYa.controller.dto.RequestDto;
-import CodigoEnPantuflas.ServiciosYa.controller.dto.SimpleUserDto;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.ObjectMapper;
 import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.modelo.Request;
@@ -54,15 +53,32 @@ public class RequestController {
         List<RequestDto> requestsDto = user.getReceivedRequests().stream().map(r -> ObjectMapper.getInstance().convertRequestToRequestDto(r)).toList();
         return ResponseEntity.ok(requestsDto);
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @GetMapping("received/profile/{email}/{status}")
+    @CrossOrigin
+    public ResponseEntity<List<RequestDto>> getReceivedRequestsByProfileAndStatus(@PathVariable String email, @PathVariable String status) {
+        User user = userService.getByMail(email);
+        List<RequestDto> requestsDto =
+                user.getReceivedRequestsByStatus(status).stream()
+                .map(r -> ObjectMapper.getInstance().convertRequestToRequestDto(r))
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(requestsDto);
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    // Los status que puede tener una request son: "PENDING", "ACCEPTED", "REJECTED"
-//    @PutMapping("/updateRequestStatus")
-//    @CrossOrigin
-//    public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {
-//        Request updatedRequest = requestService.updateRequestStatus(requestId, status);
-//        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
-//        return ResponseEntity.ok(requestDto);
-//    }
-    
+    @PutMapping("/updateRequestStatus")
+    @CrossOrigin
+    public ResponseEntity<RequestDto> updateRequestStatus(@RequestParam Long requestId, @RequestParam String status) {
+        Request updatedRequest = requestService.updateRequestStatus(requestId, status);
+        RequestDto requestDto = ObjectMapper.getInstance().convertRequestToRequestDto(updatedRequest);
+        return ResponseEntity.ok(requestDto);
+    }
+
+    @PostMapping("/deleteRequest")
+    @CrossOrigin
+    public ResponseEntity<Void> deleteRequest(@RequestParam Long requestId) {
+        requestService.deleteRequest(requestId);
+        return ResponseEntity.ok().build();
+    }
 
 }

@@ -18,4 +18,5 @@ public class UserDto {
     private String district;
     private String contactMail;
     private String phoneNumber;
+    private String socialMedia;
 }

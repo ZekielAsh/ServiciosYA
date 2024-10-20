@@ -121,5 +121,22 @@ public class Validator {
             throw new IllegalArgumentException("El Profesional no posee medios de contacto");
         }
     }
+
+    public void validateRegisterProfessional(ProfessionalRegisterDto profDto) {
+        if (profDto.getDistrict() == null) {
+            throw new IllegalArgumentException("EL distrito no puede estar vacio");
+        } else if (profDto.getTrade() == null) {
+            throw new IllegalArgumentException("El rubro no puede estar vacio");
+        } else if (profDto.getEmail() == null) {
+            throw new IllegalArgumentException("El email no puede estar vacio");
+        }
+    }
+
+    public void validateLink(String link) {
+        if(link == null || link.isEmpty()){
+            throw new IllegalArgumentException("No se puede agregar un link vacio");
+        }
+        if(!link.contains(".com")) throw new IllegalArgumentException("El link dado no posee .com");
+    }
 }
 

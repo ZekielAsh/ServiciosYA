@@ -9,7 +9,7 @@ import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
 import Modal from "../../components/modal/Modal";
 import api from "../../services/api";
-import "./Profile.css";
+import "./ProfilePage.css";
 
 const Profile = () => {
   // MODIFICAR EL AUTHPATH YA QUE NECESITAS ESTAR LOGEADO
@@ -23,7 +23,6 @@ const Profile = () => {
   useEffect(() => {
     const userProfileEmail = params.email;
     const comesFromRequest = params.comesFromRequest;
-    console.log(comesFromRequest)
     const logedUserEmail = getUserEmailFromLocalStorage();
 
     api
@@ -99,7 +98,7 @@ const Profile = () => {
           ...prevUser,
           role: response.data.currentRolDto,
         }));
-        console.log(logedUser)
+        console.log(logedUser);
         setModalMessage("Rol cambiado con éxito.");
       })
       .catch(error => {
@@ -108,11 +107,8 @@ const Profile = () => {
   };
 
   const handleRequestDescription = () => {
-    setIsDescriptionBoxVisible(true)
-  }
-
-
-  
+    setIsDescriptionBoxVisible(true);
+  };
 
   if (isLoading) return <Spinner />;
 
@@ -135,7 +131,7 @@ const Profile = () => {
           profileUserEmail={profileUser.email}
           setModalMessage={setModalMessage}
         />
-         <RequestDescriptionBox
+        <RequestDescriptionBox
           logedUserEmail={logedUser.email}
           logedUserRole={logedUser.role}
           profileUser={profileUser}
