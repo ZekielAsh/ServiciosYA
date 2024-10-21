@@ -30,30 +30,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
-    @GetMapping("/getByKeyword")
-    @CrossOrigin
-    public ResponseEntity<Set<UserDto>> getProfessionalsByKeyword(@RequestParam String keyword){
-        Set<User> professionalUsers = userService.getProfessionalsByKeyword(keyword);
-        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
-        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
-    }
 
-    @GetMapping("/getByTrade")
-    @CrossOrigin
-    public ResponseEntity<Set<UserDto>> getProfessionalsByTrade(@RequestParam String trade){
-        Set<User> professionalUsers = userService.getProfessionalsByTrade(trade);
-        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
-        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
-    }
-
-
-    @GetMapping("/getByDistrict")
-    @CrossOrigin
-    public ResponseEntity<Set<UserDto>> getProfessionalsByDistrict(@RequestParam String district){
-        Set<User> professionalUsers = userService.getProfessionalsByDistrict(district);
-        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
-        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
-    }
 
     @GetMapping("/getByEmail")
     @CrossOrigin
@@ -115,4 +92,20 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
+
+    @GetMapping("/getByKeyword")
+    @CrossOrigin
+    public ResponseEntity<Set<UserDto>> getProfessionalsByKeyword(@RequestParam String keyword){
+        Set<User> professionalUsers = userService.getProfessionalsByKeyword(keyword);
+        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
+        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
+    }
+
+    @GetMapping("/getProfessionalsByFilters")
+    @CrossOrigin
+    public ResponseEntity<Set<UserDto>> getProfessionalsByFilters(@RequestParam String keyword, @RequestParam String trade, @RequestParam String district){
+        Set<User> professionalUsers = userService.getProfessionalsByFilters(keyword, trade, district);
+        Set<UserDto> professionalsDto = professionalUsers.stream().map(user -> ObjectMapper.getInstance().convertUserToUserDto(user)).collect(Collectors.toSet());
+        return ResponseEntity.status(HttpStatus.OK).body(professionalsDto);
+    }
 }

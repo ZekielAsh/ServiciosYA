@@ -26,9 +26,7 @@ public interface IUserDao extends JpaRepository<User, String> {
     @Query("SELECT u FROM Professional p " +
             "JOIN Role r ON p.id = r.id " +
             "JOIN User u ON r.user = u " +
-            "WHERE u.userNickname LIKE %?1% OR " +
-            "u.mail LIKE %?1% OR " +
-            "p.trade LIKE %?1%")
+            "WHERE u.userNickname LIKE %?1%")
     Set<User> getProfessionalByKeyword(String keyword);
 
     @Query("SELECT p.trade FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
@@ -46,14 +44,11 @@ public interface IUserDao extends JpaRepository<User, String> {
     @Query("SELECT u FROM Professional p " +
             "JOIN Role r ON p.id = r.id " +
             "JOIN User u ON r.user = u " +
-            "WHERE p.trade LIKE %?1% ")
-    Set<User> getProfessionalByTrade(String trade);
+            "WHERE u.userNickname LIKE %?1% " +
+            "AND (%?2% IS NULL OR p.trade LIKE %?2%) " +
+            "AND (%?3% IS NULL OR p.district LIKE %?3%)")
+    Set<User> getProfessionalsByFilters(String keyword, String trade, String district);
 
-    @Query("SELECT u FROM Professional p " +
-            "JOIN Role r ON p.id = r.id " +
-            "JOIN User u ON r.user = u " +
-            "WHERE p.district LIKE %?1% ")
-    Set<User> getProfessionalByDistrict(String district);
 
 }
 
