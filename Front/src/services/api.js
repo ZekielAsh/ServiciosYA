@@ -30,14 +30,24 @@ const changeRole = userEmail =>
     .post(`${API_URL}/user/changeRole?email=${userEmail}`) // Enviar el email como parámetro en la URL
     .then(response => response);
 
-const getUserByTrade = userTrade =>
+const getUserByTrade = (searchText, userTrade) =>
   axios
-    .get(`${API_URL}/user/getByTrade`, { params: { trade: userTrade } })
+    .get(`${API_URL}/user/getByTrade`, { 
+      params: {  
+        keyword: searchText,
+        trade: userTrade 
+      } 
+    })
     .then(response => response);
 
-const getUserByDistrict = userDistrict =>
+const getUserByDistrict = (searchText,  userDistrict) =>
   axios
-    .get(`${API_URL}/user/getByDistrict`, { params: { district: userDistrict } })
+    .get(`${API_URL}/user/getByDistrict`, { 
+      params: { 
+        keyword : searchText,
+        district: userDistrict 
+      } 
+    })
     .then(response => response);
 
 /* ############################## TRADES ############################## */

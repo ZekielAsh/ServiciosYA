@@ -1,51 +1,95 @@
 .search-page-container {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  margin: 20px;
+}
+
+.search-sidebar {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 20px;
+  background-color: #f9f9f9;
+}
+
+.search-sidebar h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+}
+
+.search-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.search-sidebar li {
+  padding: 8px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Estilo de filtro seleccionado */
+.search-sidebar li.selected {
+  background-color: rgba(0, 0, 255, 0.1); /* Color azul leve */
+  font-weight: bold; /* Texto en negrita para resaltar */
+}
+
+/* Estilo en hover para los filtros */
+.search-sidebar li:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Color de fondo al pasar el mouse */
 }
 
 .search-container-content {
-  display: flex;
-  padding: 16px 32px;
-  width: 100%;
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
 }
 
 .search-container-content-body {
   display: flex;
-  gap: 10px;
-}
-
-.flex-d-c {
   flex-direction: column;
 }
 
-.flex-d-r {
-  flex-direction: row;
-}
-
 .search-container-content-body-searchText {
-  font-weight: 400;
-  font-size: 32px;
-  line-height: 38.73px;
-  padding: 25px 0px;
-  gap: 16px;
+  font-size: 1.1em;
+  margin-bottom: 10px;
 }
 
 .search-container-content-body-text {
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 33.89px;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 .search-container-content-body-users {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 4px 10px;
-  gap: 10px;
+  margin-top: 10px;
 }
 
-.search-page-sidebar {
-  width: 20%;
-  padding: 1rem;
-  background-color: #f1f1f1;
+.search-container-content-body-users .ProInfoCard {
+  margin-bottom: 15px;
+}
+
+/* Estilos para el Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
 }

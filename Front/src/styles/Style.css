@@ -1,0 +1,86 @@
+/* styles.css */
+
+/* Manteniendo los estilos existentes sin el gradient */
+
+html, body {
+  height: 100%;
+  margin: 0; /* Eliminar márgenes por defecto */
+}
+
+/* Manteniendo los estilos existentes sin el gradient */
+.body-profile {
+  padding: 40px; /* Aumentar el padding para dar más espacio interno */
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con más opacidad */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  width: 100%; /* Cambiar max-width por width para llenar el contenedor */
+  margin: 50px auto; /* Añadir margen superior para separar del borde */
+  position: relative; /* Asegura que el fondo se superponga correctamente */
+  display: flex;
+  flex-direction: column; /* Alinear elementos verticalmente */
+  gap: 20px; /* Espacio entre elementos */
+}
+
+.body-profile h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px; /* Aumentar el margen inferior */
+}
+  
+  .body-profile h2 {
+    color: #444;
+    margin-bottom: 15px; /* Aumentar el margen inferior */
+  }
+  
+  .profile-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Aumentar el margen inferior */
+  }
+  
+  .contact-info {
+    margin-top: 30px; /* Aumentar margen superior */
+  }
+  
+  .button-accept,
+  .button-solicitar {
+    padding: 12px 20px; /* Aumentar padding para botones más grandes */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px; /* Espacio adicional arriba de los botones */
+  }
+  
+  .button-accept {
+    background-color: #4caf50; /* Verde */
+    color: white;
+  }
+  
+  .button-solicitar {
+    background-color: #2196f3; /* Azul */
+    color: white;
+    display: block;
+    margin: 10px auto; /* Margen para centrar */
+  }
+  
+  .comment-section {
+    margin-top: 30px; /* Aumentar margen superior */
+  }
+  
+  .comment-section-review {
+    background-color: #e7e7e7;
+    padding: 15px; /* Aumentar padding en reseñas */
+    border-radius: 5px;
+    margin-bottom: 15px; /* Aumentar margen inferior */
+  }
+  
+  .comment-section-review-input {
+    width: 100%;
+    padding: 12px; /* Aumentar padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 15px; /* Aumentar margen superior */
+  }
+  

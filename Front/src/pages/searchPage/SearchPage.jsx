@@ -86,7 +86,7 @@ const SearchPage = () => {
     if (selectedTrade) {
       setIsLoading(true);
       api
-        .getUserByTrade(selectedTrade)
+        .getUserByTrade(searchText, selectedTrade)
         .then(response => setUsers(response.data))
         .catch(error => setModalMessage(error.response?.data?.error))
         .finally(() => setIsLoading(false));
@@ -100,7 +100,7 @@ const SearchPage = () => {
     if (selectedNeighborhood) {
       setIsLoading(true);
       api
-        .getUserByDistrict(selectedNeighborhood) // Filtrar por barrio
+        .getUserByDistrict(searchText, selectedNeighborhood) // Filtrar por barrio
         .then(response => setUsers(response.data))
         .catch(error => setModalMessage(error.response?.data?.error))
         .finally(() => setIsLoading(false));
