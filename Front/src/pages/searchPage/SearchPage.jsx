@@ -16,82 +16,80 @@ const SearchPage = () => {
   const searchText = useParams().text;
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [originalUsers, setOriginalUsers] = useState([]); 
-  const [trades, setTrades] = useState([]); 
+  const [originalUsers, setOriginalUsers] = useState([]);
+  const [trades, setTrades] = useState([]);
   const [selectedTrade, setSelectedTrade] = useState("");
-  const [districts, setDistricts] = useState([]); 
-  const [selectedZone, setSelectedZone] = useState(""); 
+  const [districts, setDistricts] = useState([]);
+  const [selectedZone, setSelectedZone] = useState("");
   const [selectedNeighborhood, setSelectedNeighborhood] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
-  const [sortedUsers, setSortedUsers] = useState(users); 
-  const [sortOrder, setSortOrder] = useState('default'); 
-   
-  
+  const [sortedUsers, setSortedUsers] = useState(users);
+  const [sortOrder, setSortOrder] = useState('default');
 
-    useEffect(() => {
-      const token = getTokenFromLocalStorage();
-      const email = getUserEmailFromLocalStorage();
-    
-      // Obtener la lista de rubros
+  useEffect(() => {
+    const token = getTokenFromLocalStorage();
+    const email = getUserEmailFromLocalStorage();
+
+    // Obtener la lista de rubros
+    api
+      .getAllTrades()
+      .then(response => setTrades(response.data))
+      .catch(error => setModalMessage(error.response?.data?.error));
+
+    api
+      .getAllDistricts()
+      .then(response => setDistricts(response.data))
+      .catch(error => setModalMessage(error.response?.data?.error));
+
+    if (token) {
       api
-        .getAllTrades()
-        .then(response => setTrades(response.data))
-        .catch(error => setModalMessage(error.response?.data?.error));
-    
-      api
-        .getAllDistricts()
-        .then(response => setDistricts(response.data))
-        .catch(error => setModalMessage(error.response?.data?.error));
-    
-      if (token) {
-        api
-          .getUserByEmail(email)
-          .then(response => {
-            const userResp = response.data.userRoles;
-            const professionalRole = userResp.find(
-              role => role.role === "PROFESSIONAL"
-            );
-            setUser({
-              username: response.data.nickName,
-              email: response.data.email,
-              roles: userResp.map(role => role.role),
-              district: professionalRole ? professionalRole.district : "",
-              trade: professionalRole ? professionalRole.trade : "",
-              phoneNumber:
-                response.data.phoneNumber == null
-                  ? ""
-                  : response.data.phoneNumber,
-              contactEmail:
-                response.data.contactMail == null
-                  ? ""
-                  : response.data.contactMail,
-              role: response.data.currentRolDto,
-            });
-          })
-          .catch(error => setModalMessage(error.response?.data?.error))
-          .finally(() => {
-            setIsLoading(false);
-          });
-      }
-    
-      // Obtener los profesionales
-      api
-        .getProfessionalsByFilters(searchText, selectedTrade, selectedNeighborhood)
+        .getUserByEmail(email)
         .then(response => {
-          setUsers(response.data);
-          setSortedUsers(response.data);  // Aquí actualizamos ambos estados
-          setOriginalUsers(response.data);
+          const userResp = response.data.userRoles;
+          const professionalRole = userResp.find(
+            role => role.role === "PROFESSIONAL"
+          );
+          setUser({
+            username: response.data.nickName,
+            email: response.data.email,
+            roles: userResp.map(role => role.role),
+            district: professionalRole ? professionalRole.district : "",
+            trade: professionalRole ? professionalRole.trade : "",
+            phoneNumber:
+              response.data.phoneNumber == null
+                ? ""
+                : response.data.phoneNumber,
+            contactEmail:
+              response.data.contactMail == null
+                ? ""
+                : response.data.contactMail,
+            role: response.data.currentRolDto,
+          });
         })
         .catch(error => setModalMessage(error.response?.data?.error))
-        .finally(() => setIsLoading(false));
-    }, [searchText, selectedTrade, selectedNeighborhood]);
-    
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+
+    // Obtener los profesionales
+    api
+      .getProfessionalsByFilters(searchText, selectedTrade, selectedNeighborhood)
+      .then(response => {
+        setUsers(response.data);
+        setSortedUsers(response.data);
+        setOriginalUsers(response.data);
+      })
+      .catch(error => setModalMessage(error.response?.data?.error))
+      .finally(() => setIsLoading(false));
+  }, [searchText, selectedTrade, selectedNeighborhood]);
+
   // Manejar cambio de rubro con opción de desmarcar
   const handleSortChange = (event) => {
     const value = event.target.value;
     setSortOrder(value);
-  
+
     if (value === 'asc') {
       const sortedAsc = [...users].sort((a, b) =>
         a.nickName.localeCompare(b.nickName)
@@ -106,29 +104,29 @@ const SearchPage = () => {
       setSortedUsers([...users]); // Si se selecciona "default", restablecemos el orden inicial
     }
   };
-  
-    // Manejar cambio de zona
-    const handleZoneChange = (zone) => {
-      setSelectedZone(zone);
-      setSelectedNeighborhood(""); // Reiniciar el barrio seleccionado al cambiar la zona
-    };
-  
-    // Manejar selección de un barrio con opción de desmarcar
-    const handleNeighborhoodChange = (neighborhood) => {
-      if (selectedNeighborhood === neighborhood) {
-        setSelectedNeighborhood(""); // Desmarcar si se vuelve a seleccionar
-      } else {
-        setSelectedNeighborhood(neighborhood);
-      }
-    };
 
-    const handleTradeChange = (trade) => {
-      if (selectedTrade === trade) {
-        setSelectedTrade(""); // Desmarcar si se vuelve a seleccionar
-      } else {
-        setSelectedTrade(trade);
-      }
-    };
+  // Manejar cambio de zona
+  const handleZoneChange = (zone) => {
+    setSelectedZone(zone);
+    setSelectedNeighborhood(""); // Reiniciar el barrio seleccionado al cambiar la zona
+  };
+
+  // Manejar selección de un barrio con opción de desmarcar
+  const handleNeighborhoodChange = (neighborhood) => {
+    if (selectedNeighborhood === neighborhood) {
+      setSelectedNeighborhood(""); // Desmarcar si se vuelve a seleccionar
+    } else {
+      setSelectedNeighborhood(neighborhood);
+    }
+  };
+
+  const handleTradeChange = (trade) => {
+    if (selectedTrade === trade) {
+      setSelectedTrade(""); // Desmarcar si se vuelve a seleccionar
+    } else {
+      setSelectedTrade(trade);
+    }
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -141,7 +139,7 @@ const SearchPage = () => {
       <div className="search-page-container">
         <div className="search-sidebar">
           <h3>Rubro</h3>
-          <ul>
+          <ul className="list">
             {trades.map(trade => (
               <li key={trade}>
                 <input
@@ -155,49 +153,51 @@ const SearchPage = () => {
               </li>
             ))}
           </ul>
-  
           <h3>Zona</h3>
-          <select onChange={(e) => handleZoneChange(e.target.value)}>
-            <option value="">Seleccionar Zona</option>
-            {districts.map(district => (
-              <option key={district.zone} value={district.zone}>
-                {district.zone}
-              </option>
-            ))}
-          </select>
-  
-          {selectedZone && (
-            <>
-              <h3>Distritos en Zona {selectedZone}</h3>
-              <ul>
-                {districts
-                  .find(d => d.zone === selectedZone)
-                  ?.neighborhoods.map(neighborhood => (
-                    <li key={neighborhood}>
-                      <input
-                        type="checkbox"
-                        name="neighborhood"
-                        value={neighborhood}
-                        checked={selectedNeighborhood === neighborhood}
-                        onChange={() => handleNeighborhoodChange(neighborhood)}
-                      />
-                      <label>{neighborhood}</label>
-                    </li>
-                  ))}
-              </ul>
-            </>
-          )}
-        </div>
-  
-        <div className="search-container-content">
-        <div className="search-container-content-header">
-            <div className="sort-select-container">
-              <label htmlFor="sortSelect">Ordenar</label>
-              <select id="sortSelect" onChange={handleSortChange}>
-                <option value="default">Seleccionar</option>
-                <option value="asc">A-Z</option>
-                <option value="desc">Z-A</option>
+            <div className="select-zone-container">
+              <select onChange={(e) => handleZoneChange(e.target.value)}>
+                <option value="">Seleccionar Zona</option>
+                {districts.map(district => (
+                  <option key={district.zone} value={district.zone}>
+                    {district.zone}
+                  </option>
+                ))}
               </select>
+            </div>
+              
+            {selectedZone && (
+              <>
+                <h3>Distritos en Zona {selectedZone}</h3>
+                <ul className="list">
+                  {districts
+                    .find(d => d.zone === selectedZone)
+                    ?.neighborhoods.map(neighborhood => (
+                      <li key={neighborhood}>
+                        <input
+                          type="checkbox"
+                          name="neighborhood"
+                          value={neighborhood}
+                          checked={selectedNeighborhood === neighborhood}
+                          onChange={() => handleNeighborhoodChange(neighborhood)}
+                        />
+                        <label>{neighborhood}</label>
+                      </li>
+                    ))}
+                </ul>
+              </>
+            )}
+        </div>
+        <div className="search-container-content">
+          <div className="search-container-content-header">
+            <div className="sort-select-container">
+              <div className="sort-title">Ordenar</div>
+              <div className="sort-select-list">
+                <select id="sortSelect" onChange={handleSortChange}>
+                  <option value="default">Seleccionar</option>
+                  <option value="asc">A-Z</option>
+                  <option value="desc">Z-A</option>
+                </select>
+              </div>
             </div>
           </div>
           <div className="search-container-content-body flex-d-c">
@@ -207,14 +207,14 @@ const SearchPage = () => {
               </div>
             ) : (
               <div className="search-container-content-body-users">
-                {sortedUsers.map(user => (
-                  <ProInfoCard key={user.email} userPro={user} />
+                {sortedUsers.map(userPro => (
+                  <ProInfoCard key={userPro.email} userPro={userPro} />
                 ))}
               </div>
             )}
           </div>
         </div>
-  
+
         {modalMessage && (
           <Modal message={modalMessage} setModalMessage={setModalMessage} />
         )}

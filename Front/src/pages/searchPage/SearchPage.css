@@ -1,162 +1,251 @@
 /* Fondo general de la página */
 .search-page-container {
   display: flex;
-  background-color: #3a3d57;
-  color: #eaeaea; /* Texto claro */
+  flex-wrap: nowrap; /* Asegúrate de que los elementos no se envuelvan si no es necesario */
+  color: #ffffff; /* Texto blanco */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra suave */
+  background-color: #0f0f0f; /* Fondo oscuro, estilo HBO */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); /* Sombra más marcada */
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden; /* Evitar el desplazamiento horizontal */
+  box-sizing: border-box; /* Asegurarse de que el padding y el border se incluyan en el tamaño total */
 }
 
+/* Sidebar - Filtros */
 .search-sidebar {
-  background-color: #374e57; /* Fondo oscuro para el sidebar */
+  background-color: #1a1a1a; /* Fondo oscuro, más oscuro que el fondo principal */
   border-radius: 10px;
   padding: 20px;
-  width: 250px;
+  width: 250px; /* Ancho fijo para la barra lateral */
   margin-right: 20px;
-  color: #eaeaea; /* Texto claro */
+  color: #ffffff; /* Texto blanco */
+  box-sizing: border-box; /* Asegurarse de que el padding y el border se incluyan en el tamaño total */
+  overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es demasiado grande */
+  height: calc(100vh - 40px); /* Ajusta la altura para tener en cuenta el padding */
 }
 
-.search-sidebar h3 {
-  color: #53577d; /* Títulos del sidebar */
-  margin-bottom: 10px;
-}
-
-.search-sidebar input[type="checkbox"],
-.search-sidebar select {
-  margin-right: 8px;
-  background-color: #4f6f7d; /* Color de los campos de selección */
-  border: 1px solid #614f7d; /* Borde de los campos */
-  border-radius: 5px;
-  color: #eaeaea;
-  padding: 6px;
-}
-
-.search-sidebar label {
-  font-size: 0.95rem;
-  color: #eaeaea; /* Texto claro */
-}
-
+/* Contenedor de contenido de búsqueda */
 .search-container-content {
   flex: 1;
-  background-color: #374e57;
+  background-color: #1a1a1a;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Sombra más oscura */
 }
 
-/* Cabecera para ordenar los resultados */
-.search-container-content-header {
-  display: flex;
-  justify-content: space-between; /* Alinea el texto y el select a los lados opuestos */
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-/* Estilos para el select de orden */
-.sort-select-container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.search-container-content-header select {
-  padding: 8px;
-  background-color: #4f6f7d; /* Color de fondo del select */
-  border: 1px solid #614f7d; /* Borde del select */
-  border-radius: 5px;
-  color: #eaeaea; /* Color del texto del select */
-  font-size: 1rem;
-}
-
-.search-container-content-body-searchText {
-  font-size: 1.2rem;
-  color: #614f7d; /* Texto de búsqueda */
-  margin-bottom: 10px;
-}
-
-.search-container-content-body-text {
-  font-size: 1rem;
-  color: #53577d; /* Título de los resultados */
-}
-
+/* Estilo para las tarjetas de usuarios */
 .search-container-content-body-users {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Tarjetas más grandes */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Cambiado de 280px a 240px para mejor ajuste */
   grid-gap: 20px;
   margin-top: 20px;
+  padding-bottom: 20px; 
 }
 
+/* Resultados de búsqueda */
+.search-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Cambiado de 280px a 240px para mejor ajuste */
+  grid-gap: 20px;
+  padding: 24px;
+}
+
+/* Estilo para las tarjetas de usuarios */
 .user-info-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background-color: #4f6f7d;
-  color: #eaeaea;
-  border: 1px solid #614f7d;
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #444444; /* Borde gris oscuro */
   border-radius: 12px;
   width: 280px;
-  height: 350px;
+  height: auto; /* Cambiado a auto para que ajuste según el contenido */
   padding: 16px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(97, 79, 125, 0.3); /* Sombra suave */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra oscura */
 }
 
 .user-info-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(97, 79, 125, 0.5); /* Más sombra en hover */
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* Sombra clara en hover */
 }
 
 .user-info-card-item {
   margin-bottom: 8px;
   font-size: 1.1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif; /* Tipografía moderna */
 }
 
-.user-info-card-item a {
-  color: #ff79c6; /* Enlace rosa destacado */
-  text-decoration: none;
-  font-weight: bold;
-  background: linear-gradient(90deg, #ff79c6 0%, #bd93f9 100%); /* Degradado en el nombre */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.user-info-card-item a:hover {
-  text-decoration: underline;
-  color: #ffb86c; /* Cambia a un tono naranja en hover */
-}
-
-.search-results {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ajustar para el nuevo ancho */
-  grid-gap: 20px; /* Más espacio entre tarjetas */
-  padding: 24px;
-}
-
-/* Cabecera para ordenar los resultados */
-.search-container-content-header {
-  display: flex;
-  justify-content: flex-end; /* Alinea todo a la derecha */
-  align-items: center;
-  margin-bottom: 20px;
-}
-
+/* Contenedor para los elementos de ordenación */
 .sort-select-container {
   display: flex;
-  flex-direction: column; /* Coloca "Ordenar" sobre el selector */
-  align-items: flex-end; /* Alinea ambos elementos al lado derecho */
+  flex-direction: column; /* Cambiado a columna para alinear verticalmente */
+  align-items: flex-end; /* Alinear a la derecha */
+  margin-left: auto; /* Para empujar los elementos hacia la derecha */
 }
 
-.sort-select-container span {
-  margin-bottom: 5px; /* Espacio entre "Ordenar" y el select */
+/* Estilo para el botón de ordenación */
+.sort-select-container button {
+  background-color: #b30000; /* Color de fondo del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  color: #ffffff; /* Texto blanco */
+  padding: 10px 15px; /* Espaciado interno */
+  cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+  transition: background-color 0.3s, transform 0.3s; /* Efecto de transición */
+  font-size: 1rem; /* Tamaño de fuente */
+  margin-bottom: 10px; /* Espaciado inferior entre los botones */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para efecto de profundidad */
 }
 
+/* Efecto hover para el botón de ordenación */
+.sort-select-container button:hover {
+  background-color: #ff0000; /* Color de fondo al pasar el mouse */
+  transform: translateY(-2px); /* Sube ligeramente al pasar el mouse */
+}
+
+/* Estilo para el select de ordenación */
 .search-container-content-header select {
-  padding: 8px;
-  background-color: #4f6f7d; /* Color de fondo del select */
-  border: 1px solid #614f7d; /* Borde del select */
-  border-radius: 5px;
-  color: #eaeaea; /* Color del texto del select */
-  font-size: 1rem;
+  padding: 10px; /* Espaciado interno */
+  background-color: #333333; /* Fondo oscuro para el select */
+  border: 1px solid #666666; /* Borde gris */
+  border-radius: 5px; /* Bordes redondeados */
+  color: #ffffff; /* Texto blanco */
+  font-size: 1rem; /* Tamaño de fuente */
+  margin-bottom: 10px; /* Espaciado inferior */
+  transition: background-color 0.3s; /* Efecto de transición */
+  width: 100%; /* Ancho completo para el select */
 }
+
+/* Efecto hover para el select de ordenación */
+.search-container-content-header select:hover {
+  background-color: #444444; /* Color más claro al pasar el mouse */
+}
+
+/* Títulos dentro del contenedor de ordenación */
+.sort-select-container span {
+  color: #ffffff; /* Texto blanco */
+  font-size: 1.1rem; /* Tamaño de fuente */
+  margin-bottom: 5px; /* Espaciado inferior */
+}
+
+.sort-title{
+  margin-bottom: 8px;
+  margin-right: 26px;
+  font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .search-sidebar {
+    width: 100%; /* Hacer que la barra lateral ocupe todo el ancho en pantallas pequeñas */
+    margin: 0 0 20px 0; /* Margen inferior para separar de los resultados */
+  }
+  .search-container-content {
+    padding: 10px; /* Reducir el padding en pantallas pequeñas */
+  }
+}
+
+/* Personalización de la barra de desplazamiento */
+.search-page-container::-webkit-scrollbar {
+  width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.search-page-container::-webkit-scrollbar-track {
+  background: #2a2a2a; /* Color de fondo de la pista */
+  border-radius: 10px; /* Bordes redondeados de la pista */
+}
+
+.search-page-container::-webkit-scrollbar-thumb {
+  background: #444444; /* Color de la barra de desplazamiento */
+  border-radius: 10px; /* Bordes redondeados de la barra */
+}
+
+/* Cambia el color de la barra de desplazamiento al pasar el mouse */
+.search-page-container::-webkit-scrollbar-thumb:hover {
+  background: #666666; /* Color más claro cuando pasas el mouse */
+}
+
+/* Para navegadores Firefox */
+.search-page-container {
+  scrollbar-width: thin; /* Para hacer la barra más delgada */
+  scrollbar-color: #444444 #2a2a2a; /* Color de la barra y del fondo */
+}
+
+
+.select-zone-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea los elementos a la derecha */
+  /* background-color: #b30000; */
+  width: 100;
+}
+
+.select-zone-container select {
+  margin-top: 10px;
+  margin-bottom: 10px; /* Espacio entre el select y el botón */
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  color: white;
+  font-size: 19px;
+  background-color: #444444;
+  
+}
+
+.list li {
+  display: flex;
+  align-items: center; /* Alinea la checkbox y el label verticalmente */
+}
+
+.list input[type="checkbox"] {
+  margin-right: 10px; /* Espacio entre la checkbox y el texto */
+}
+
+
+.list {
+  margin-top: 10px; /* Espacio entre el título y la lista de barrios */
+}
+/* 
+.list input[type="checkbox"] {
+  display: none; 
+} */
+
+/* .list label { */
+  /* position: relative; 
+  padding-left: 25px; 
+  cursor: pointer; 
+} */
+
+/* Crea un símbolo personalizado */
+/* .list label::before {
+  content: ''; 
+  position: absolute; 
+  left: 0; 
+  top: 50%; 
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px; 
+  border: 2px solid #888; 
+  border-radius: 4px; 
+  background: white;
+} */
+
+/* Cambia el estilo cuando la checkbox está seleccionada */
+/* .list input[type="checkbox"]:checked + label::before {
+  background: #007bff; 
+  border: 2px solid #0056b3; 
+} */
+
+/* .list input[type="checkbox"]:checked + label::after {
+  content: '✔'; 
+  position: absolute;
+  left: 4px; 
+  top: 0;
+  font-size: 16px;
+  color: white; 
+} */
