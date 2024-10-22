@@ -12,6 +12,7 @@ const UserInfo = ({
   const [isEditing, setIsEditing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(profileUser.phoneNumber);
   const [contactEmail, setContactEmail] = useState(profileUser.contactEmail);
+  const [socialMedia, setSocialMedia] = useState(profileUser.socialMedia);
 
   const isProfessional = profileUser.roles.length >= 2;
   const comesFromRequestBoolean = comesFromRequest.toLowerCase() === "true";
@@ -22,6 +23,10 @@ const UserInfo = ({
 
   const handleContactEmailChange = event => {
     setContactEmail(event.target.value);
+  };
+
+  const handleSocialMediaChange = event => {
+    setSocialMedia(event.target.value);
   };
 
   const handleSaveContactInfo = () => {
@@ -36,6 +41,13 @@ const UserInfo = ({
             phoneNumber: responseOne.data.phoneNumber,
             contactEmail: responseTwo.data.contactMail,
           }));
+
+          api.addSocialMedia(profileUser.email, socialMedia).then(responseThree => {
+            setProfileUser(prevUser => ({
+              ...prevUser,
+              socialMedia: responseThree.data.socialMedia,
+            }));
+          });
           // Notificar éxito
           toast.success("Información de contacto actualizada correctamente");
           // Salir del modo edición
@@ -89,6 +101,24 @@ const UserInfo = ({
                 )}
               </p>
             </div>
+
+            {/* Red Social */}
+            <div>
+              <p>Redes Sociales:</p>
+              <p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="socialMedia"
+                    value={socialMedia}
+                    onChange={handleSocialMediaChange}
+                  />
+                ) : (
+                  socialMedia
+                )}
+              </p>
+            </div>
+
             {isEditing ? (
               <button onClick={handleSaveContactInfo}>Guardar</button>
             ) : (
@@ -111,6 +141,9 @@ const UserInfo = ({
           </div>
           <div>
             <h3>Email: {profileUser.email}</h3>
+          </div>
+          <div>
+            <h3>Redes Sociales: {profileUser.socialMedia}</h3>
           </div>
         </div>
       ) : null}

@@ -43,6 +43,8 @@ const Profile = () => {
             response.data.phoneNumber == null ? "" : response.data.phoneNumber,
           contactEmail:
             response.data.contactMail == null ? "" : response.data.contactMail,
+          socialMedia:
+            response.data.socialMedia == null ? "" : response.data.socialMedia,
           role: response.data.currentRolDto,
         });
         api
@@ -66,6 +68,10 @@ const Profile = () => {
                 response.data.contactMail == null
                   ? ""
                   : response.data.contactMail,
+              socialMedia:
+                response.data.socialMedia == null
+                  ? ""
+                  : response.data.socialMedia,
               role: response.data.currentRolDto,
             });
           })
@@ -94,6 +100,8 @@ const Profile = () => {
             response.data.phoneNumber == null ? "" : response.data.phoneNumber,
           contactEmail:
             response.data.contactMail == null ? "" : response.data.contactMail,
+          socialMedia:
+            response.data.socialMedia == null ? "" : response.data.socialMedia,
         }));
         setLogedUser(prevUser => ({
           ...prevUser,
