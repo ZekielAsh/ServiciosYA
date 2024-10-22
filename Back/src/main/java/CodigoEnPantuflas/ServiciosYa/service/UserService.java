@@ -46,9 +46,11 @@ public class UserService {
             String trade = userDao.findProfessionalTradeByEmail(mail);
             String contactMail = userDao.findProfessionalContactMailbyEmail(mail);
             String phoneNumber = userDao.findProfessionalPhoneByEmail(mail);
+            List<String> socialMedia = userDao.findProfessionalSocialMediaByEmail(mail);
             Professional pro = new Professional(user, district, trade);
             pro.setContactMail(contactMail);
             pro.setPhoneNumber(phoneNumber);
+            pro.setSocialMedia(socialMedia);
             user.setCurrentRole(pro);
         }
         user.setMail(mail);
