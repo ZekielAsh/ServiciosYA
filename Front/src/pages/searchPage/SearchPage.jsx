@@ -140,7 +140,7 @@ const SearchPage = () => {
         <div className="search-sidebar">
           <h3>Rubro</h3>
           <ul className="list">
-            {trades.map(trade => (
+            {trades.map((trade) => (
               <li key={trade}>
                 <input
                   type="checkbox"
@@ -154,52 +154,59 @@ const SearchPage = () => {
             ))}
           </ul>
           <h3>Zona</h3>
-            <div className="select-zone-container">
-              <select onChange={(e) => handleZoneChange(e.target.value)}>
-                <option value="">Seleccionar Zona</option>
-                {districts.map(district => (
-                  <option key={district.zone} value={district.zone}>
-                    {district.zone}
-                  </option>
-                ))}
-              </select>
-            </div>
-              
-            {selectedZone && (
-              <>
-                <h3>Distritos en Zona {selectedZone}</h3>
-                <ul className="list">
-                  {districts
-                    .find(d => d.zone === selectedZone)
-                    ?.neighborhoods.map(neighborhood => (
-                      <li key={neighborhood}>
-                        <input
-                          type="checkbox"
-                          name="neighborhood"
-                          value={neighborhood}
-                          checked={selectedNeighborhood === neighborhood}
-                          onChange={() => handleNeighborhoodChange(neighborhood)}
-                        />
-                        <label>{neighborhood}</label>
-                      </li>
-                    ))}
-                </ul>
-              </>
-            )}
+          <div className="select-zone-container">
+            <select onChange={(e) => handleZoneChange(e.target.value)}>
+              <option value="">Seleccionar Zona</option>
+              {districts.map((district) => (
+                <option key={district.zone} value={district.zone}>
+                  {district.zone}
+                </option>
+              ))}
+            </select>
+          </div>
+  
+          {selectedZone && (
+            <>
+              <h3>Distritos en Zona {selectedZone}</h3>
+              <ul className="list">
+                {districts
+                  .find((d) => d.zone === selectedZone)
+                  ?.neighborhoods.map((neighborhood) => (
+                    <li key={neighborhood}>
+                      <input
+                        type="checkbox"
+                        name="neighborhood"
+                        value={neighborhood}
+                        checked={selectedNeighborhood === neighborhood}
+                        onChange={() => handleNeighborhoodChange(neighborhood)}
+                      />
+                      <label>{neighborhood}</label>
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
         </div>
         <div className="search-container-content">
-          <div className="search-container-content-header">
-            <div className="sort-select-container">
-              <div className="sort-title">Ordenar</div>
-              <div className="sort-select-list">
-                <select id="sortSelect" onChange={handleSortChange}>
-                  <option value="default">Seleccionar</option>
-                  <option value="asc">A-Z</option>
-                  <option value="desc">Z-A</option>
-                </select>
+          <div className="search-container-content-header flex-d-c">
+              <div className="search-header-container">
+                <div className="results-text">
+                  {searchText}
+                  <div className="results-length">{sortedUsers.length} resultados</div>
+                </div>
+                <div className="sort-container">
+                  <div className="sort-title">Ordenar</div>
+                  <div className="sort-select-list">
+                    <select id="sortSelect" onChange={handleSortChange}>
+                      <option value="default">Seleccionar</option>
+                      <option value="asc">A-Z</option>
+                      <option value="desc">Z-A</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
+  
           <div className="search-container-content-body flex-d-c">
             {sortedUsers.length === 0 ? (
               <div className="search-container-content-body-users">
@@ -207,20 +214,21 @@ const SearchPage = () => {
               </div>
             ) : (
               <div className="search-container-content-body-users">
-                {sortedUsers.map(userPro => (
+                {sortedUsers.map((userPro) => (
                   <ProInfoCard key={userPro.email} userPro={userPro} />
                 ))}
               </div>
             )}
           </div>
         </div>
-
+  
         {modalMessage && (
           <Modal message={modalMessage} setModalMessage={setModalMessage} />
         )}
       </div>
     </>
   );
+  
 };
 
 export default SearchPage;
