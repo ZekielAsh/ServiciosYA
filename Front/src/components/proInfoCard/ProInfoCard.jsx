@@ -1,8 +1,8 @@
 import "./proInfoCard.css";
 import { Link } from "react-router-dom";
 
-// objet user tiene nombre y rubro
-const proInfoCard = ({ userPro }) => {
+// Objeto userPro tiene nombre, rubro y distrito
+const ProInfoCard = ({ userPro }) => {
   return (
     <div className="user-info-card">
       <div className="user-info-card-item">
@@ -14,4 +14,5 @@ const proInfoCard = ({ userPro }) => {
   );
 };
 
-export default proInfoCard;
+export default ProInfoCard;
+

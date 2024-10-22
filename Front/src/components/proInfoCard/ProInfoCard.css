@@ -2,10 +2,47 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: left;
-  border: 2px solid var(--color-blue-dark);
-  border-radius: 20px;
-  width: 200px;
-  height: 80px;
-  padding: 8px;
+  align-items: flex-start;
+  border: 1px solid #614f7d; /* Borde morado oscuro */
+  border-radius: 12px; /* Borde redondeado */
+  width: 220px;
+  height: auto;
+  padding: 12px;
+  background-color: rgba(58, 61, 87, 0.85); /* Fondo semi-transparente basado en #3a3d57 */
+  color: #eaeaea; /* Texto claro */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(97, 79, 125, 0.3); /* Sombra suave morada */
+}
+
+.user-info-card:hover {
+  transform: translateY(-8px); /* Movimiento en hover */
+  box-shadow: 0 8px 20px rgba(97, 79, 125, 0.5); /* Sombra más pronunciada en hover */
+  background-color: rgba(58, 61, 87, 0.95); /* Fondo ligeramente más oscuro en hover */
+}
+
+.user-info-card-item {
+  margin-bottom: 6px;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.user-info-card-item a {
+  color: #4f6f7d; /* Enlace destacado en azul grisáceo */
+  text-decoration: none;
+  font-weight: bold;
+  background: linear-gradient(90deg, #614f7d 0%, #53577d 100%); /* Degradado basado en morados y grises */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.user-info-card-item a:hover {
+  text-decoration: underline;
+  color: #53577d; /* Cambia a gris oscuro en hover */
+}
+
+.search-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Tarjetas responsivas */
+  grid-gap: 16px; /* Espacio entre tarjetas */
+  padding: 20px;
 }
