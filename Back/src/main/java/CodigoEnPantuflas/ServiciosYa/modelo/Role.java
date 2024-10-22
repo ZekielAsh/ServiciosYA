@@ -20,7 +20,8 @@ public abstract class Role {
     private User user;
     private String contactMail;
     private String phoneNumber;
-    private String socialMedia;
+    @ElementCollection
+    private List<String> socialMedia;
 
     public abstract String getTrade();
     public abstract String getDistrict();
@@ -29,12 +30,6 @@ public abstract class Role {
     public abstract Boolean isProfessional();
 
     public void addSocialMedia(List<String> links) {
-        links.forEach(link -> {
-            if (socialMedia.isEmpty()){
-                this.socialMedia = link;
-            }else{
-                this.socialMedia += "<br>" + link;
-            }
-        });
+        this.socialMedia.addAll(links);
     }
 }
