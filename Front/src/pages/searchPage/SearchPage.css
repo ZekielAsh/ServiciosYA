@@ -42,6 +42,7 @@
   grid-gap: 20px;
   margin-top: 20px;
   padding-bottom: 20px; 
+  margin-left: 10px;
 }
 
 /* Resultados de búsqueda */
@@ -210,6 +211,21 @@
 .list {
   margin-top: 10px; /* Espacio entre el título y la lista de barrios */
 }
+
+.results-container{
+  font-size: 2.4rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.results-length{
+  margin-top: 5px;
+  font-size: 1.01rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+}
+
 /* 
 .list input[type="checkbox"] {
   display: none; 

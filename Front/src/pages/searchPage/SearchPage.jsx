@@ -137,6 +137,7 @@ const SearchPage = () => {
       <BackgroundSection />
       <Navbar user={user} />
       <div className="search-page-container">
+    
         <div className="search-sidebar">
           <h3>Rubro</h3>
           <ul className="list">
@@ -201,6 +202,9 @@ const SearchPage = () => {
             </div>
           </div>
           <div className="search-container-content-body flex-d-c">
+              <div className="results-container">{searchText}
+              <div className="results-length">{sortedUsers.length} resultados</div>         
+              </div>
             {sortedUsers.length === 0 ? (
               <div className="search-container-content-body-users">
                 No se encontraron resultados
