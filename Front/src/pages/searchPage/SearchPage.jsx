@@ -70,44 +70,16 @@ const SearchPage = () => {
         });
     }
 
-    // Cargar resultados de búsqueda originales
+    // Borre los otros y lo reemplace por este getProfessionalsByFilters
     api
-      .searchProUsers(searchText)
+      .getProfessionalsByFilters(searchText, selectedTrade, selectedNeighborhood)
       .then(response => {
         setUsers(response.data);
         setOriginalUsers(response.data); // Guardar los resultados originales
       })
       .catch(error => setModalMessage(error.response?.data?.error))
       .finally(() => setIsLoading(false));
-  }, [searchText]);
-
-  // Filtrar usuarios por rubro seleccionado o quitar filtro si se desmarca
-  useEffect(() => {
-    if (selectedTrade) {
-      setIsLoading(true);
-      api
-        .getUserByTrade(searchText, selectedTrade)
-        .then(response => setUsers(response.data))
-        .catch(error => setModalMessage(error.response?.data?.error))
-        .finally(() => setIsLoading(false));
-    } else {
-      setUsers(originalUsers); // Restaurar los usuarios originales si no hay rubro seleccionado
-    }
-  }, [selectedTrade]);
-
-  // Filtrar usuarios por barrio seleccionado o quitar filtro si se desmarca
-  useEffect(() => {
-    if (selectedNeighborhood) {
-      setIsLoading(true);
-      api
-        .getUserByDistrict(searchText, selectedNeighborhood) // Filtrar por barrio
-        .then(response => setUsers(response.data))
-        .catch(error => setModalMessage(error.response?.data?.error))
-        .finally(() => setIsLoading(false));
-    } else if (!selectedZone) {
-      setUsers(originalUsers); // Restaurar los usuarios originales si no hay barrio ni zona seleccionada
-    }
-  }, [selectedNeighborhood, selectedZone]);
+  }, [searchText, selectedTrade, selectedNeighborhood]);
 
   // Manejar cambio de rubro con opción de desmarcar
   const handleTradeChange = (trade) => {
@@ -147,7 +119,7 @@ const SearchPage = () => {
             {trades.map(trade => (
               <li key={trade}>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="trade"
                   value={trade}
                   checked={selectedTrade === trade}
@@ -157,7 +129,7 @@ const SearchPage = () => {
               </li>
             ))}
           </ul>
-
+  
           <h3>Zona</h3>
           <select onChange={(e) => handleZoneChange(e.target.value)}>
             <option value="">Seleccionar Zona</option>
@@ -167,7 +139,7 @@ const SearchPage = () => {
               </option>
             ))}
           </select>
-
+  
           {selectedZone && (
             <>
               <h3>Distritos en Zona {selectedZone}</h3>
@@ -177,7 +149,7 @@ const SearchPage = () => {
                   ?.neighborhoods.map(neighborhood => (
                     <li key={neighborhood}>
                       <input
-                        type="radio"
+                        type="checkbox"
                         name="neighborhood"
                         value={neighborhood}
                         checked={selectedNeighborhood === neighborhood}
@@ -215,6 +187,7 @@ const SearchPage = () => {
       </div>
     </>
   );
+  
 };
 
 export default SearchPage;
