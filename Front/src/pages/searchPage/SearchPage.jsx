@@ -4,6 +4,7 @@ import {
   getTokenFromLocalStorage,
   getUserEmailFromLocalStorage,
 } from "../../utils/localStorage";
+import BackgroundSection from "../../components/backgroundSection/BackgroundSection";
 import ProInfoCard from "../../components/proInfoCard/ProInfoCard";
 import Spinner from "../../components/spinner/Spinner";
 import Navbar from "../../components/navbar/Navbar";
@@ -15,14 +16,16 @@ const SearchPage = () => {
   const searchText = useParams().text;
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [originalUsers, setOriginalUsers] = useState([]); // Estado para guardar los usuarios originales
-  const [trades, setTrades] = useState([]); // Estado para los rubros
-  const [selectedTrade, setSelectedTrade] = useState(""); // Rubro seleccionado
-  const [districts, setDistricts] = useState([]); // Estado para los distritos
-  const [selectedZone, setSelectedZone] = useState(""); // Zona seleccionada
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState(""); // Barrio seleccionado
+  const [originalUsers, setOriginalUsers] = useState([]);
+  const [trades, setTrades] = useState([]);
+  const [selectedTrade, setSelectedTrade] = useState("");
+  const [districts, setDistricts] = useState([]);
+  const [selectedZone, setSelectedZone] = useState("");
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [modalMessage, setModalMessage] = useState("");
+  const [sortedUsers, setSortedUsers] = useState(users);
+  const [sortOrder, setSortOrder] = useState('default');
 
   useEffect(() => {
     const token = getTokenFromLocalStorage();
@@ -70,23 +73,35 @@ const SearchPage = () => {
         });
     }
 
-    // Borre los otros y lo reemplace por este getProfessionalsByFilters
+    // Obtener los profesionales
     api
       .getProfessionalsByFilters(searchText, selectedTrade, selectedNeighborhood)
       .then(response => {
         setUsers(response.data);
-        setOriginalUsers(response.data); // Guardar los resultados originales
+        setSortedUsers(response.data);
+        setOriginalUsers(response.data);
       })
       .catch(error => setModalMessage(error.response?.data?.error))
       .finally(() => setIsLoading(false));
   }, [searchText, selectedTrade, selectedNeighborhood]);
 
   // Manejar cambio de rubro con opción de desmarcar
-  const handleTradeChange = (trade) => {
-    if (selectedTrade === trade) {
-      setSelectedTrade(""); // Desmarcar si se vuelve a seleccionar
+  const handleSortChange = (event) => {
+    const value = event.target.value;
+    setSortOrder(value);
+
+    if (value === 'asc') {
+      const sortedAsc = [...users].sort((a, b) =>
+        a.nickName.localeCompare(b.nickName)
+      );
+      setSortedUsers(sortedAsc);
+    } else if (value === 'desc') {
+      const sortedDesc = [...users].sort((a, b) =>
+        b.nickName.localeCompare(a.nickName)
+      );
+      setSortedUsers(sortedDesc);
     } else {
-      setSelectedTrade(trade);
+      setSortedUsers([...users]); // Si se selecciona "default", restablecemos el orden inicial
     }
   };
 
@@ -105,17 +120,26 @@ const SearchPage = () => {
     }
   };
 
+  const handleTradeChange = (trade) => {
+    if (selectedTrade === trade) {
+      setSelectedTrade(""); // Desmarcar si se vuelve a seleccionar
+    } else {
+      setSelectedTrade(trade);
+    }
+  };
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <>
+      <BackgroundSection />
       <Navbar user={user} />
       <div className="search-page-container">
         <div className="search-sidebar">
           <h3>Rubro</h3>
-          <ul>
+          <ul className="list">
             {trades.map(trade => (
               <li key={trade}>
                 <input
@@ -129,65 +153,74 @@ const SearchPage = () => {
               </li>
             ))}
           </ul>
-  
           <h3>Zona</h3>
-          <select onChange={(e) => handleZoneChange(e.target.value)}>
-            <option value="">Seleccionar Zona</option>
-            {districts.map(district => (
-              <option key={district.zone} value={district.zone}>
-                {district.zone}
-              </option>
-            ))}
-          </select>
-  
-          {selectedZone && (
-            <>
-              <h3>Distritos en Zona {selectedZone}</h3>
-              <ul>
-                {districts
-                  .find(d => d.zone === selectedZone)
-                  ?.neighborhoods.map(neighborhood => (
-                    <li key={neighborhood}>
-                      <input
-                        type="checkbox"
-                        name="neighborhood"
-                        value={neighborhood}
-                        checked={selectedNeighborhood === neighborhood}
-                        onChange={() => handleNeighborhoodChange(neighborhood)}
-                      />
-                      <label>{neighborhood}</label>
-                    </li>
-                  ))}
-              </ul>
-            </>
-          )}
+            <div className="select-zone-container">
+              <select onChange={(e) => handleZoneChange(e.target.value)}>
+                <option value="">Seleccionar Zona</option>
+                {districts.map(district => (
+                  <option key={district.zone} value={district.zone}>
+                    {district.zone}
+                  </option>
+                ))}
+              </select>
+            </div>
+              
+            {selectedZone && (
+              <>
+                <h3>Distritos en Zona {selectedZone}</h3>
+                <ul className="list">
+                  {districts
+                    .find(d => d.zone === selectedZone)
+                    ?.neighborhoods.map(neighborhood => (
+                      <li key={neighborhood}>
+                        <input
+                          type="checkbox"
+                          name="neighborhood"
+                          value={neighborhood}
+                          checked={selectedNeighborhood === neighborhood}
+                          onChange={() => handleNeighborhoodChange(neighborhood)}
+                        />
+                        <label>{neighborhood}</label>
+                      </li>
+                    ))}
+                </ul>
+              </>
+            )}
         </div>
         <div className="search-container-content">
-          <div className="search-container-content-body flex-d-c">
-            <div className="search-container-content-body-searchText">
-              Search: <b>{searchText}</b>
+          <div className="search-container-content-header">
+            <div className="sort-select-container">
+              <div className="sort-title">Ordenar</div>
+              <div className="sort-select-list">
+                <select id="sortSelect" onChange={handleSortChange}>
+                  <option value="default">Seleccionar</option>
+                  <option value="asc">A-Z</option>
+                  <option value="desc">Z-A</option>
+                </select>
+              </div>
             </div>
-            <span className="search-container-content-body-text">Results:</span>
-            {users.length === 0 ? (
+          </div>
+          <div className="search-container-content-body flex-d-c">
+            {sortedUsers.length === 0 ? (
               <div className="search-container-content-body-users">
                 No se encontraron resultados
               </div>
             ) : (
               <div className="search-container-content-body-users">
-                {users.map(user => (
-                  <ProInfoCard key={user.email} userPro={user} />
+                {sortedUsers.map(userPro => (
+                  <ProInfoCard key={userPro.email} userPro={userPro} />
                 ))}
               </div>
             )}
           </div>
         </div>
+
         {modalMessage && (
           <Modal message={modalMessage} setModalMessage={setModalMessage} />
         )}
       </div>
     </>
   );
-  
 };
 
 export default SearchPage;

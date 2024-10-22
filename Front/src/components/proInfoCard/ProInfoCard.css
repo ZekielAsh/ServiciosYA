@@ -1,11 +1,27 @@
 .user-info-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: left;
-  border: 2px solid var(--color-blue-dark);
-  border-radius: 20px;
-  width: 200px;
-  height: 80px;
-  padding: 8px;
+  border: 1px solid #ccc; /* Borde alrededor de la tarjeta */
+  border-radius: 8px; /* Esquinas redondeadas */
+  padding: 16px; /* Espaciado interno */
+  margin: 10px; /* Margen externo */
+  background-color: #f9f9f9; /* Fondo claro */
+  transition: box-shadow 0.3s; /* Efecto de sombra al pasar el ratón */
 }
+
+.user-info-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra al pasar el ratón */
+}
+
+.user-info-card-item {
+  margin-bottom: 8px; /* Espaciado entre elementos */
+}
+
+.user-link {
+  color: #8769f0; /* Color del enlace */
+  text-decoration: none; /* Sin subrayado */
+  font-weight: bold; /* Texto en negrita */
+}
+
+.user-link:hover {
+  text-decoration: underline; /* Subrayar al pasar el ratón */
+}
+

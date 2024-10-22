@@ -1,12 +1,14 @@
 import "./proInfoCard.css";
 import { Link } from "react-router-dom";
 
-// objet user tiene nombre y rubro
-const proInfoCard = ({ userPro }) => {
+// Objeto userPro tiene nombre, rubro y distrito
+const ProInfoCard = ({ userPro }) => {
   return (
     <div className="user-info-card">
       <div className="user-info-card-item">
-        <Link to={`/profile/${userPro.email}/${false}`}>{userPro.nickName}</Link>
+        <Link to={`/profile/${userPro.email}/${false}`} className="user-link">
+          {userPro.nickName}
+        </Link>
       </div>
       <div className="user-info-card-item">{userPro.trade}</div>
       <div className="user-info-card-item">{userPro.district}</div>
@@ -14,4 +16,4 @@ const proInfoCard = ({ userPro }) => {
   );
 };
 
-export default proInfoCard;
+export default ProInfoCard;
