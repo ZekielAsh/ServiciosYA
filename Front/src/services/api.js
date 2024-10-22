@@ -63,9 +63,10 @@ const addMailContact = (userEmail, emailContact) =>
 
 const addSocialMedia = (userEmail, socialMedia) =>
   axios
-    .post(
-      `${API_URL}/user/addSocialMedia?email=${userEmail}&socialMedia=${socialMedia}`
-    )
+    .post(`${API_URL}/user/addSocialMedia`, {
+      email: userEmail,
+      socialMedia: socialMedia
+    })
     .then(response => response);
     
 const getSocialMedia = userEmail =>

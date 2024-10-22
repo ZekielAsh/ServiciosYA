@@ -35,6 +35,7 @@ const UserInfo = ({
   // Agregar una nueva red social
   const handleAddSocialMedia = () => {
     setSocialMedia([...socialMedia, ""]);
+    console.log(socialMedia);
   };
 
   // Eliminar una red social
@@ -63,13 +64,15 @@ const UserInfo = ({
             phoneNumber: responseOne.data.phoneNumber,
             contactEmail: responseTwo.data.contactMail,
           }));
-  
+          console.log(normalizedSocialMedia);
           // Guardar redes sociales normalizadas
           api.addSocialMedia(profileUser.email, normalizedSocialMedia).then(responseThree => {
             setProfileUser(prevUser => ({
               ...prevUser,
               socialMedia: responseThree.data.socialMedia,
             }));
+            console.log(responseThree.data.socialMedia);
+            console.log("No llega");
           });
           toast.success("Información de contacto actualizada correctamente");
           setIsEditing(false);
