@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,12 +68,13 @@ public class UserController {
 
     @PostMapping("/addSocialMedia")
     @CrossOrigin
-    public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestParam String email, @RequestParam String link){
-        Validator.getInstance().validateLink(link);
-        User user = userService.addSocialMedia(email, link);
+    public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestParam String email, @RequestParam List<String> links) {
+        Validator.getInstance().validateLinks(links);
+        User user = userService.addSocialMedia(email, links);
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
+
 
     @PostMapping("/addMailContact")
     @CrossOrigin

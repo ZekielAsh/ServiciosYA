@@ -4,6 +4,7 @@ import CodigoEnPantuflas.ServiciosYa.controller.dto.*;
 import CodigoEnPantuflas.ServiciosYa.modelo.Request;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -130,6 +131,10 @@ public class Validator {
         } else if (profDto.getEmail() == null) {
             throw new IllegalArgumentException("El email no puede estar vacio");
         }
+    }
+
+    public void validateLinks(List<String> links) {
+        links.forEach(this::validateLink); // Válida cada enlace
     }
 
     public void validateLink(String link) {
