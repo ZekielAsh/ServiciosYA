@@ -41,6 +41,9 @@ public interface IUserDao extends JpaRepository<User, String> {
     @Query("SELECT p.phoneNumber FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
     String findProfessionalPhoneByEmail(@Param("email") String email);
 
+    @Query("SELECT p.socialMedia FROM User u JOIN u.userRoles r JOIN Professional p ON r.id = p.id WHERE u.mail = :email")
+    List<String> findProfessionalSocialMediaByEmail(@Param("email") String email);
+
     @Query("SELECT u FROM Professional p " +
             "JOIN Role r ON p.id = r.id " +
             "JOIN User u ON r.user = u " +
@@ -48,7 +51,5 @@ public interface IUserDao extends JpaRepository<User, String> {
             "AND (%?2% IS NULL OR p.trade LIKE %?2%) " +
             "AND (%?3% IS NULL OR p.district LIKE %?3%)")
     Set<User> getProfessionalsByFilters(String keyword, String trade, String district);
-
-
 }
 

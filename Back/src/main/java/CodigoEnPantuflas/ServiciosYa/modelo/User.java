@@ -142,10 +142,10 @@ public class User implements UserDetails {
         }
     }
 
-    public void addSocialMedia(String link) {
+    public void addSocialMedia(List<String> links) {
         if(this.isAlreadyProfessional()){
             this.setRoleAsCurrent(Mode.PROFESSIONAL);
-            this.getCurrentRole().addSocialMedia(link);
+            this.getCurrentRole().addSocialMedia(links);
         }
     }
 

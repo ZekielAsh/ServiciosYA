@@ -61,6 +61,19 @@ const addMailContact = (userEmail, emailContact) =>
     )
     .then(response => response);
 
+const addSocialMedia = (userEmail, socialMedia) =>
+  axios
+    .post(`${API_URL}/user/addSocialMedia`, {
+      email: userEmail,
+      socialMedia: socialMedia
+    })
+    .then(response => response);
+    
+const getSocialMedia = userEmail =>
+  axios
+    .get(`${API_URL}/user/getSocialMedia/${userEmail}`)
+    .then(response => response);
+
 /* ############################## COMMENTS ############################## */
 
 const getComments = userEmail =>
@@ -148,5 +161,7 @@ export default {
   register,
   login,
   getAllDistricts,
-  getProfessionalsByFilters
+  getProfessionalsByFilters,
+  getSocialMedia,
+  addSocialMedia
 };

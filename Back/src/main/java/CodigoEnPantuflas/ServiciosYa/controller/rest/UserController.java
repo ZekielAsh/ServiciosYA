@@ -6,11 +6,13 @@ import CodigoEnPantuflas.ServiciosYa.controller.utils.Validator;
 import CodigoEnPantuflas.ServiciosYa.modelo.Trades;
 import CodigoEnPantuflas.ServiciosYa.modelo.User;
 import CodigoEnPantuflas.ServiciosYa.service.UserService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,12 +69,20 @@ public class UserController {
 
     @PostMapping("/addSocialMedia")
     @CrossOrigin
-    public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestParam String email, @RequestParam String link){
-        Validator.getInstance().validateLink(link);
-        User user = userService.addSocialMedia(email, link);
+    public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestBody SocialMediaRequest request) {
+        Validator.getInstance().validateLinks(request.getSocialMedia());
+        User user = userService.addSocialMedia(request.getEmail(), request.getSocialMedia());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
+
+    // Clase DTO para recibir el JSON
+    @Getter
+    public static class SocialMediaRequest {
+        private String email;
+        private List<String> socialMedia;
+    }
+
 
     @PostMapping("/addMailContact")
     @CrossOrigin

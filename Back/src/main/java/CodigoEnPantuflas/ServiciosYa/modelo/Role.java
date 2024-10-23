@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -18,7 +20,8 @@ public abstract class Role {
     private User user;
     private String contactMail;
     private String phoneNumber;
-    private String socialMedia;
+    @ElementCollection
+    private List<String> socialMedia;
 
     public abstract String getTrade();
     public abstract String getDistrict();
@@ -26,11 +29,7 @@ public abstract class Role {
 
     public abstract Boolean isProfessional();
 
-    public void addSocialMedia(String link) {
-        if (socialMedia.isEmpty()){
-            this.socialMedia = link;
-        }else{
-            this.socialMedia += "<br>" + link;
-        }
+    public void addSocialMedia(List<String> links) {
+        this.socialMedia = links;
     }
 }

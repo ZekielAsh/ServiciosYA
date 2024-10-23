@@ -12,6 +12,7 @@ const UserInfo = ({
   const [isEditing, setIsEditing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(profileUser.phoneNumber);
   const [contactEmail, setContactEmail] = useState(profileUser.contactEmail);
+  const [socialMedia, setSocialMedia] = useState(profileUser.socialMedia || [""]);
 
   const isProfessional = profileUser.roles.length >= 2;
   const comesFromRequestBoolean = comesFromRequest.toLowerCase() === "true";
@@ -24,26 +25,65 @@ const UserInfo = ({
     setContactEmail(event.target.value);
   };
 
+  // Manejar cambios en los enlaces de redes sociales
+  const handleSocialMediaChange = (index, event) => {
+    const newSocialMedia = [...socialMedia];
+    newSocialMedia[index] = event.target.value;
+    setSocialMedia(newSocialMedia);
+  };
+
+  // Agregar una nueva red social
+  const handleAddSocialMedia = () => {
+    setSocialMedia([...socialMedia, ""]);
+    console.log(socialMedia);
+  };
+
+  // Eliminar una red social
+  const handleRemoveSocialMedia = (index) => {
+    const newSocialMedia = [...socialMedia];
+    newSocialMedia.splice(index, 1);
+    setSocialMedia(newSocialMedia);
+  };
+
   const handleSaveContactInfo = () => {
-    // Guardar teléfono
+    // Normalizar URLs para asegurarse de que comiencen con "https://"
+    const normalizedSocialMedia = socialMedia.map((link) => {
+      if (!link) return ""; 
+      if (!link.startsWith("http://") && !link.startsWith("https://")) {
+        return `https://${link}`;
+      }
+      return link;
+    });
+
+    // Guardar teléfono y correo
     api
       .addPhone(profileUser.email, phoneNumber)
       .then(responseOne => {
-        // Guardar correo solo si la primera petición fue exitosa
         return api.addMailContact(profileUser.email, contactEmail).then(responseTwo => {
           setProfileUser(prevUser => ({
             ...prevUser,
             phoneNumber: responseOne.data.phoneNumber,
             contactEmail: responseTwo.data.contactMail,
           }));
-          // Notificar éxito
+          console.log(normalizedSocialMedia);
+  
+          // Guardar redes sociales normalizadas
+          api.addSocialMedia(profileUser.email, normalizedSocialMedia).then(responseThree => {
+            // Eliminar duplicados del array de redes sociales antes de almacenarlos
+            const uniqueSocialMedia = [...new Set(responseThree.data.socialMedia)];
+  
+            setProfileUser(prevUser => ({
+              ...prevUser,
+              socialMedia: uniqueSocialMedia,
+            }));
+            console.log(uniqueSocialMedia);
+          });
+  
           toast.success("Información de contacto actualizada correctamente");
-          // Salir del modo edición
           setIsEditing(false);
         });
       })
       .catch(error => {
-        // Notificar error
         toast.error(error.response?.data?.error || "Error al actualizar la información");
       });
   };
@@ -89,12 +129,45 @@ const UserInfo = ({
                 )}
               </p>
             </div>
+
+            {/* Redes Sociales */}
+            <div>
+              <p>Redes Sociales:</p>
+              {isEditing ? (
+                <>
+                  {socialMedia.map((social, index) => (
+                    <div key={index}>
+                      <input
+                        type="text"
+                        name={`socialMedia-${index}`}
+                        value={social}
+                        onChange={(event) => handleSocialMediaChange(index, event)}
+                        placeholder="https://example.com"
+                      />
+                      <button onClick={() => handleRemoveSocialMedia(index)}>Eliminar</button>
+                    </div>
+                  ))}
+                  <button onClick={handleAddSocialMedia}>Agregar Red Social</button>
+                </>
+              ) : (
+                socialMedia.map((social, index) => (
+                  <p key={index}>
+                    <a
+                      href={social.startsWith("http://") || social.startsWith("https://") ? social : `https://${social}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {social}
+                    </a>
+                  </p>
+                ))
+              )}
+            </div>
+
             {isEditing ? (
               <button onClick={handleSaveContactInfo}>Guardar</button>
             ) : (
-              <button onClick={() => setIsEditing(true)}>
-                Editar Contacto
-              </button>
+              <button onClick={() => setIsEditing(true)}>Editar Contacto</button>
             )}
           </div>
         ) : null
@@ -111,6 +184,20 @@ const UserInfo = ({
           </div>
           <div>
             <h3>Email: {profileUser.email}</h3>
+          </div>
+          <div>
+            <h3>Redes Sociales:</h3>
+            {socialMedia.map((social, index) => (
+              <p key={index}>
+                <a
+                  href={social.startsWith("http://") || social.startsWith("https://") ? social : `https://${social}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {social}
+                </a>
+              </p>
+            ))}
           </div>
         </div>
       ) : null}

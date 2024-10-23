@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -45,9 +46,11 @@ public class UserService {
             String trade = userDao.findProfessionalTradeByEmail(mail);
             String contactMail = userDao.findProfessionalContactMailbyEmail(mail);
             String phoneNumber = userDao.findProfessionalPhoneByEmail(mail);
+            List<String> socialMedia = userDao.findProfessionalSocialMediaByEmail(mail);
             Professional pro = new Professional(user, district, trade);
             pro.setContactMail(contactMail);
             pro.setPhoneNumber(phoneNumber);
+            pro.setSocialMedia(socialMedia);
             user.setCurrentRole(pro);
         }
         user.setMail(mail);
@@ -99,11 +102,12 @@ public class UserService {
         return userDao.save(user);
     }
 
-    public User addSocialMedia(String email, String link) {
+    public User addSocialMedia(String email, List<String> links) {
         User user = getByMail(email);
-        user.addSocialMedia(link);
+        user.addSocialMedia(links);
         return userDao.save(user);
     }
+
 
     @Transactional
     public Request sendNewRequest(String email, String professionalEmail, String description, String title) {

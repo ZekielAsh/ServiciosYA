@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @Data
 @AllArgsConstructor
@@ -18,5 +19,5 @@ public class UserDto {
     private String district;
     private String contactMail;
     private String phoneNumber;
-    private String socialMedia;
+    private List<String> socialMedia;
 }
