@@ -70,7 +70,7 @@ public class UserController {
     @PostMapping("/addSocialMedia")
     @CrossOrigin
     public ResponseEntity<UserDto> saveOrUpdateSocialMedia(@RequestBody SocialMediaRequest request) {
-        Validator.getInstance().validateLinks(request.getSocialMedia());
+//        Validator.getInstance().validateLinks(request.getSocialMedia());
         User user = userService.addSocialMedia(request.getEmail(), request.getSocialMedia());
         UserDto userDto = ObjectMapper.getInstance().convertUserToUserDto(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDto);

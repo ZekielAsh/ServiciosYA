@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import api from "../../services/api";
 
 const UserInfo = ({
@@ -12,7 +12,9 @@ const UserInfo = ({
   const [isEditing, setIsEditing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(profileUser.phoneNumber);
   const [contactEmail, setContactEmail] = useState(profileUser.contactEmail);
-  const [socialMedia, setSocialMedia] = useState(profileUser.socialMedia || [""]);
+  const [socialMedia, setSocialMedia] = useState(
+    profileUser.socialMedia || [""]
+  );
 
   const isProfessional = profileUser.roles.length >= 2;
   const comesFromRequestBoolean = comesFromRequest.toLowerCase() === "true";
@@ -39,7 +41,7 @@ const UserInfo = ({
   };
 
   // Eliminar una red social
-  const handleRemoveSocialMedia = (index) => {
+  const handleRemoveSocialMedia = index => {
     const newSocialMedia = [...socialMedia];
     newSocialMedia.splice(index, 1);
     setSocialMedia(newSocialMedia);
@@ -47,10 +49,16 @@ const UserInfo = ({
 
   const handleSaveContactInfo = () => {
     // Normalizar URLs para asegurarse de que comiencen con "https://"
-    const normalizedSocialMedia = socialMedia.map((link) => {
-      if (!link) return ""; 
+    const normalizedSocialMedia = socialMedia.map(link => {
+      if (!link) return "";
       if (!link.startsWith("http://") && !link.startsWith("https://")) {
-        return `https://${link}`;
+        if (!link.endsWith(".com")) {
+          console.log("aca");
+          return `https://${link}.com`;
+        } else {
+          console.log("aca no");
+          return `https://${link}`;
+        }
       }
       return link;
     });
@@ -59,32 +67,41 @@ const UserInfo = ({
     api
       .addPhone(profileUser.email, phoneNumber)
       .then(responseOne => {
-        return api.addMailContact(profileUser.email, contactEmail).then(responseTwo => {
-          setProfileUser(prevUser => ({
-            ...prevUser,
-            phoneNumber: responseOne.data.phoneNumber,
-            contactEmail: responseTwo.data.contactMail,
-          }));
-          console.log(normalizedSocialMedia);
-  
-          // Guardar redes sociales normalizadas
-          api.addSocialMedia(profileUser.email, normalizedSocialMedia).then(responseThree => {
-            // Eliminar duplicados del array de redes sociales antes de almacenarlos
-            const uniqueSocialMedia = [...new Set(responseThree.data.socialMedia)];
-  
+        return api
+          .addMailContact(profileUser.email, contactEmail)
+          .then(responseTwo => {
             setProfileUser(prevUser => ({
               ...prevUser,
-              socialMedia: uniqueSocialMedia,
+              phoneNumber: responseOne.data.phoneNumber,
+              contactEmail: responseTwo.data.contactMail,
             }));
-            console.log(uniqueSocialMedia);
+            console.log(normalizedSocialMedia);
+
+            // Guardar redes sociales normalizadas
+            api
+              .addSocialMedia(profileUser.email, normalizedSocialMedia)
+              .then(responseThree => {
+                // Eliminar duplicados del array de redes sociales antes de almacenarlos
+                const uniqueSocialMedia = [
+                  ...new Set(responseThree.data.socialMedia),
+                ];
+
+                setProfileUser(prevUser => ({
+                  ...prevUser,
+                  socialMedia: uniqueSocialMedia,
+                }));
+                setSocialMedia(uniqueSocialMedia);
+                console.log(uniqueSocialMedia);
+              });
+
+            toast.success("Información de contacto actualizada correctamente");
+            setIsEditing(false);
           });
-  
-          toast.success("Información de contacto actualizada correctamente");
-          setIsEditing(false);
-        });
       })
       .catch(error => {
-        toast.error(error.response?.data?.error || "Error al actualizar la información");
+        toast.error(
+          error.response?.data?.error || "Error al actualizar la información"
+        );
       });
   };
 
@@ -141,19 +158,30 @@ const UserInfo = ({
                         type="text"
                         name={`socialMedia-${index}`}
                         value={social}
-                        onChange={(event) => handleSocialMediaChange(index, event)}
+                        onChange={event =>
+                          handleSocialMediaChange(index, event)
+                        }
                         placeholder="https://example.com"
                       />
-                      <button onClick={() => handleRemoveSocialMedia(index)}>Eliminar</button>
+                      <button onClick={() => handleRemoveSocialMedia(index)}>
+                        Eliminar
+                      </button>
                     </div>
                   ))}
-                  <button onClick={handleAddSocialMedia}>Agregar Red Social</button>
+                  <button onClick={handleAddSocialMedia}>
+                    Agregar Red Social
+                  </button>
                 </>
               ) : (
                 socialMedia.map((social, index) => (
                   <p key={index}>
                     <a
-                      href={social.startsWith("http://") || social.startsWith("https://") ? social : `https://${social}`}
+                      href={
+                        social.startsWith("http://") ||
+                        social.startsWith("https://")
+                          ? social
+                          : `https://${social}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -167,7 +195,9 @@ const UserInfo = ({
             {isEditing ? (
               <button onClick={handleSaveContactInfo}>Guardar</button>
             ) : (
-              <button onClick={() => setIsEditing(true)}>Editar Contacto</button>
+              <button onClick={() => setIsEditing(true)}>
+                Editar Contacto
+              </button>
             )}
           </div>
         ) : null
@@ -190,7 +220,12 @@ const UserInfo = ({
             {socialMedia.map((social, index) => (
               <p key={index}>
                 <a
-                  href={social.startsWith("http://") || social.startsWith("https://") ? social : `https://${social}`}
+                  href={
+                    social.startsWith("http://") ||
+                    social.startsWith("https://")
+                      ? social
+                      : `https://${social}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
