@@ -30,6 +30,6 @@ public abstract class Role {
     public abstract Boolean isProfessional();
 
     public void addSocialMedia(List<String> links) {
-        this.socialMedia.addAll(links);
+        this.socialMedia = links;
     }
 }

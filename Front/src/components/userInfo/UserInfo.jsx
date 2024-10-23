@@ -48,6 +48,7 @@ const UserInfo = ({
   const handleSaveContactInfo = () => {
     // Normalizar URLs para asegurarse de que comiencen con "https://"
     const normalizedSocialMedia = socialMedia.map((link) => {
+      if (!link) return ""; 
       if (!link.startsWith("http://") && !link.startsWith("https://")) {
         return `https://${link}`;
       }
@@ -65,15 +66,19 @@ const UserInfo = ({
             contactEmail: responseTwo.data.contactMail,
           }));
           console.log(normalizedSocialMedia);
+  
           // Guardar redes sociales normalizadas
           api.addSocialMedia(profileUser.email, normalizedSocialMedia).then(responseThree => {
+            // Eliminar duplicados del array de redes sociales antes de almacenarlos
+            const uniqueSocialMedia = [...new Set(responseThree.data.socialMedia)];
+  
             setProfileUser(prevUser => ({
               ...prevUser,
-              socialMedia: responseThree.data.socialMedia,
+              socialMedia: uniqueSocialMedia,
             }));
-            console.log(responseThree.data.socialMedia);
-            console.log("No llega");
+            console.log(uniqueSocialMedia);
           });
+  
           toast.success("Información de contacto actualizada correctamente");
           setIsEditing(false);
         });
