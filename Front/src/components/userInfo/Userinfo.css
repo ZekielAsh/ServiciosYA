@@ -1,0 +1,42 @@
+
+.div-ac {
+    margin-bottom: 20px;
+  }
+  
+.div-p{
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+  
+ /* Estilo para los campos de texto*/ 
+ .inputStyle[type="text"] {
+   width: 100%;
+   padding: 10px;
+   font-size: 1rem;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   margin-top: 5px;
+   margin-bottom: 10px;
+ }
+ /* Botones */
+ button {
+   padding: 10px 20px;
+   font-size: 1rem;
+   font-weight: bold;
+   color: white;
+   background-color: #047cec; /* Azul Francia */
+   border: none;
+   border-radius: 25px; /* Botones redondeados */
+   cursor: pointer;
+   transition: background-color 0.3s;
+   margin-top: 10px;
+ }
+ 
+ button:hover {
+   background-color: #0357b1; /* Azul más oscuro para el hover */
+ }
+ 
+ button:focus {
+   outline: none;
+ }
+  

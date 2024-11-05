@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Userinfo.css";
 import api from "../../services/api";
 
 const UserInfo = ({
@@ -51,18 +52,19 @@ const UserInfo = ({
     <>
       {isProfileOwner ? (
         profileUser.role === "PROFESSIONAL" ? (
-          <div>
+          <div className="div-ac">
             <div>
-              <h3>District: {profileUser.district}</h3>
+              <h3 className="div-p">District: {profileUser.district}</h3>
             </div>
-            <div>
+            <div className="div-ac">
              <h3>Trade: {profileUser.trade}</h3>
             </div>
-            <div>
-              <p>Teléfono: </p>
+            <div className="div-ac">
+              <p className="infoContact">Teléfono: </p>
               <p>
                 {isEditing ? (
                   <input
+                    className="inputStyle"
                     type="text"
                     name="phoneNumber"
                     value={phoneNumber}
@@ -73,11 +75,12 @@ const UserInfo = ({
                 )}
               </p>
             </div>
-            <div>
+            <div className="div-ac">
               <p>Email: </p>
               <p>
                 {isEditing ? (
                   <input
+                    className="inputStyle"
                     type="text"
                     name="contactEmail"
                     value={contactEmail}
@@ -100,16 +103,16 @@ const UserInfo = ({
       ) : isProfessional && !comesFromRequestBoolean ? (
         <div>
           <div>
-            <h3>District: {profileUser.district}</h3>
+            <h3 className="div-p">District: {profileUser.district}</h3>
           </div>
           <div>
-            <h3>Trade: {profileUser.trade}</h3>
+            <h3 className="div-ac">Trade: {profileUser.trade}</h3>
           </div>
           <div>
-            <h3>Teléfono: {profileUser.phoneNumber}</h3>
+            <h3 className="div-ac">Teléfono: {profileUser.phoneNumber}</h3>
           </div>
           <div>
-            <h3>Email: {profileUser.email}</h3>
+            <h3 className="div-ac">Email: {profileUser.email}</h3>
           </div>
         </div>
       ) : null} 
