@@ -28,11 +28,11 @@ public class RequestService {
 
         @Transactional
         public void deleteRequest(Long requestId) {
-            Request request = requestDao.findById(requestId).get();
-            User clientUser = request.getClient();
-            User professionalUser = request.getProfessional();
-            clientUser.removeSentRequest(requestId);
-            professionalUser.removeRecievedRequest(requestId);
+            //Request request = requestDao.findById(requestId).get();
+            //User clientUser = request.getClient();
+            //User professionalUser = request.getProfessional();
+            //clientUser.removeSentRequest(requestId);
+            //professionalUser.removeRecievedRequest(requestId);
             requestDao.deleteById(requestId);
             Optional<Request> requestAfterDelete = requestDao.findById(requestId);
             String a = "a";
